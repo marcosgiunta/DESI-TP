@@ -7,8 +7,8 @@ import java.util.Date;
 public abstract class Persona {
 
 	@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
     private int dni;
     private String domicilio;
     private String nombre;
@@ -18,10 +18,10 @@ public abstract class Persona {
 
 
 
-    public String getId() {
+    public int getId() {
         return id;
     }
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     public int getDni() {

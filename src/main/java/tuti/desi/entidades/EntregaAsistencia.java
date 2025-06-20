@@ -6,14 +6,27 @@ import java.util.Date;
 public class EntregaAsistencia {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private Date fecha;
     private int cantidadRaciones;
 
-    public String getId() {
+    @ManyToOne
+    @JoinColumn(name = "preparacion_id")
+    private Preparacion preparacion;
+
+    @ManyToOne
+    @JoinColumn(name = "familia_id")
+    private Familia familia;
+
+    @ManyToOne
+    @JoinColumn(name = "voluntario_id")
+    private Voluntario voluntario;
+
+    public int getId() {
         return id;
     }   
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     public Date getFecha() {

@@ -5,14 +5,23 @@ import jakarta.persistence.*;
 public class ItemReceta {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private int cantidad;
     private int calorias;
 
-    public String getId() {
+    @ManyToOne
+    @JoinColumn(name = "ingredientes_id")
+    private Ingrediente ingrediente;
+
+    @ManyToOne
+    @JoinColumn(name = "receta_id")
+    private Receta receta;
+
+    public int getId() {
         return id;
     }
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     public int getCantidad() {

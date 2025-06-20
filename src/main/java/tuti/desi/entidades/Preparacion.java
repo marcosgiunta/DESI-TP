@@ -7,16 +7,22 @@ import java.util.Date;
 public class Preparacion {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private Date FechaPreparacion;
     private int stockRacionesRestantes;
     private int TotalRacionesPreparadas;
 
 
-    public String getId() {
+    @ManyToOne
+    @JoinColumn(name = "receta_id")
+    private Receta receta;
+
+
+    public int getId() {
         return id;
     }
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     public Date getFechaPreparacion() {

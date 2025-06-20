@@ -9,19 +9,20 @@ import jakarta.persistence.*;
 public abstract class Ingrediente {
 	
 	@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 	
 	private String nombre;
 	
 	private int calorias;
+
 	
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
