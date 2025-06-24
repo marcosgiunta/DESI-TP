@@ -19,7 +19,29 @@
             </div>
         </div>
     </nav>
-
+    <div class="container mt-4">
+        <form class="row justify-content-center align-items-end" method="get" th:action="@{/entregaAsistencia/Filtrar}">
+            <div class="col-auto">
+                <label class="form-label mb-0">Filtrar por fecha:</label>
+                <input type="date" name="fecha" class="form-control" />
+            </div>
+            <div class="col-auto">
+                <label class="form-label mb-0">Filtrar por nro. familia:</label>
+                <input type="number" name="nroFamilia" class="form-control" placeholder="Ej: 1" />
+            </div>
+            <div class="col-auto">
+                <label class="form-label mb-0">Filtrar por nombre familia:</label>
+                <input type="text" name="nombreFamilia" class="form-control" placeholder="Ej: Gómez" />
+            </div>
+            <div class="col-auto">
+                <label class="form-label mb-0 invisible">Acción</label>
+                <div>
+                    <button type="submit" class="btn btn-outline-info me-2">Buscar</button>
+                    <a th:href="@{/entregaAsistencia/Listar}" class="btn btn-outline-danger">Limpiar</a>
+                </div>
+            </div>
+        </form>
+    </div>
     <div class="container">
         <div class="row mt-5">
             <div class="col-12">
@@ -57,7 +79,6 @@
                         </tr>
                     </tbody>
                 </table>
-
             </div>
         </div>
     </div>

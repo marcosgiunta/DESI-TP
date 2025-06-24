@@ -1,6 +1,8 @@
 package tuti.desi.entidades;
 import jakarta.persistence.*;
-import java.util.Date;
+
+import java.time.LocalDate;
+
 
 @Entity
 public class EntregaAsistencia {
@@ -8,7 +10,7 @@ public class EntregaAsistencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private Date fecha;
+    private LocalDate fecha;
     private int cantidadRaciones;
 
     @ManyToOne
@@ -29,10 +31,10 @@ public class EntregaAsistencia {
     public void setId(int id) {
         this.id = id;
     }
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
     public int getCantidadRaciones() {

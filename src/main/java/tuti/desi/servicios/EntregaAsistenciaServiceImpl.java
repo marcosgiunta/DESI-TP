@@ -1,5 +1,6 @@
 package tuti.desi.servicios;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,23 +9,22 @@ import org.springframework.stereotype.Service;
 import tuti.desi.accesoDatos.EntregaAsistenciaRepositorio;
 import tuti.desi.entidades.EntregaAsistencia;
 
-
 @Service
-public class EntregaAsistenciaServiceImpl implements EntregaAsistenciaService{
-	
+public class EntregaAsistenciaServiceImpl implements EntregaAsistenciaService {
+
 	@Autowired
 	private EntregaAsistenciaRepositorio repositorio;
 
 	@Override
 	public List<EntregaAsistencia> ListarEntregaAsistencia() {
-		
+
 		return repositorio.findAll();
 
 	}
 
 	@Override
 	public EntregaAsistencia guardarEntrega(EntregaAsistencia entrega) {
-	
+
 		return repositorio.save(entrega);
 	}
 
@@ -36,6 +36,11 @@ public class EntregaAsistenciaServiceImpl implements EntregaAsistenciaService{
 	@Override
 	public void eliminarEntrega(int id) {
 		repositorio.deleteById(id);
+	}
+
+	@Override
+	public List<EntregaAsistencia> buscarPorFiltros(LocalDate fecha, Integer nroFamilia, String nombreFamilia) {
+		return repositorio.buscarPorFiltros(fecha, nroFamilia, nombreFamilia);
 	}
 
 }
