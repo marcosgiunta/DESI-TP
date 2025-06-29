@@ -84,7 +84,8 @@ public class EntregaAsistenciaServiceImpl implements EntregaAsistenciaService {
 		// Si no existe, lanza una excepción
 		EntregaAsistencia entrega = repositorio.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Entrega no encontrada"));
-
+				
+        // Aumenta el stock de raciones restantes en la preparación asociada a la entrega eliminada
 		entrega.getPreparacion().setStockRacionesRestantes(
 				entrega.getPreparacion().getStockRacionesRestantes() + entrega.getCantidadRaciones());
 
