@@ -18,7 +18,9 @@ public class Preparacion {
     @JoinColumn(name = "receta_id")
     private Receta receta;
 
-
+public Receta getReceta() {
+        return receta;
+    }
     public int getId() {
         return id;
     }

@@ -17,6 +17,10 @@ public class Familia {
     @JoinColumn(name = "nro_familia_fk", referencedColumnName = "nroFamilia")
     private List<Asistido> integrantesFamiliaAsistida;
 
+    public List<Asistido> getIntegrantesFamiliaAsistida() {
+        return integrantesFamiliaAsistida;
+    }
+
     public int getNroFamilia() {
         return nroFamilia;
     }
