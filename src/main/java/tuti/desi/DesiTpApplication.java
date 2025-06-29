@@ -10,10 +10,4 @@ public class DesiTpApplication {
 		SpringApplication.run(DesiTpApplication.class, args);
 	}
 	
-	
-
-	
-	
-	
-	
 }

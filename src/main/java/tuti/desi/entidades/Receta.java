@@ -9,9 +9,9 @@ public class Receta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(unique = true)
     private String nombre;
     private String descripcion;
-
    
     @OneToMany(mappedBy = "receta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Preparacion> preparaciones;
@@ -36,7 +36,7 @@ public class Receta {
         return descripcion;
     }
 
-
-
-
+    public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+}
 }
