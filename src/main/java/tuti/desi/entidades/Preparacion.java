@@ -23,21 +23,6 @@ public class Preparacion {
     @JoinColumn(name = "receta_id", nullable = false)
     private Receta receta;
 
-    // Constructor vacío
-    public Preparacion() {}
-
-    // Constructor completo
-    public Preparacion(LocalDate fechaPreparacion, int totalRacionesPreparadas, Receta receta) {
-        this.fechaPreparacion = fechaPreparacion;
-        this.totalRacionesPreparadas = totalRacionesPreparadas;
-        this.receta = receta;
-        this.eliminado = false;
-    }
-
-    // Getters y Setters
-    public Long getId() {
-        return id;
-    }
 
     public void setId(Long id) {
         this.id = id;

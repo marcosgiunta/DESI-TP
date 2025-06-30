@@ -42,8 +42,5 @@ public class EntregaAsistencia {
     }
     public void setCantidadRaciones(int cantidadRaciones) {
         this.cantidadRaciones = cantidadRaciones;
-    }
- 
-
-    
+    }    
 }

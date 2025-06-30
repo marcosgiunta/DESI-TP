@@ -36,7 +36,9 @@ public class EntregaAsistenciaListarEliminarController {
 
 		return "redirect:/entregaAsistencia/Listar";
 	}
-
+    
+	//filtra por fecha, nroFamilia y nombreFamilia
+	//se pueden cargar todos los filtros o solo algunos
 	@GetMapping("/entregaAsistencia/Filtrar")
 	public String FiltrarEntregaAsistencia(
 			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,
