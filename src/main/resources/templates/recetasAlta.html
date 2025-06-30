@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Registro de Recetas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+    <nav class="navbar navbar-light" style="background-color: #98beda">
+        <div class="container-fluid">
+            <span class="navbar-brand">Recetas</span>
+            <div class="d-flex">
+                <a class="nav-link px-3 text-dark fw-bold" th:href="@{/}">Inicio</a>
+                <a class="nav-link px-3 text-dark" th:href="@{/}">Recetas</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+        <div class="card p-4" style="width: 100%; max-width: 600px;">
+            <h2 class="text-center mb-3">Alta de Recetas</h2>
+            <div class="card-body">
+                <form th:action="@{/recetas/Guardar}" th:object="${nuevaReceta}" method="post">
+                    <!-- formulario de alta -->
+                    <fieldset>
+
+                        <div class="mb-3">
+                            <label for="nombre">Nombre de la receta:</label>
+                            <input type="text" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcion">Descripción de la preparación:</label>
+                            <textarea id="descripcion" name="descripcion" rows="5" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <h5>Ingredientes</h5>
+                            <div id="ingredientes-container"></div>
+                            <button type="button" class="btn btn-outline-secondary mb-3" onclick="agregarIngrediente()">Agregar Ingrediente</button>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="disabledFieldsetCheck" disabled>
+                                <label class="form-check-label" for="disabledFieldsetCheck">
+                                    Confirmo que los datos son correctos
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary">Registrar</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+       let index = 0;
+       const ingredientesLista = /*[[${ingredientes}]]*/ [];
+
+       const agregarIngrediente = () => {
+            const container = document.getElementById("ingredientes-container");
+
+            const div = document.createElement("div");
+            div.classList.add("mb-3", "p-3", "border", "rounded", "bg-light");
+
+            div.innerHTML = `
+                <div class="mb-2">
+                    <label for="ingrediente${index}">Ingrediente:</label>
+                    <select name="ingredientes[${index}].id" id="ingrediente${index}" class="form-select" required>
+                        <option value="" disabled selected>Seleccionar ingrediente</option>
+                        ${ingredientesLista.map(ing => `<option value="${ing.id}">${ing.nombre}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label for="cantidad${index}">Cantidad (kg):</label>
+                    <input type="number" step="0.01" min="0" name="ingredientes[${index}].cantidad" id="cantidad${index}" class="form-control" required>
+                </div>
+
+                <div class="mb-2">
+                    <label for="calorias${index}">Calorías:</label>
+                    <input type="number" min="0" name="ingredientes[${index}].calorias" id="calorias${index}" class="form-control" required>
+                </div>
+            `;
+
+            container.appendChild(div);
+            index++;
+       }
+    </script>
+
+</body>
+
+</html>
