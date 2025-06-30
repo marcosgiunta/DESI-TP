@@ -30,13 +30,15 @@ public class EntregaAsistenciaListarEliminarController {
 	}
 
 	@GetMapping("/entregaAsistencia/Eliminar/{id}")
-	public String EliminarEntregaAsistencia(@PathVariable int id) {
+	public String EliminarEntregaAsistencia(@PathVariable Integer id) {
 
 		servicio.eliminarEntrega(id);
 
 		return "redirect:/entregaAsistencia/Listar";
 	}
-
+    
+	//filtra por fecha, nroFamilia y nombreFamilia
+	//se pueden cargar todos los filtros o solo algunos
 	@GetMapping("/entregaAsistencia/Filtrar")
 	public String FiltrarEntregaAsistencia(
 			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,

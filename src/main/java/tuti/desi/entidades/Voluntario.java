@@ -7,14 +7,14 @@ import jakarta.persistence.*;
 @Entity
 public class Voluntario extends Persona {
 
-    private int nroSeguro;
+    private Integer nroSeguro;
 
 
-    public int getNroSeguro() {
+    public Integer getNroSeguro() {
         return nroSeguro;
     }
 
-    public void setNroSeguro(int nroSeguro) {
+    public void setNroSeguro(Integer nroSeguro) {
         this.nroSeguro = nroSeguro;
     }
 

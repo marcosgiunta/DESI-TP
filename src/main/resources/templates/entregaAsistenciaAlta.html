@@ -25,36 +25,58 @@
         <div class="card p-4" style="width: 100%; max-width: 600px;">
             <h2 class="text-center mb-3">Registro de Entrega de Alimentos</h2>
             <div class="card-body">
-                <form th:action="@{/entregaAsistencia/guardar}" th:object="${entregaNueva}" method="post">
+                <!-- Mensaje de error si existe -->
+                <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+                <form th:action="@{/entregaAsistencia/Guardar}" th:object="${entregaNueva}" method="post">
                     <!-- formulario de registro -->
-                    <fieldset disabled>
-
-                        <div class="mb-3">
-                            <label for="disabledSelect" class="form-label">Numero de familia</label>
-                            <select id="disabledSelect" class="form-select">
-                                <option>seleccione un numero de familia</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="disabledSelect" class="form-label">Plato</label>
-                            <select id="disabledSelect" class="form-select">
-                                <option>Seleccione un plato</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="disabledTextInput" class="form-label">Cantidad de raciones</label>
-                            <input type="text" id="disabledTextInput" class="form-control" placeholder="Ingrese cantidad de raciones">
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="disabledFieldsetCheck" disabled>
-                                <label class="form-check-label" for="disabledFieldsetCheck">
-                                    Confirmo que los datos son correctos
-                                </label>
-                            </div>
-                        </div>
+                    <!-- para el registro de entrega de asistencia use para cargar los datos
+                     del numero de familia y el plato una lista desplegable para que
+                     el controlador pueda cargar los datos desde la base de datos
+                     y el usuario pueda seleccionar el numero de familia y el plato
+                     asi evito que el usuario tenga que escribir el numero de familia
+                     y el plato, lo que podria generar errores en el registro de la entrega de asistencia
+                     como por ejemplo:
+                     - errores de tipeo 
+                     - que no exista el numero de familia o el plato y devuelva NULL porque no existe
+                     en la base de datos, por lo tanto se usa una lista desplegable para evitar esos errores
+                     -->
+                    <div class="mb-3">
+                        <!-- formulario de selección de número de familia -->
+                        <!-- valida que se seleccione un número de familia -->
+                        <label for="disabledSelect" class="form-label">Numero de familia</label>
+                        <select id="disabledSelect" class="form-select" th:field="*{familia}" required
+                            oninvalid="this.setCustomValidity('Por favor, seleccione un número de familia')"
+                            oninput="this.setCustomValidity('')">
+                            <option value="">Seleccione un número de familia</option>
+                            <option th:each="nro : ${nrosFamilia}" th:value="${nro}" th:text="${nro}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <!-- formulario de selección de nombre de familia -->
+                        <!-- valida que se seleccione un nombre de familia -->
+                        <label for="disabledSelect" class="form-label">Plato</label>
+                        <select id="disabledSelect" class="form-select" th:field="*{preparacion}" required
+                            oninvalid="this.setCustomValidity('Por favor, seleccione un plato')"
+                            oninput="this.setCustomValidity('')">
+                            <option value="">Seleccione un plato</option>
+                            <option th:each="p : ${preparaciones}" th:value="${p.id}" th:text="${p.receta.nombre}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <!-- formulario de cantidad de raciones -->
+                        <!-- valida que se ingrese una cantidad mayor o igual a 1 -->
+                        <label for="disabledTextInput" class="form-label">Cantidad de raciones</label>
+                        <input type="number" id="cantidadRaciones" class="form-control" th:field="*{cantidadRaciones}"
+                            placeholder="Ingrese cantidad de raciones" min="1"
+                            oninvalid="this.setCustomValidity('Por favor, ingrese una cantidad mayor o igual a 1')"
+                            oninput="this.setCustomValidity('')">
+                    </div>
+                    <div class="mt-4">
+                        <!-- botón de registro -->
+                        <!-- valida que se seleccionen todos los campos -->
                         <button type="submit" class="btn btn-outline-primary">Registrar</button>
-                    </fieldset>
+                    </div>
                 </form>
             </div>
         </div>
