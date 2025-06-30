@@ -6,9 +6,9 @@ public class ItemReceta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int cantidad;
-    private int calorias;
+    private Integer id;
+    private Integer cantidad;
+    private Integer calorias;
 
     @ManyToOne
     @JoinColumn(name = "ingredientes_id")
@@ -18,22 +18,22 @@ public class ItemReceta {
     @JoinColumn(name = "receta_id")
     private Receta receta;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-    public int getCantidad() {
+    public Integer getCantidad() {
         return cantidad;
     }
-    public void setCantidad(int cantidad) {
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
-    public int getCalorias() {
+    public Integer getCalorias() {
         return calorias;
     }
-    public void setCalorias(int calorias) {
+    public void setCalorias(Integer calorias) {
         this.calorias = calorias;
     }
 

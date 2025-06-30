@@ -9,9 +9,9 @@ public class EntregaAsistencia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private LocalDate fecha;
-    private int cantidadRaciones;
+    private Integer cantidadRaciones;
 
     @ManyToOne
     @JoinColumn(name = "preparacion_id")
@@ -43,10 +43,10 @@ public class EntregaAsistencia {
         this.familia = familia;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }   
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public LocalDate getFecha() {
@@ -55,10 +55,10 @@ public class EntregaAsistencia {
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
-    public int getCantidadRaciones() {
+    public Integer getCantidadRaciones() {
         return cantidadRaciones;
     }
-    public void setCantidadRaciones(int cantidadRaciones) {
+    public void setCantidadRaciones(Integer cantidadRaciones) {
         this.cantidadRaciones = cantidadRaciones;
     }
  

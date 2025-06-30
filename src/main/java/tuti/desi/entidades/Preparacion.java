@@ -8,10 +8,10 @@ public class Preparacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private Date FechaPreparacion;
-    private int stockRacionesRestantes;
-    private int TotalRacionesPreparadas;
+    private Integer stockRacionesRestantes;
+    private Integer TotalRacionesPreparadas;
 
 
     @ManyToOne
@@ -21,10 +21,10 @@ public class Preparacion {
 public Receta getReceta() {
         return receta;
     }
-    public int getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public Date getFechaPreparacion() {
@@ -33,16 +33,16 @@ public Receta getReceta() {
     public void setFechaPreparacion(Date fechaPreparacion) {
         FechaPreparacion = fechaPreparacion;
     }
-    public int getStockRacionesRestantes() {
+    public Integer getStockRacionesRestantes() {
         return stockRacionesRestantes;
     }
-    public void setStockRacionesRestantes(int stockRacionesRestantes) {
+    public void setStockRacionesRestantes(Integer stockRacionesRestantes) {
         this.stockRacionesRestantes = stockRacionesRestantes;
     }
-    public int getTotalRacionesPreparadas() {
+    public Integer getTotalRacionesPreparadas() {
         return TotalRacionesPreparadas;
     }
-    public void setTotalRacionesPreparadas(int totalRacionesPreparadas) {
+    public void setTotalRacionesPreparadas(Integer totalRacionesPreparadas) {
         TotalRacionesPreparadas = totalRacionesPreparadas;
     }
 

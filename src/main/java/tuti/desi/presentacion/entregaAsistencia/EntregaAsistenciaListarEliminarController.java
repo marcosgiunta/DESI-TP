@@ -30,7 +30,7 @@ public class EntregaAsistenciaListarEliminarController {
 	}
 
 	@GetMapping("/entregaAsistencia/Eliminar/{id}")
-	public String EliminarEntregaAsistencia(@PathVariable int id) {
+	public String EliminarEntregaAsistencia(@PathVariable Integer id) {
 
 		servicio.eliminarEntrega(id);
 
