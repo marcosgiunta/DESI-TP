@@ -1,15 +1,18 @@
-package tuti.desi.presentacion.entregaAsistencia;
+package tuti.desi.presentacion.recetas;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import tuti.desi.entidades.Recetas;
+import tuti.desi.entidades.Receta;
 
 import tuti.desi.servicios.RecetasService;
 
@@ -25,7 +28,7 @@ public class RecetasController {
 
 	@GetMapping("/recetas/Alta")
 	public String RegistrarReceta(Model modelo) {
-		Recetas nuevaReceta = new Recetas();
+		Receta nuevaReceta = new Receta();
 		modelo.addAttribute("nuevaReceta", nuevaReceta);
 		
         // modelo.addAttribute("ingredientes", ingredienteService.listarIngredientes());
@@ -38,9 +41,7 @@ public class RecetasController {
 	
 	
 	@PostMapping("/recetas/Guardar")
-	public String GuardarRecetas(@ModelAttribute("nuevaReceta") Recetas receta) {
-		LocalDate hoy = LocalDate.now();
-		receta.setFecha(hoy);
+	public String GuardarRecetas(@ModelAttribute("nuevaReceta") Receta receta) {
 		servicio.guardarReceta(receta);
 		
 		return "redirect:/recetas/Listar";
@@ -49,7 +50,7 @@ public class RecetasController {
     @GetMapping("/recetas/Listar")
 	public String ListarRecetas(Model modelo) {
 
-		modelo.addAttribute("recetas", servicio.ListarRecetas());
+		modelo.addAttribute("recetas", servicio.listarRecetas());
 
 		return "recetasListar";
 
@@ -67,7 +68,7 @@ public class RecetasController {
 	public String FiltrarRecetas(
 			@RequestParam(required = false) String nombreReceta,
 			Model modelo) {
-		List<Recetas> recetas = servicio.buscarPorFiltros(nombreReceta);
+		List<Receta> recetas = servicio.buscarPorFiltros(nombreReceta);
 		modelo.addAttribute("recetas", recetas);
 		return "recetasListar";
 	}

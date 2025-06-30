@@ -7,26 +7,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tuti.desi.accesoDatos.RecetasRepositorio;
-import tuti.desi.entidades.Recetas;
+import tuti.desi.entidades.Receta;
 
 @Service
-public class RecetasServiceImpl implements RecetaService {
+public class RecetasServiceImpl implements RecetasService {
 
 	@Autowired
 	private RecetasRepositorio repositorio;
 
 	@Override
-	public List<Recetas> ListarRecetas() {
+	public List<Receta> listarRecetas() {
 		return repositorio.findAll();
 	}
 
 	@Override
-	public Recetas guardarEntrega(Recetas recetas) {
-		return repositorio.save(recetas);
+	public Receta guardarReceta(Receta receta) {
+		return repositorio.save(receta);
 	}
 
 	@Override
-	public Recetas buscarPorId(int id) {
+	public Receta buscarPorId(int id) {
 		return repositorio.findById(id).orElse(null);
 	}
 
@@ -36,7 +36,7 @@ public class RecetasServiceImpl implements RecetaService {
 	}
 
 	@Override
-	public List<Recetas> buscarPorFiltros(String nombreReceta) {
+	public List<Receta> buscarPorFiltros(String nombreReceta) {
 		return repositorio.buscarPorFiltros(nombreReceta);
 	}
 

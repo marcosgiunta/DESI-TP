@@ -24,7 +24,7 @@ public class ItemReceta {
     public void setId(int id) {
         this.id = id;
     }
-    public int getCantidad() {
+    public double getCantidad() {
         return cantidad;
     }
     public void setCantidad(int cantidad) {
