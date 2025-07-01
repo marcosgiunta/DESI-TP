@@ -36,8 +36,8 @@ public class RecetasServiceImpl implements RecetasService {
 	}
 
 	@Override
-	public List<Receta> buscarPorFiltros(String nombreReceta) {
-		return repositorio.buscarPorFiltros(nombreReceta);
+	public List<Receta> buscarPorFiltros(String nombreReceta, Integer caloriasReceta) {
+		return repositorio.buscarPorFiltros(nombreReceta, caloriasReceta);
 	}
 
 }

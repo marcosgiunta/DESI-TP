@@ -32,7 +32,7 @@ public class RecetasController {
 		modelo.addAttribute("nuevaReceta", nuevaReceta);
 		
         // modelo.addAttribute("ingredientes", ingredienteService.listarIngredientes());
-		return "recetaAlta";
+		return "recetasAlta";
 	}
 
     // public List<Ingrediente> listarIngredientes() {
@@ -59,16 +59,15 @@ public class RecetasController {
 	@GetMapping("/recetas/Eliminar/{id}")
 	public String EliminarReceta(@PathVariable int id) {
 
-		servicio.eliminarReceta(id);
-
 		return "redirect:/recetas/Listar";
 	}
 
 	@GetMapping("/recetas/Filtrar")
 	public String FiltrarRecetas(
 			@RequestParam(required = false) String nombreReceta,
+			@RequestParam(required = false) Integer caloriasReceta,
 			Model modelo) {
-		List<Receta> recetas = servicio.buscarPorFiltros(nombreReceta);
+		List<Receta> recetas = servicio.buscarPorFiltros(nombreReceta, caloriasReceta);
 		modelo.addAttribute("recetas", recetas);
 		return "recetasListar";
 	}

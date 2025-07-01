@@ -19,6 +19,12 @@ public class Receta {
    
     @OneToMany(mappedBy = "receta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemReceta> items;
+    
+    @Transient
+    public Integer getCaloriasTotales() {
+    	if (items == null) return 0;
+    	return items.stream().mapToInt(ItemReceta::getCalorias).sum();
+    }
 
     public int getId() {
         return id;

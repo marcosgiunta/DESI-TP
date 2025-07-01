@@ -11,10 +11,11 @@ import tuti.desi.entidades.Receta;
 @Repository
 public interface RecetasRepositorio extends JpaRepository<Receta, Integer>{
 
-@Query("SELECT e FROM EntregaAsistencia e " +
-       "WHERE (:fecha IS NULL OR e.fecha = :fecha) " +
-       "AND (:nroFamilia IS NULL OR e.familia.nroFamilia = :nroFamilia) " +
-       "AND (:nombreFamilia IS NULL OR LOWER(e.familia.nombre) LIKE LOWER(CONCAT('%', :nombreFamilia, '%')))")
-List<Receta> buscarPorFiltros(String nombreReceta);
-
+	@Query("""
+		    SELECT r FROM Receta r 
+		    WHERE (:nombreReceta IS NULL OR LOWER(r.nombre) LIKE LOWER(CONCAT('%', :nombreReceta, '%')))
+		    AND (:calorias IS NULL OR 
+		        (SELECT SUM(i.calorias) FROM ItemReceta i WHERE i.receta = r) >= :calorias)
+		""")
+		List<Receta> buscarPorFiltros(String nombreReceta, Integer calorias);
 }
