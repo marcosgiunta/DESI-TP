@@ -38,7 +38,7 @@ public class PreparacionController {
     // GUARDAR PREPARACIÓN
     @PostMapping("/preparacion/guardar")
     public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion preparacion) {
-        preparacion.setEliminado(false); 
+    	preparacion.setEliminado(false);
         preparacionRepositorio.save(preparacion);
         return "redirect:/preparacion/listado";
     }
