@@ -66,10 +66,10 @@ public class PreparacionController {
         return "redirect:/preparacion/listado";
     }
 
-    // ELIMINAR PREPARACIÓN
-    @GetMapping("/preparacion/eliminar/{id}")
+    @PostMapping("/preparacion/eliminar/{id}")
     public String eliminarPreparacion(@PathVariable("id") Long id) {
         preparacionRepositorio.deleteById(id);
         return "redirect:/preparacion/listado";
     }
+
 }

@@ -34,7 +34,7 @@
             </thead>
             <tbody>
                 <tr th:each="prep : ${preparaciones}">
-                    <td th:text="${prep.id}"></td>
+                   <!--<td th:text="${prep.id}"></td>
                     <td th:text="${#dates.format(prep.fechaPreparacion, 'dd/MM/yyyy')}"></td>
                     <td th:text="${prep.receta.nombre}"></td>
                     <td th:text="${prep.totalRacionesPreparadas}"></td>
@@ -47,8 +47,10 @@
                               onsubmit="return confirm('¿Estás seguro de que querés eliminar esta preparación?');">
                             <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
                         </form>
-                    </td>
-                </tr>
+                    </td> 
+					-->
+						
+                </tr> 
             </tbody>
         </table>
     </div>

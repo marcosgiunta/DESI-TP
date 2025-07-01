@@ -1,73 +1,58 @@
 package tuti.desi.entidades;
-
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+
 
 @Entity
 public class Preparacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date fechaPreparacion;
+    private Integer stockRacionesRestantes;
+    private Integer totalRacionesPreparadas;
 
-    @Column(nullable = false)
-    private LocalDate fechaPreparacion;
-
-    @Column(nullable = false)
-    private int totalRacionesPreparadas;
-
-    @Column(nullable = false)
-    private boolean eliminado = false;
 
     @ManyToOne
-    @JoinColumn(name = "receta_id", nullable = false)
+    @JoinColumn(name = "receta_id")
     private Receta receta;
 
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDate getFechaPreparacion() {
-        return fechaPreparacion;
-    }
-
-    public void setFechaPreparacion(LocalDate fechaPreparacion) {
-        this.fechaPreparacion = fechaPreparacion;
-    }
-
-    public int getTotalRacionesPreparadas() {
-        return totalRacionesPreparadas;
-    }
-
-    public void setTotalRacionesPreparadas(int totalRacionesPreparadas) {
-        this.totalRacionesPreparadas = totalRacionesPreparadas;
-    }
-
-    public boolean isEliminado() {
-        return eliminado;
-    }
-
-    public void setEliminado(boolean eliminado) {
-        this.eliminado = eliminado;
-    }
-
-    public Receta getReceta() {
+public Receta getReceta() {
         return receta;
     }
-
-    public void setReceta(Receta receta) {
-        this.receta = receta;
+    public Integer getId() {
+        return id;
     }
-
-    @Override
-    public String toString() {
-        return "Preparacion{" +
-                "id=" + id +
-                ", fechaPreparacion=" + fechaPreparacion +
-                ", totalRacionesPreparadas=" + totalRacionesPreparadas +
-                ", receta=" + receta +
-                ", eliminado=" + eliminado +
-                '}';
+    public void setId(Integer id) {
+        this.id = id;
     }
+    public Date getFechaPreparacion() {
+        return fechaPreparacion;
+    }
+    public void setFechaPreparacion(Date fechaPreparacion) {
+        fechaPreparacion = fechaPreparacion;
+    }
+    public Integer getStockRacionesRestantes() {
+        return stockRacionesRestantes;
+    }
+    public void setStockRacionesRestantes(Integer stockRacionesRestantes) {
+        this.stockRacionesRestantes = stockRacionesRestantes;
+    }
+    public Integer getTotalRacionesPreparadas() {
+        return totalRacionesPreparadas;
+    }
+    public void setTotalRacionesPreparadas(Integer totalRacionesPreparadas) {
+        totalRacionesPreparadas = totalRacionesPreparadas;
+    }
+	public void setReceta(Receta receta) {
+		this.receta = receta;
+	}
+        
+
 }

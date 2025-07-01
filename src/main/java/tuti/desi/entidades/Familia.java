@@ -8,7 +8,7 @@ public class Familia {
   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int nroFamilia;
+    private Integer nroFamilia;
     private String nombre;
     private Date fechaRegistro;
 
@@ -21,10 +21,10 @@ public class Familia {
         return integrantesFamiliaAsistida;
     }
 
-    public int getNroFamilia() {
+    public Integer getNroFamilia() {
         return nroFamilia;
     }
-    public void setNroFamilia(int nroFamilia) {
+    public void setNroFamilia(Integer nroFamilia) {
         this.nroFamilia = nroFamilia;
     }
     public String getNombre() {
@@ -39,7 +39,6 @@ public class Familia {
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
-
-    
+  
 
 }
