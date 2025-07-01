@@ -11,7 +11,6 @@ public class Receta {
     private Integer id;
     private String nombre;
     private String descripcion;
-
    
     @OneToMany(mappedBy = "receta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Preparacion> preparaciones;
@@ -36,7 +35,7 @@ public class Receta {
         return descripcion;
     }
 
-
-
-
+    public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+    }	
 }

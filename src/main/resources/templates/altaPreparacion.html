@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Alta de Preparación</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+</head>
+<body>
+<nav class="navbar navbar-light" style="background-color: #98beda">
+    <div class="container-fluid">
+        <span class="navbar-brand">Preparaciones</span>
+        <div class="d-flex">
+            <a class="nav-link px-3 text-dark fw-bold" th:href="@{/}">Inicio</a>
+            <a class="nav-link px-3 text-dark" th:href="@{/preparacion/listado}">Listado</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+    <div class="card p-4" style="width: 100%; max-width: 600px;">
+        <h2 class="text-center mb-3">Registrar Preparación</h2>
+
+        <!-- Mensaje de error si existe -->
+        <div th:if="${error}" class="alert alert-danger text-center" th:text="${error}"></div>
+
+        <div class="card-body">
+            <form th:action="@{/preparacion/guardar}" method="post" th:object="${preparacion}">
+                <div class="mb-3">
+                    <label class="form-label">Fecha:</label>
+                    <input type="date" class="form-control" th:field="*{fechaPreparacion}" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Receta:</label>
+                    <select class="form-select" th:field="*{receta}" required>
+                        <option value="">Seleccione una receta</option>
+						<option th:each="receta : ${recetas}" th:value="${receta.id}" th:text="${receta.nombre}"></option>
+
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Cantidad de raciones:</label>
+                    <input type="number" class="form-control" th:field="*{totalRacionesPreparadas}" min="1" required />
+                </div>
+
+                <button type="submit" class="btn btn-outline-primary w-100">Guardar</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

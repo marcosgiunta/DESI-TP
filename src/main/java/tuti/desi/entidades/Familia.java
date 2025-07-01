@@ -39,7 +39,6 @@ public class Familia {
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
-
-    
+  
 
 }
