@@ -51,7 +51,7 @@
                 <tr th:each="familia : ${familias}">
                     <td th:text="${familia.nroFamilia}">1</td>
                     <td th:text="${familia.nombre}">Ramona Pérez</td>
-                    <td th:text="${#dates.format(familia.fechaRegistro, 'dd/MM/yyyy')}">01/01/2025</td>
+                    <td th:text="${#temporals.format(familia.fechaRegistro, 'dd/MM/yyyy')}">01/01/2025</td>
                     <td>
                         <a class="btn btn-outline-primary btn-sm" th:href="@{/familia/editar/{id}(id=${familia.nroFamilia})}">Editar</a>
                         <a class="btn btn-outline-danger btn-sm" th:href="@{/familia/eliminar/{id}(id=${familia.nroFamilia})}"

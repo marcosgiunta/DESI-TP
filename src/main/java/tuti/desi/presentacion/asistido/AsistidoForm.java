@@ -1,6 +1,7 @@
 package tuti.desi.presentacion.asistido;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,12 +16,17 @@ public class AsistidoForm {
 	@Size(min=2, message = "El nombre no puede ser vacío")
 	private String nombre;
 	
+	@Size(min=2, message = "El apellido no puede ser vacío")
 	private String apellido;
+	
+	@NotNull
 	private String domicilio;
+	
+	@NotNull
 	private String ocupacion;
 	
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date fechaNacimiento;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fechaNacimiento;
 	
 	private Integer familiaId;
 
@@ -64,11 +70,11 @@ public class AsistidoForm {
 		this.ocupacion = ocupacion;
 	}
 
-	public Date getFechaNacimiento() {
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(Date fechaNacimiento) {
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 

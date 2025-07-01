@@ -30,9 +30,9 @@ public class Asistido  extends Persona {
 		this.familia = familia;
 	}
 
-	public String getFechaRegistroToString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		return sdf.format(fechaRegistro);
+	//public String getFechaRegistroToString() {
+		//SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		//return sdf.format(fechaRegistro);
 		
-	}
+	//}
 }

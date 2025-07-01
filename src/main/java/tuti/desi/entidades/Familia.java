@@ -1,8 +1,12 @@
 package tuti.desi.entidades;
 import jakarta.persistence.*;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 
 //GAcosta - Representa mi tabla Familia en la BD 
@@ -15,7 +19,8 @@ public class Familia {
    
     private String nombre;
     
-    private Date fechaRegistro;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fechaRegistro;
     
     private Boolean deshabilitado = false;
 
@@ -35,10 +40,10 @@ public class Familia {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public Date getFechaRegistro() {
+    public LocalDate getFechaRegistro() {
         return fechaRegistro;
     }
-    public void setFechaRegistro(Date fechaRegistro) {
+    public void setFechaRegistro(LocalDate fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
 	public Boolean getDeshabilitado() {

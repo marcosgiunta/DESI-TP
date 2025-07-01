@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
+import tuti.desi.entidades.Asistido;
 import tuti.desi.entidades.Familia;
 import tuti.desi.servicios.FamiliaService;
 
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
+
+import tuti.desi.presentacion.asistido.AsistidoForm;
 
 @Controller
 @RequestMapping("/familia")
@@ -51,15 +54,11 @@ public class FamiliaRegistrarEditarController {
         form.setNroFamilia(familia.getNroFamilia());
         form.setNombre(familia.getNombre());
         if (familia.getFechaRegistro() != null) {
-        	System.out.println("Fecha que trae la entidad: " + familia.getFechaRegistro());
-        	// Conversión segura
-            form.setFechaRegistro(familia.getFechaRegistro().toLocalDate());
+            form.setFechaRegistro(familia.getFechaRegistro());
         } else {
-            // Por si alguna vez guardaste un null en la base
-        	System.out.println("Fecha que trae la entidad: " + familia.getFechaRegistro());
-        	form.setFechaRegistro(LocalDate.now());
+            form.setFechaRegistro(LocalDate.now());
         }
-
+        
         modelo.addAttribute("familiaForm", form);
         return "familia/alta";
     }
@@ -100,10 +99,25 @@ public class FamiliaRegistrarEditarController {
         familia.setDeshabilitado(formFamilia.getDeshabilitado());
 
         // Convertir LocalDate a Date de forma correcta
-        familia.setFechaRegistro(
-                java.sql.Date.valueOf(formFamilia.getFechaRegistro())
-            );
-
+        familia.setFechaRegistro(formFamilia.getFechaRegistro());
+        
+        //Integrantes de Familia
+        familia.getIntegrantesFamiliaAsistida().clear();
+        for (AsistidoForm af : formFamilia.getIntegrantes()) {
+            // validación DNI duplicado…
+            Asistido a = new Asistido();
+            a.setDni(af.getDni());
+            a.setApellido(af.getApellido());
+            a.setNombre(af.getNombre());
+            LocalDate ld = af.getFechaNacimiento();
+            Date fechaNacimiento = Date.from(ld.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            a.setFechaNacimiento(fechaNacimiento);
+            a.setOcupacion(af.getOcupacion());
+            a.setFechaRegistro(new Date());
+            a.setFamilia(familia);
+            familia.getIntegrantesFamiliaAsistida().add(a);
+        }
+                
         // Guardar en base
         servicioFamilia.salvarFamilia(familia);
 
