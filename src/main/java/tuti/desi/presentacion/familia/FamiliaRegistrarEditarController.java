@@ -29,7 +29,7 @@ public class FamiliaRegistrarEditarController {
 	@GetMapping("/listar")
 	public String listar(Model modelo) {
         modelo.addAttribute("familias", servicioFamilia.listarFamilia());
-        return "familia/familiaListar";
+        return "familia/listar";
     }
 	
 	@GetMapping("/familiaNueva")
@@ -62,7 +62,7 @@ public class FamiliaRegistrarEditarController {
 		
 	}
 	
-	@GetMapping("/deshabilitar/{id}")
+	@GetMapping("/eliminar/{id}")
 	public String eliminar(@PathVariable("id") Integer id) {
 		servicioFamilia.eliminar(id);
 		return "redirect:/familia/buscar";

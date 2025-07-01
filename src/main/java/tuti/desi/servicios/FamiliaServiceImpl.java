@@ -32,10 +32,12 @@ public class FamiliaServiceImpl implements FamiliaService{
 	
 	@Override
 	public void eliminar(Integer id) {
-		familiaRepositorio.findById(id).ifPresent(familia ->{
-			familia.setDeshabilitado(true);
-			familiaRepositorio.save(familia);
-		});
+		Optional<Familia> familia = familiaRepositorio.findById(id);
+        if (familia.isPresent()) {
+            Familia f = familia.get();
+            f.setDeshabilitado(true);
+            familiaRepositorio.save(f);
+        }
 	}
 	
 	@Override
