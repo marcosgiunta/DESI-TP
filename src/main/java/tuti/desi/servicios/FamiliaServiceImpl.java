@@ -6,10 +6,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import tuti.desi.accesoDatos.FamiliaRepositorio;
 import tuti.desi.entidades.Familia;
 
 @Service
+
 public class FamiliaServiceImpl implements FamiliaService{
 
 	@Autowired
@@ -26,7 +28,9 @@ public class FamiliaServiceImpl implements FamiliaService{
     }
 	
 	@Override
+	@Transactional
 	public void salvarFamilia(Familia familia) {
+		System.out.println("Guardando familia: ID=" + familia.getNroFamilia() + ", Nombre=" + familia.getNombre());
 		familiaRepositorio.save(familia);
 	}
 	

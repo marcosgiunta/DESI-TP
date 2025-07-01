@@ -1,12 +1,18 @@
 package tuti.desi.presentacion.familia;
 
+import java.time.LocalDate;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class FamiliaForm {
 	
+	private Integer nroFamilia;
+	
 	private String nombre;
 	
-	private Date fecha_registro;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate fechaRegistro;
 
 	private Boolean deshabilitado;
 
@@ -18,12 +24,12 @@ public class FamiliaForm {
 		this.nombre = nombre;
 	}
 
-	public Date getFecha_registro() {
-		return fecha_registro;
+	public LocalDate getFechaRegistro() {
+		return fechaRegistro;
 	}
 
-	public void setFecha_registro(Date fecha_registro) {
-		this.fecha_registro = fecha_registro;
+	public void setFechaRegistro(LocalDate fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
 	}
 
 	public Boolean getDeshabilitado() {
@@ -32,6 +38,14 @@ public class FamiliaForm {
 
 	public void setDeshabilitado(Boolean deshabilitado) {
 		this.deshabilitado = deshabilitado;
+	}
+
+	public Integer getNroFamilia() {
+		return nroFamilia;
+	}
+
+	public void setNroFamilia(Integer nroFamilia) {
+		this.nroFamilia = nroFamilia;
 	}
 	
 	

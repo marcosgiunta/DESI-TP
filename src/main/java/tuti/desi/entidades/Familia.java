@@ -1,8 +1,9 @@
 package tuti.desi.entidades;
 import jakarta.persistence.*;
 import java.util.List;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 //GAcosta - Representa mi tabla Familia en la BD 
 @Entity
@@ -47,10 +48,10 @@ public class Familia {
 		deshabilitado = estaDeshabilitad;
 	}
 	
-	public String getFechaRegistroToString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		return sdf.format(fechaRegistro);
-	}
+	//public String getFechaRegistroToString() {
+		//SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		//return sdf.format(fechaRegistro);
+	//}
 	public List<Asistido> getIntegrantesFamiliaAsistida() {
 		return integrantesFamiliaAsistida;
 	}
