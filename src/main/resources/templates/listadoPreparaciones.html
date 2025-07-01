@@ -14,7 +14,7 @@
             <span class="navbar-brand">Preparaciones</span>
             <div class="d-flex">
                 <a class="nav-link px-3 text-dark fw-bold" th:href="@{/}">Inicio</a>
-                <a class="nav-link px-3 text-dark" th:href="@{/preparaciones/alta}">Registrar nueva</a>
+                <a class="nav-link px-3 text-dark" th:href="@{/preparacion/alta}">Registrar nueva</a>
             </div>
         </div>
     </nav>
@@ -43,11 +43,11 @@
                            th:href="@{/preparacion/modificar/{id}(id=${prep.id})}">
                             Modificar
                         </a>
-                      <!--  <form th:action="@{/preparaciones/eliminar/{id}(id=${prep.id})}" method="post"
+                      <form th:action="@{/preparacion/eliminar/{id}(id=${prep.id})}" method="post"
                               onsubmit="return confirm('¿Estás seguro de que querés eliminar esta preparación?');">
                             <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
-                        </form>
-						-->
+                      </form>
+					
                     </td> 
 											
                 </tr> 

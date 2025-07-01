@@ -63,7 +63,6 @@ public class PreparacionController {
         return "modificarPreparacion";
     }
     
-    
     @PostMapping("/preparacion/actualizar")
     public String actualizarPreparacion(@ModelAttribute("preparacion") Preparacion nuevaPreparacion, Model model) {
         if (nuevaPreparacion.getFechaPreparacion().after(new Date())) {
@@ -80,33 +79,22 @@ public class PreparacionController {
 
         return "redirect:/preparacion/listado";
     }
-
+/*
+    @PostMapping("/preparacion/eliminar/{id}")
+    public String eliminarPreparacion(@PathVariable("id") Integer id) {
+        preparacionRepositorio.deleteById(id);
+        return "redirect:/preparacion/listado";
+    }*/
     
-    
-   /* @PostMapping("/preparacion/actualizar")
-    public String actualizarPreparacion(@ModelAttribute("preparacion") Preparacion nuevaPreparacion) {
-        Preparacion existente = preparacionRepositorio.findById(nuevaPreparacion.getId()).orElse(null);
-        if (existente != null) {
-            existente.setFechaPreparacion(nuevaPreparacion.getFechaPreparacion());
-            preparacionRepositorio.save(existente);
+    @PostMapping("/preparacion/eliminar/{id}")
+    public String eliminarPreparacion(@PathVariable("id") Integer id) {
+        Preparacion preparacion = preparacionRepositorio.findById(id).orElse(null);
+        if (preparacion != null) {
+            preparacion.setEliminado(true);
+            preparacionRepositorio.save(preparacion);
         }
         return "redirect:/preparacion/listado";
     }
 
 
-
-
-    // ACTUALIZAR PREPARACIÓN
-    @PostMapping("/preparacion/actualizar")
-    public String actualizarPreparacion(@ModelAttribute("preparacion") Preparacion preparacion) {
-        preparacionRepositorio.save(preparacion);
-        return "redirect:/preparacion/listado";
-    }
-
-    @PostMapping("/preparacion/eliminar/{id}")
-    public String eliminarPreparacion(@PathVariable("id") Integer id) {
-        preparacionRepositorio.deleteById(id);
-        return "redirect:/preparacion/listado";
-    }
-*/
 }
