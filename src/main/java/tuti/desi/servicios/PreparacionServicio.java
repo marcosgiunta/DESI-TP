@@ -9,7 +9,7 @@ public interface PreparacionServicio {
 
     List<Preparacion> listarTodas();
 
-    Preparacion buscarPorId(Long id);
+    Preparacion buscarPorId(Integer id);
 
-    void eliminar(Long id);
+    void eliminar(Integer id);
 }

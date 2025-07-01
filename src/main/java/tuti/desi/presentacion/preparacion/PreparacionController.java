@@ -51,7 +51,7 @@ public class PreparacionController {
 
     // MOSTRAR FORMULARIO DE MODIFICACIÓN
     @GetMapping("/preparacion/modificar/{id}")
-    public String mostrarFormularioModificacion(@PathVariable("id") Long id, Model model) {
+    public String mostrarFormularioModificacion(@PathVariable("id") Integer id, Model model) {
         Preparacion preparacion = preparacionServicio.buscarPorId(id);
         List<Receta> recetas = recetasRepositorio.findAll();
         model.addAttribute("preparacion", preparacion);
@@ -67,7 +67,7 @@ public class PreparacionController {
     }
 
     @PostMapping("/preparacion/eliminar/{id}")
-    public String eliminarPreparacion(@PathVariable("id") Long id) {
+    public String eliminarPreparacion(@PathVariable("id") Integer id) {
         preparacionRepositorio.deleteById(id);
         return "redirect:/preparacion/listado";
     }

@@ -25,13 +25,13 @@ public class PreparacionServicioImpl implements PreparacionServicio {
     }
 
     @Override
-    public Preparacion buscarPorId(Long id) {
+    public Preparacion buscarPorId(Integer id) {
         Optional<Preparacion> resultado = preparacionRepositorio.findById(id);
         return resultado.orElse(null);
     }
 
     @Override
-    public void eliminar(Long id) {
+    public void eliminar(Integer id) {
         preparacionRepositorio.deleteById(id);
     }
 }

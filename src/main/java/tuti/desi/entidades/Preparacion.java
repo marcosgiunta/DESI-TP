@@ -16,7 +16,8 @@ public class Preparacion {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaPreparacion;
     private Integer stockRacionesRestantes;
-    private Integer totalRacionesPreparadas;
+    private Integer totalRacionesPreparadas = 0;
+
 
 
     @ManyToOne
