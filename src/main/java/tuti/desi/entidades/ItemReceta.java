@@ -7,7 +7,8 @@ public class ItemReceta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private double cantidad;
+
+    private Integer cantidad;
     private Integer calorias;
 
     @ManyToOne
@@ -24,7 +25,8 @@ public class ItemReceta {
     public void setId(Integer id) {
         this.id = id;
     }
-    public double getCantidad() {
+
+    public Integer getCantidad() {
         return cantidad;
     }
     public void setCantidad(Integer cantidad) {

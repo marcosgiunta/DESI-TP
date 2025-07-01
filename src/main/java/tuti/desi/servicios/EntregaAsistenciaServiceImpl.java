@@ -50,7 +50,7 @@ public class EntregaAsistenciaServiceImpl implements EntregaAsistenciaService {
 
         //busca la cantidad de integrantes de la familia
 		//y verifica que la cantidad de raciones no sea mayor que la cantidad de integrantes
-		int cantidadIntegrantes = entrega.getFamilia().getIntegrantesFamiliaAsistida().size();
+		Integer cantidadIntegrantes = entrega.getFamilia().getIntegrantesFamiliaAsistida().size();
 
 		if (entrega.getCantidadRaciones() > cantidadIntegrantes) {
 
@@ -65,7 +65,7 @@ public class EntregaAsistenciaServiceImpl implements EntregaAsistenciaService {
 
 
 	@Override
-	public EntregaAsistencia buscarPorId(int id) {
+	public EntregaAsistencia buscarPorId(Integer id) {
 
 		// Busca la entrega por ID y devuelve el objeto EntregaAsistencia
 		// Si no se encuentra, devuelve null
@@ -77,7 +77,7 @@ public class EntregaAsistenciaServiceImpl implements EntregaAsistenciaService {
 
 
 	@Override
-	public void eliminarEntrega(int id) {
+	public void eliminarEntrega(Integer id) {
 
 
 		// Verifica si la entrega existe

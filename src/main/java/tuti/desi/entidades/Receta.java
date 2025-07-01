@@ -9,7 +9,6 @@ public class Receta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(unique = true)
     private String nombre;
     private String descripcion;
    
@@ -38,5 +37,5 @@ public class Receta {
 
     public void setDescripcion(String descripcion) {
     this.descripcion = descripcion;
-}
+    }	
 }
