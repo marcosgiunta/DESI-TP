@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface PreparacionRepositorio extends JpaRepository<Preparacion, Integer> {
 
-	List<Preparacion> findByRecetaId(Integer recetaId);
+	List<Preparacion> findByEliminadoFalse();
+
 
 }

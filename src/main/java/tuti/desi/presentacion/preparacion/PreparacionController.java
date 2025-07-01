@@ -37,18 +37,21 @@ public class PreparacionController {
     // GUARDAR PREPARACIÓN
     @PostMapping("/preparacion/guardar")
     public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion preparacion) {
+        preparacion.setEliminado(false); // << AGREGAR ESTO
         preparacionRepositorio.save(preparacion);
         return "redirect:/preparacion/listado";
     }
 
+
     // LISTAR PREPARACIONES
     @GetMapping("/preparacion/listado")
     public String listarPreparaciones(Model model) {
-        List<Preparacion> preparaciones = preparacionRepositorio.findAll();
+        List<Preparacion> preparaciones = preparacionRepositorio.findByEliminadoFalse();
         model.addAttribute("preparaciones", preparaciones);
         return "listadoPreparaciones";
     }
 
+/*
     // MOSTRAR FORMULARIO DE MODIFICACIÓN
     @GetMapping("/preparacion/modificar/{id}")
     public String mostrarFormularioModificacion(@PathVariable("id") Integer id, Model model) {
@@ -71,5 +74,5 @@ public class PreparacionController {
         preparacionRepositorio.deleteById(id);
         return "redirect:/preparacion/listado";
     }
-
+*/
 }
