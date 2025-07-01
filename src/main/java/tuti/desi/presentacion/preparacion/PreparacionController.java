@@ -79,12 +79,6 @@ public class PreparacionController {
 
         return "redirect:/preparacion/listado";
     }
-/*
-    @PostMapping("/preparacion/eliminar/{id}")
-    public String eliminarPreparacion(@PathVariable("id") Integer id) {
-        preparacionRepositorio.deleteById(id);
-        return "redirect:/preparacion/listado";
-    }*/
     
     @PostMapping("/preparacion/eliminar/{id}")
     public String eliminarPreparacion(@PathVariable("id") Integer id) {
