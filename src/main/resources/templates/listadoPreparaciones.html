@@ -39,11 +39,11 @@
                     <td th:text="${prep.receta.nombre}"></td>
                     <td th:text="${prep.totalRacionesPreparadas}"></td>
                     <td class="d-flex gap-1">
-                       <!-- <a class="btn btn-sm btn-outline-primary"
-                           th:href="@{/preparaciones/modificar/{id}(id=${prep.id})}">
+                        <a class="btn btn-sm btn-outline-primary"
+                           th:href="@{/preparacion/modificar/{id}(id=${prep.id})}">
                             Modificar
                         </a>
-                        <form th:action="@{/preparaciones/eliminar/{id}(id=${prep.id})}" method="post"
+                      <!--  <form th:action="@{/preparaciones/eliminar/{id}(id=${prep.id})}" method="post"
                               onsubmit="return confirm('¿Estás seguro de que querés eliminar esta preparación?');">
                             <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
                         </form>

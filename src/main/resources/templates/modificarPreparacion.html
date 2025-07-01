@@ -25,29 +25,28 @@
         <div th:if="${error}" class="alert alert-danger text-center" th:text="${error}"></div>
 
         <div class="card-body">
-            <form th:action="@{/preparacion/actualizar}" method="post" th:object="${preparacion}">
-                <input type="hidden" th:field="*{id}" />
 
-                <div class="mb-3">
-                    <label class="form-label">Fecha:</label>
-                    <input type="date" class="form-control" th:field="*{fechaPreparacion}" required />
-                </div>
+			<form th:action="@{/preparacion/actualizar}" method="post" th:object="${preparacion}">
+			    <input type="hidden" th:field="*{id}" />
 
-                <div class="mb-3">
-                    <label class="form-label">Receta:</label>
-                    <select class="form-select" th:field="*{receta}" required>
-                        <option value="">Seleccione una receta</option>
-                        <option th:each="receta : ${recetas}" th:value="${receta.id}" th:text="${receta.nombre}"></option>
-                    </select>
-                </div>
+			    <div class="mb-3">
+			        <label class="form-label">Fecha:</label>
+			        <input type="date" class="form-control" th:field="*{fechaPreparacion}" th:attr="max=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required />
+			    </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Cantidad de raciones:</label>
-                    <input type="number" class="form-control" th:field="*{totalRacionesPreparadas}" min="1" required />
-                </div>
+			    <div class="mb-3">
+			        <label class="form-label">Receta:</label>
+			        <input type="text" class="form-control" th:value="${preparacion.receta.nombre}" readonly />
+			    </div>
 
-                <button type="submit" class="btn btn-outline-primary w-100">Guardar Cambios</button>
-            </form>
+			    <div class="mb-3">
+			        <label class="form-label">Cantidad de raciones:</label>
+			        <input type="number" class="form-control" th:value="${preparacion.totalRacionesPreparadas}" readonly />
+			    </div>
+
+			    <button type="submit" class="btn btn-outline-primary w-100">Guardar Cambios</button>
+			</form>
+
         </div>
     </div>
 </div>

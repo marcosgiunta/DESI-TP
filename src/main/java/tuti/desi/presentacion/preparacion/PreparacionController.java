@@ -11,6 +11,7 @@ import tuti.desi.entidades.Preparacion;
 import tuti.desi.entidades.Receta;
 import tuti.desi.servicios.PreparacionServicio;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -37,7 +38,7 @@ public class PreparacionController {
     // GUARDAR PREPARACIÓN
     @PostMapping("/preparacion/guardar")
     public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion preparacion) {
-        preparacion.setEliminado(false); // << AGREGAR ESTO
+        preparacion.setEliminado(false); 
         preparacionRepositorio.save(preparacion);
         return "redirect:/preparacion/listado";
     }
@@ -51,7 +52,7 @@ public class PreparacionController {
         return "listadoPreparaciones";
     }
 
-/*
+
     // MOSTRAR FORMULARIO DE MODIFICACIÓN
     @GetMapping("/preparacion/modificar/{id}")
     public String mostrarFormularioModificacion(@PathVariable("id") Integer id, Model model) {
@@ -61,6 +62,39 @@ public class PreparacionController {
         model.addAttribute("recetas", recetas);
         return "modificarPreparacion";
     }
+    
+    
+    @PostMapping("/preparacion/actualizar")
+    public String actualizarPreparacion(@ModelAttribute("preparacion") Preparacion nuevaPreparacion, Model model) {
+        if (nuevaPreparacion.getFechaPreparacion().after(new Date())) {
+            model.addAttribute("error", "La fecha no puede ser futura.");
+            model.addAttribute("preparacion", nuevaPreparacion);
+            return "modificarPreparacion";
+        }
+
+        Preparacion existente = preparacionRepositorio.findById(nuevaPreparacion.getId()).orElse(null);
+        if (existente != null) {
+            existente.setFechaPreparacion(nuevaPreparacion.getFechaPreparacion());
+            preparacionRepositorio.save(existente);
+        }
+
+        return "redirect:/preparacion/listado";
+    }
+
+    
+    
+   /* @PostMapping("/preparacion/actualizar")
+    public String actualizarPreparacion(@ModelAttribute("preparacion") Preparacion nuevaPreparacion) {
+        Preparacion existente = preparacionRepositorio.findById(nuevaPreparacion.getId()).orElse(null);
+        if (existente != null) {
+            existente.setFechaPreparacion(nuevaPreparacion.getFechaPreparacion());
+            preparacionRepositorio.save(existente);
+        }
+        return "redirect:/preparacion/listado";
+    }
+
+
+
 
     // ACTUALIZAR PREPARACIÓN
     @PostMapping("/preparacion/actualizar")
