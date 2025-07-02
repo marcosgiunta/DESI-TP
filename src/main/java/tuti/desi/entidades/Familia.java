@@ -8,7 +8,7 @@ public class Familia {
   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int nroFamilia;
+    private Integer nroFamilia;
     private String nombre;
     private Date fechaRegistro;
 
@@ -17,10 +17,14 @@ public class Familia {
     @JoinColumn(name = "nro_familia_fk", referencedColumnName = "nroFamilia")
     private List<Asistido> integrantesFamiliaAsistida;
 
-    public int getNroFamilia() {
+    public List<Asistido> getIntegrantesFamiliaAsistida() {
+        return integrantesFamiliaAsistida;
+    }
+
+    public Integer getNroFamilia() {
         return nroFamilia;
     }
-    public void setNroFamilia(int nroFamilia) {
+    public void setNroFamilia(Integer nroFamilia) {
         this.nroFamilia = nroFamilia;
     }
     public String getNombre() {
@@ -35,7 +39,6 @@ public class Familia {
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
-
-    
+  
 
 }

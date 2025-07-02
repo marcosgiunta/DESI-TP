@@ -1,8 +1,5 @@
 package tuti.desi.presentacion.entregaAsistencia;
 
-
-import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,15 +7,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import tuti.desi.accesoDatos.FamiliaRepositorio;
+import tuti.desi.accesoDatos.PreparacionRepositorio;
 import tuti.desi.entidades.EntregaAsistencia;
-
+import tuti.desi.entidades.Familia;
+import tuti.desi.entidades.Preparacion;
 import tuti.desi.servicios.EntregaAsistenciaService;
-
 
 @Controller
 public class EntregaAsistenciaAltaController {
-	
-	
+
+	@Autowired
+	private FamiliaRepositorio familiaRepo;
+
+	@Autowired
+	private PreparacionRepositorio preparacionRepo;
 
 	@Autowired
 	private EntregaAsistenciaService servicio;
@@ -27,29 +30,43 @@ public class EntregaAsistenciaAltaController {
 	public String RegistrarEntregaAsistencia(Model modelo) {
 		EntregaAsistencia entregaNueva = new EntregaAsistencia();
 
-		//List<Familia> familias =familiaRepo.findAll();
-		//List<Preparacion> platos = servicio.listarPreparaciones();
-
 		modelo.addAttribute("entregaNueva", entregaNueva);
-		
+
+		modelo.addAttribute("nrosFamilia", familiaRepo.findAllNroFamilia());
+		modelo.addAttribute("preparaciones", preparacionRepo.findAll());
+
 		return "entregaAsistenciaAlta";
-		
+
 	}
-	
-	
+
 	@PostMapping("/entregaAsistencia/Guardar")
-	public String GuardarEntregaAsistencia(@ModelAttribute("entregaNueva") EntregaAsistencia entrega) {
+	public String GuardarEntregaAsistencia(@ModelAttribute("entregaNueva") EntregaAsistencia entrega, Model modelo) {
 
-		LocalDate hoy = LocalDate.now();
+		try {
+			// Busca y setea la familia
+			if (entrega.getFamilia() != null) {
+				Integer nroFamilia = entrega.getFamilia().getNroFamilia();
+				Familia familia = familiaRepo.findByNroFamilia(nroFamilia);
+				entrega.setFamilia(familia);
+			}
+            // Busca y setea la preparacion
+			if (entrega.getPreparacion() != null) {
+				Preparacion preparacion = preparacionRepo.findById(entrega.getPreparacion().getId()).orElse(null);
+				entrega.setPreparacion(preparacion);
+			}
+			servicio.guardarEntrega(entrega);
 
+			return "redirect:/entregaAsistencia/Listar";
 
-		entrega.setFecha(hoy);
-		servicio.guardarEntrega(entrega);
-		
-		return "redirect:/entregaAsistencia/Listar";
-		
+		} catch (IllegalArgumentException ex) {
+			
+			// Vuelve a carga los datos necesarios para el formulario para no tener que volver a cargarlos
+			modelo.addAttribute("entregaNueva", entrega);
+			modelo.addAttribute("nrosFamilia", familiaRepo.findAllNroFamilia());
+			modelo.addAttribute("preparaciones", preparacionRepo.findAll());
+			modelo.addAttribute("errorMessage", ex.getMessage());
+			return "entregaAsistenciaAlta";
+		}
+
 	}
-	
-
-	
 }

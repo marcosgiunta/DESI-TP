@@ -8,8 +8,7 @@ public class Receta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(unique = true)
+    private Integer id;
     private String nombre;
     private String descripcion;
    
@@ -26,10 +25,10 @@ public class Receta {
     	return items.stream().mapToInt(ItemReceta::getCalorias).sum();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }   
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public String getNombre() {
@@ -44,5 +43,5 @@ public class Receta {
 
     public void setDescripcion(String descripcion) {
     this.descripcion = descripcion;
-}
+    }	
 }

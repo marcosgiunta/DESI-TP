@@ -10,19 +10,19 @@ public abstract class Ingrediente {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	private String nombre;
 	
-	private int calorias;
+	private Integer calorias;
 
 	
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -34,11 +34,11 @@ public abstract class Ingrediente {
 		this.nombre = nombre;
 	}
 
-	public int getCalorias() {
+	public Integer getCalorias() {
 		return calorias;
 	}
 
-	public void setCalorias(int calorias) {
+	public void setCalorias(Integer calorias) {
 		this.calorias = calorias;
 	}
 	
