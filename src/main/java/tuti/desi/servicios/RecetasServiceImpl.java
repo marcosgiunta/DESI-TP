@@ -17,7 +17,7 @@ public class RecetasServiceImpl implements RecetasService {
 
 	@Override
 	public List<Receta> listarRecetas() {
-		return repositorio.findAll();
+	    return repositorio.findByEliminadaFalse();
 	}
 
 	@Override

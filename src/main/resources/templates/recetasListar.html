@@ -25,11 +25,11 @@
                       th:action="@{/recetas/Filtrar}">
                     <div class="col-auto">
                         <label class="form-label mb-0">Filtrar por nombre:</label>
-                        <input type="string" name="nombre de receta" class="form-control" placeholder="Receta (Ej: Canelones)"/>
+                        <input type="string" name="nombreReceta" class="form-control" placeholder="Receta (Ej: Canelones)"/>
                     </div>
                     <div class="col-auto">
                         <label class="form-label mb-0">Filtrar por calorias:</label>
-                        <input type="number" name="nroFamilia" class="form-control"
+                        <input type="number" name="caloriasReceta" class="form-control"
                                placeholder="Calorias (Ej: 110)" />
                     </div>
                     <div class="col-auto">
@@ -71,8 +71,9 @@
                             <td>
                                 <a class="btn btn-outline-primary"
                                     th:href="@{/recetas/editar/{id}(id=${receta.id})}">Editar</a>
-                                <a class="btn btn-outline-danger"
-                                    th:href="@{/recetas/Eliminar/{id}(id=${receta.id})}">Eliminar</a>
+								<form th:action="@{/recetas/eliminar/{id}(id=${receta.id})}" method="post" th:object="${receta}">
+								    <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+								</form>
                             </td>
                         </tr>
                     </tbody>

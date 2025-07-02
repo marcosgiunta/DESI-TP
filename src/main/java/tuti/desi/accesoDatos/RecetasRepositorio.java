@@ -18,4 +18,5 @@ public interface RecetasRepositorio extends JpaRepository<Receta, Integer>{
 		        (SELECT SUM(i.calorias) FROM ItemReceta i WHERE i.receta = r) >= :calorias)
 		""")
 		List<Receta> buscarPorFiltros(String nombreReceta, Integer calorias);
+		List<Receta> findByEliminadaFalse();
 }

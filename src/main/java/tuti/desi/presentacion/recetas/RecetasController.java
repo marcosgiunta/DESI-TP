@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import tuti.desi.accesoDatos.RecetasRepositorio;
 import tuti.desi.entidades.Receta;
 
 import tuti.desi.servicios.RecetasService;
@@ -22,6 +23,9 @@ public class RecetasController {
 	
 	@Autowired
 	private RecetasService servicio;
+	
+	@Autowired
+	private RecetasRepositorio recetasRepositorio;
 
     // @Autowired
     // private IngredienteService ingredienteService;
@@ -56,11 +60,15 @@ public class RecetasController {
 
 	}
 
-	@GetMapping("/recetas/Eliminar/{id}")
-	public String EliminarReceta(@PathVariable int id) {
-
-		return "redirect:/recetas/Listar";
-	}
+    @PostMapping("/recetas/eliminar/{id}")
+    public String eliminarReceta(@PathVariable("id") Integer id) {
+        Receta receta = recetasRepositorio.findById(id).orElse(null);
+        if (receta != null) {
+        	receta.setEliminada(true);
+            recetasRepositorio.save(receta);
+        }
+        return "redirect:/recetas/Listar";
+    }
 
 	@GetMapping("/recetas/Filtrar")
 	public String FiltrarRecetas(
@@ -70,5 +78,15 @@ public class RecetasController {
 		List<Receta> recetas = servicio.buscarPorFiltros(nombreReceta, caloriasReceta);
 		modelo.addAttribute("recetas", recetas);
 		return "recetasListar";
+	}
+	
+	@GetMapping("/recetas/editar/{id}")
+	public String editarReceta(@PathVariable int id, Model modelo) {
+	    Receta receta = servicio.buscarPorId(id);
+	    if (receta != null) {
+	        modelo.addAttribute("nuevaReceta", receta);
+	        return "recetasAlta";
+	    }
+	    return "redirect:/recetas/Alta";
 	}
 }

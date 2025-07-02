@@ -25,6 +25,7 @@
             <h2 class="text-center mb-3">Alta de Recetas</h2>
             <div class="card-body">
                 <form th:action="@{/recetas/Guardar}" th:object="${nuevaReceta}" method="post">
+					<input type="hidden" th:field="*{id}" />
                     <!-- formulario de alta -->
                     <fieldset>
 
