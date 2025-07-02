@@ -7,6 +7,7 @@ import tuti.desi.entidades.Preparacion;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDate;
 
 @Service
 public class PreparacionServicioImpl implements PreparacionServicio {
@@ -33,5 +34,21 @@ public class PreparacionServicioImpl implements PreparacionServicio {
     @Override
     public void eliminar(Integer id) {
         preparacionRepositorio.deleteById(id);
+    }
+
+    @Override
+    public List<Preparacion> filtrarPreparaciones(LocalDate fecha, String nombreReceta) {
+        List<Preparacion> todas = preparacionRepositorio.findByEliminadoFalse();
+
+        return todas.stream()
+            .filter(p -> {
+                if (fecha == null) return true;
+                
+                LocalDate fechaPrep = ((java.sql.Date) p.getFechaPreparacion()).toLocalDate();
+                return fechaPrep.equals(fecha);
+            })
+            .filter(p -> (nombreReceta == null || nombreReceta.isEmpty() ||
+                          p.getReceta().getNombre().toLowerCase().contains(nombreReceta.toLowerCase())))
+            .toList();
     }
 }

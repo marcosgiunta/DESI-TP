@@ -1,6 +1,7 @@
 package tuti.desi.presentacion.preparacion;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,14 +44,16 @@ public class PreparacionController {
         return "redirect:/preparacion/listado";
     }
 
-
-    // LISTAR PREPARACIONES
+    
     @GetMapping("/preparacion/listado")
-    public String listarPreparaciones(Model model) {
-        List<Preparacion> preparaciones = preparacionRepositorio.findByEliminadoFalse();
+    public String listarPreparaciones(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) java.time.LocalDate fecha,
+                                      @RequestParam(required = false) String receta,
+                                      Model model) {
+        List<Preparacion> preparaciones = preparacionServicio.filtrarPreparaciones(fecha, receta);
         model.addAttribute("preparaciones", preparaciones);
         return "listadoPreparaciones";
     }
+
 
 
     // MOSTRAR FORMULARIO DE MODIFICACIÓN
@@ -79,12 +82,7 @@ public class PreparacionController {
 
         return "redirect:/preparacion/listado";
     }
-/*
-    @PostMapping("/preparacion/eliminar/{id}")
-    public String eliminarPreparacion(@PathVariable("id") Integer id) {
-        preparacionRepositorio.deleteById(id);
-        return "redirect:/preparacion/listado";
-    }*/
+
     
     @PostMapping("/preparacion/eliminar/{id}")
     public String eliminarPreparacion(@PathVariable("id") Integer id) {
@@ -95,6 +93,5 @@ public class PreparacionController {
         }
         return "redirect:/preparacion/listado";
     }
-
-
+    
 }

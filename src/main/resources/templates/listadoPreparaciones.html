@@ -22,6 +22,19 @@
     <div class="container mt-5">
         <h2 class="mb-4 text-center">Listado de Preparaciones</h2>
 
+
+		<form method="get" th:action="@{/preparacion/listado}">
+		    <label for="fecha">Filtrar por fecha:</label>
+		    <input type="date" name="fecha" id="fecha">
+
+		    <label for="receta">Filtrar por nombre de receta:</label>
+		    <input type="text" name="receta" id="receta" placeholder="Nombre de receta">
+
+		    <button type="submit">Filtrar</button>
+		</form>
+		<br/>
+
+		
         <table class="table table-bordered table-hover">
             <thead class="table-light">
                 <tr>
