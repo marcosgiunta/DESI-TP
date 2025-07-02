@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title th:text="'Familia: ' + ${familia.nombre}">Familia</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+  <div class="container mt-4">
+    <h2 th:text="${familia.nombre}">Nombre Familia</h2>
+	<p>
+	  <strong>Fecha alta:</strong>
+	  <span th:text="${#temporals.format(familia.fechaRegistro,'dd/MM/yyyy')}">01/01/2025</span>
+	</p>
+    <h4 class="mt-4">Integrantes</h4>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>DNI</th><th>Apellido</th><th>Nombre</th><th>F. Nac.</th><th>Ocupación</th><th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="asist : ${familia.integrantesFamiliaAsistida}">
+          <td th:text="${asist.dni}">12345678</td>
+          <td th:text="${asist.apellido}">Pérez</td>
+          <td th:text="${asist.nombre}">María</td>
+          <td th:text="${#dates.format(asist.fechaNacimiento, 'dd/MM/yyyy')}">01/01/2000</td>
+          <td th:text="${asist.ocupacion}">Estudiante</td>
+          <td>
+            <a th:href="@{/asistido/editar/{id}(id=${asist.id})}"
+               class="btn btn-sm btn-outline-primary">Editar</a>
+            <a th:href="@{/asistido/eliminar/{id}(id=${asist.id})}"
+               onclick="return confirm('¿Eliminar este integrante?');"
+               class="btn btn-sm btn-outline-danger">Eliminar</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <a th:href="@{/familia/listar}" class="btn btn-secondary">Volver a Familias</a>
+  </div>
+</body>
+</html>

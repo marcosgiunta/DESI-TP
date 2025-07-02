@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import tuti.desi.entidades.Familia;
 import tuti.desi.servicios.FamiliaService;
 
 @Controller
@@ -30,6 +32,14 @@ public class FamiliaBuscarController {
 	    }
 
 	    return "familia/listar";
+	}
+	
+	@GetMapping("/ver/{id}")
+	public String verFamilia(@PathVariable Integer id, Model modelo) {
+	    Familia fam = servicio.buscarPorId(id)
+	        .orElseThrow(() -> new IllegalArgumentException("Familia no encontrada: " + id));
+	    modelo.addAttribute("familia", fam);
+	    return "familia/ver";
 	}
 }
 

@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 @Entity
 public class Asistido  extends Persona {
 
-	@Column(name = "fecha_registro")
+	//@Column(name = "fecha_registro")
     private Date fechaRegistro;
 
     @ManyToOne

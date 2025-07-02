@@ -1,71 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Alta de Asistido</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-    <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
+  <title th:text="${asistidoForm.dni} != null ? 'Editar asistido' : 'Nuevo asistido'">Asistido</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
-
 <body>
-    <nav class="navbar navbar-light" style="background-color: #98beda">
-        <div class="container-fluid">
-            <span class="navbar-brand">Entrega de alimentos</span>
-            <div class="d-flex">
-                <a class="nav-link px-3 text-dark fw-bold" th:href="@{/}">Inicio</a>
-                <a class="nav-link px-3 text-dark" th:href="@{/familia/buscar}">Familias</a>
-                <a class="nav-link px-3 text-dark" th:href="@{/preparaciones}">Preparaciones</a>
-            </div>
-        </div>
-    </nav>
+  <div class="container mt-4">
+    <h2 th:text="${asistidoForm.dni} != null ? 'Editar asistido' : 'Nuevo asistido'">Formulario</h2>
+    <form th:action="@{/asistido/guardar}" th:object="${asistidoForm}" method="post">
+      <!-- DNI -->
+      <div class="mb-3">
+        <label class="form-label">DNI</label>
+        <input type="number" th:field="*{dni}" class="form-control" required/>
+      </div>
+      <!-- Apellido -->
+      <div class="mb-3">
+        <label class="form-label">Apellido</label>
+        <input type="text" th:field="*{apellido}" class="form-control" required/>
+      </div>
+      <!-- Nombre -->
+      <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input type="text" th:field="*{nombre}" class="form-control" required/>
+      </div>
+      <!-- Domicilio -->
+      <div class="mb-3">
+        <label class="form-label">Domicilio</label>
+        <input type="text" th:field="*{domicilio}" class="form-control" required/>
+      </div>
+      <!-- Fecha Nac. -->
+      <div class="mb-3">
+        <label class="form-label">Fecha de nacimiento</label>
+        <input type="date" th:field="*{fechaNacimiento}" class="form-control" required/>
+      </div>
+      <!-- Ocupación -->
+      <div class="mb-3">
+        <label class="form-label">Ocupación</label>
+        <select th:field="*{ocupacion}" class="form-select" required>
+          <option value="">Seleccionar</option>
+          <option value="Desempleado">Desempleado</option>
+          <option value="Empleado">Empleado</option>
+          <option value="Estudiante">Estudiante</option>
+          <option value="Ama de casa">Ama de casa</option>
+          <option value="Otro">Otro</option>
+        </select>
+      </div>
+      <!-- Familia oculta -->
+      <input type="hidden" th:field="*{familiaId}"/>
 
-    <div class="container mt-5">
-        <h2 class="mb-4">Alta de Asistido</h2>
-
-        <!-- Mensaje de error si existe -->
-        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-
-        <form th:action="@{/asistido/guardar}" th:object="${asistidoForm}" method="post" class="row g-3">
-
-            <input type="hidden" th:field="*{familiaId}" />
-
-            <div class="col-md-6">
-                <label class="form-label">DNI</label>
-                <input type="number" class="form-control" th:field="*{dni}" required />
-                <div class="text-danger" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">Nombre</label>
-                <input type="text" class="form-control" th:field="*{nombre}" required />
-                <div class="text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">Apellido</label>
-                <input type="text" class="form-control" th:field="*{apellido}" />
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">Domicilio</label>
-                <input type="text" class="form-control" th:field="*{domicilio}" />
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">Ocupación</label>
-                <input type="text" class="form-control" th:field="*{ocupacion}" />
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">Fecha de nacimiento</label>
-                <input type="date" class="form-control" th:field="*{fechaNacimiento}" />
-            </div>
-
-            <div class="col-12 d-flex justify-content-between">
-                <a class="btn btn-secondary" th:href="@{/familia/buscar}">Cancelar</a>
-                <button type="submit" class="btn btn-success">Guardar</button>
-            </div>
-        </form>
-    </div>
+      <div class="d-flex justify-content-between mt-4">
+        <a th:href="@{/familia/ver/{id}(id=${asistidoForm.familiaId})}" class="btn btn-secondary">
+          Volver
+        </a>
+        <button type="submit" class="btn btn-success"
+                th:text="${asistidoForm.dni} != null ? 'Actualizar' : 'Guardar'">
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
 </body>
 </html>

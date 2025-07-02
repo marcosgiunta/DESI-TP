@@ -1,5 +1,7 @@
 package tuti.desi.servicios;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,11 @@ public class AsistidoServiceImpl implements AsistidoService {
 	public Asistido findByDni(Integer dni) {
 		return asistidoRepositorio.findByDni(dni);
 	}
+	
+	@Override
+    public Optional<Asistido> buscarPorId(Integer id) {
+        return asistidoRepositorio.findById(id);
+    }
 	
 	@Override
 	public void eliminar(Integer id) {

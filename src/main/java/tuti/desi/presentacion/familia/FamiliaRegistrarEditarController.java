@@ -130,4 +130,12 @@ public class FamiliaRegistrarEditarController {
         servicioFamilia.eliminar(id);
         return "redirect:/familia/listar";
     }
+    
+    @GetMapping("/ver/{id}")
+    public String verFamilia(@PathVariable Integer id, Model model) {
+        Familia fam = servicioFamilia.buscarPorId(id)
+            .orElseThrow(() -> new IllegalArgumentException("Familia no encontrada: " + id));
+        model.addAttribute("familia", fam);
+        return "familia/ver";
+    }
 }
