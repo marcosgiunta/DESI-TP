@@ -1,6 +1,5 @@
 package tuti.desi.accesoDatos;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +12,8 @@ public interface RecetasRepositorio extends JpaRepository<Receta, Integer>{
 
 	@Query("""
 		    SELECT r FROM Receta r 
-		    WHERE (:nombreReceta IS NULL OR LOWER(r.nombre) LIKE LOWER(CONCAT('%', :nombreReceta, '%')))
+		    WHERE r.eliminada = false
+		    AND (:nombreReceta IS NULL OR LOWER(r.nombre) LIKE LOWER(CONCAT('%', :nombreReceta, '%')))
 		    AND (:calorias IS NULL OR 
 		        (SELECT SUM(i.calorias) FROM ItemReceta i WHERE i.receta = r) >= :calorias)
 		""")

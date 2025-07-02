@@ -17,7 +17,6 @@ public abstract class Ingrediente {
 	private Integer calorias;
 
 	
-
 	public Integer getId() {
 		return id;
 	}
