@@ -35,7 +35,7 @@
                     <label class="form-label">Receta:</label>
                     <select class="form-select" th:field="*{receta}" required>
                         <option value="">Seleccione una receta</option>
-						<option th:each="receta : ${recetas}" th:value="${receta.id}" th:text="${receta.nombre}"></option>
+				<option th:each="receta : ${recetas}" th:value="${receta.id}" th:text="${receta.nombre}"></option>
 
                     </select>
                 </div>

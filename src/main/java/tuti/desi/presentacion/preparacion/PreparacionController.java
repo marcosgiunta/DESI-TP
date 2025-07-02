@@ -82,8 +82,7 @@ public class PreparacionController {
 
         return "redirect:/preparacion/listado";
     }
-
-    
+   
     @PostMapping("/preparacion/eliminar/{id}")
     public String eliminarPreparacion(@PathVariable("id") Integer id) {
         Preparacion preparacion = preparacionRepositorio.findById(id).orElse(null);
