@@ -43,12 +43,15 @@ public class PreparacionServicioImpl implements PreparacionServicio {
         return todas.stream()
             .filter(p -> {
                 if (fecha == null) return true;
-                
                 LocalDate fechaPrep = ((java.sql.Date) p.getFechaPreparacion()).toLocalDate();
                 return fechaPrep.equals(fecha);
             })
-            .filter(p -> (nombreReceta == null || nombreReceta.isEmpty() ||
-                          p.getReceta().getNombre().toLowerCase().contains(nombreReceta.toLowerCase())))
+            .filter(p -> {
+                if (nombreReceta == null || nombreReceta.isEmpty()) return true;
+                String nombre = p.getReceta().getNombre();
+                return nombre != null && nombre.toLowerCase().contains(nombreReceta.toLowerCase());
+            })
             .toList();
     }
 }
+
