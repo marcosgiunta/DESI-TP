@@ -50,31 +50,40 @@
                 <!-- Iterar sobre lo que venga en el form -->
                 <div th:each="asist, stat : *{integrantes}" class="border p-3 mb-3">
                     <div class="row g-3">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <label class="form-label">DNI</label>
                             <input type="number"
                                    th:field="*{integrantes[__${stat.index}__].dni}"
                                    class="form-control" required />
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label class="form-label">Apellido</label>
                             <input type="text"
                                    th:field="*{integrantes[__${stat.index}__].apellido}"
                                    class="form-control" required />
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label class="form-label">Nombre</label>
                             <input type="text"
                                    th:field="*{integrantes[__${stat.index}__].nombre}"
                                    class="form-control" required />
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <label class="form-label">Fecha de nacimiento</label>
                             <input type="date"
                                    th:field="*{integrantes[__${stat.index}__].fechaNacimiento}"
                                    class="form-control" required />
                         </div>
-                        <div class="col-md-2">
+						
+						<div class="col-md-4">
+						    <label class="form-label">Domicilio</label>
+						    <input type="date"
+						           th:field="*{integrantes[__${stat.index}__].domicilio}"
+						           class="form-control" required />
+						</div>
+				
+						
+                        <div class="col-md-4">
                             <label class="form-label">Ocupación</label>
 							<select th:field="*{integrantes[__${stat.index}__].ocupacion}" class="form-select" required>
 							  <option value="">Seleccionar</option>
@@ -116,23 +125,27 @@
         div.className = "border p-3 mb-3";
         div.innerHTML = `
             <div class="row g-3">
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <label class="form-label">DNI</label>
                     <input type="number" name="integrantes[${contador}].dni" class="form-control" required />
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="form-label">Apellido</label>
                     <input type="text" name="integrantes[${contador}].apellido" class="form-control" required />
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="form-label">Nombre</label>
                     <input type="text" name="integrantes[${contador}].nombre" class="form-control" required />
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <label class="form-label">Fecha de nacimiento</label>
                     <input type="date" name="integrantes[${contador}].fechaNacimiento" class="form-control" required />
                 </div>
-				<div class="col-md-2">
+				<div class="col-md-4">
+				    <label class="form-label">domicilio</label>
+				    <input type="text" name="integrantes[${contador}].domicilio" class="form-control" required />
+				</div>
+				<div class="col-md-4">
 				  <label class="form-label">Ocupación</label>
 				  <select name="integrantes[${contador}].ocupacion" class="form-select" required>
 				      <option value="">Seleccionar</option>

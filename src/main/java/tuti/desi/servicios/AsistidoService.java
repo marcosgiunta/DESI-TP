@@ -10,7 +10,7 @@ public interface AsistidoService {
 	
 	Asistido findByDni(Integer dni);
 	
-	Optional<Asistido> buscarPorId(Integer id);
+	Optional<Asistido> findById(Integer id);
 	
 	void eliminar(Integer id);
 

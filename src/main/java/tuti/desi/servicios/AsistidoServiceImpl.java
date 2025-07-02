@@ -36,16 +36,25 @@ public class AsistidoServiceImpl implements AsistidoService {
 	}
 	
 	@Override
-    public Optional<Asistido> buscarPorId(Integer id) {
+    public Optional<Asistido> findById(Integer id) {
         return asistidoRepositorio.findById(id);
     }
 	
+	//@Override
+	//public void eliminar(Integer id) {
+	//	asistidoRepositorio.findById(id).ifPresent(asistido ->{
+	//		asistido.setDeshabilitado(true);
+	//		asistidoRepositorio.save(asistido);
+			
+	//	});
+	//}
+	
 	@Override
 	public void eliminar(Integer id) {
-		asistidoRepositorio.findById(id).ifPresent(asistido ->{
-			asistido.setDeshabilitado(true);
-			asistidoRepositorio.save(asistido);
-			
-		});
+	    Asistido asistido = asistidoRepositorio.findById(id)
+	        .orElseThrow(() -> new IllegalArgumentException("Asistido no encontrado: " + id));
+
+	    asistido.setDeshabilitado(true); // 🔁 marcar como deshabilitado
+	    asistidoRepositorio.save(asistido); // guardar cambio
 	}
 }

@@ -22,7 +22,7 @@ public abstract class Persona {
     
 	private String ocupacion;
 
-	private Boolean deshabilitado;
+	private Boolean deshabilitado = false;
 
     public Integer getId() {
         return id;

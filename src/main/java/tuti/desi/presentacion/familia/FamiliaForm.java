@@ -1,6 +1,5 @@
 package tuti.desi.presentacion.familia;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +7,7 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import tuti.desi.presentacion.asistido.AsistidoForm;
 
@@ -15,13 +15,14 @@ public class FamiliaForm {
 	
 	private Integer nroFamilia;
 	
-	@Size(min=2, message="Completar el nombre de la Familia")
+	@NotBlank(message = "El nombre no puede estar vacío")
+	@Size(min = 2, message = "El nombre debe tener al menos 2 caracteres")
 	private String nombre;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate fechaRegistro;
 
-	private Boolean deshabilitado;
+	private Boolean deshabilitado = false;;
 
 	@Valid
 	private List<AsistidoForm> integrantes = new ArrayList<>();
@@ -59,7 +60,10 @@ public class FamiliaForm {
 	}
 
 	public List<AsistidoForm> getIntegrantes() {
-		return integrantes;
+	    if (integrantes == null) {
+	        integrantes = new ArrayList<>();
+	    }
+	    return integrantes;
 	}
 
 	public void setIntegrantes(List<AsistidoForm> integrantes) {

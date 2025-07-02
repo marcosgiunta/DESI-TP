@@ -1,5 +1,4 @@
 package tuti.desi.entidades;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import jakarta.persistence.*;  
 
@@ -10,7 +9,7 @@ public class Asistido  extends Persona {
 	//@Column(name = "fecha_registro")
     private Date fechaRegistro;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "familia_id") 
     private Familia familia;
 
@@ -30,9 +29,5 @@ public class Asistido  extends Persona {
 		this.familia = familia;
 	}
 
-	//public String getFechaRegistroToString() {
-		//SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		//return sdf.format(fechaRegistro);
-		
-	//}
+	
 }

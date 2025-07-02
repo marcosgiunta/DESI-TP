@@ -1,5 +1,7 @@
 package tuti.desi.entidades;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,11 +26,10 @@ public class Familia {
     
     private Boolean deshabilitado = false;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "nro_familia_fk", referencedColumnName = "nroFamilia")
-    private List<Asistido> integrantesFamiliaAsistida;
+   @OneToMany(mappedBy = "familia", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Asistido> integrantesFamiliaAsistida = new ArrayList<>();
 
-	public int getNroFamilia() {
+	public Integer getNroFamilia() {
         return nroFamilia;
     }
     public void setNroFamilia(Integer nroFamilia) {

@@ -21,6 +21,10 @@
     <div class="container mt-5">
         <h2 class="mb-4">Listado de Familias Activas</h2>
 
+		<div class="mb-3">
+		    <a th:href="@{/familia/familiaNueva}" class="btn btn-success">Nueva Familia</a>
+		</div>
+		
 		<form class="row mb-4" method="get" th:action="@{/familia/buscar}">
 		    <div class="col-md-4">
 		        <input type="text" name="nombre" class="form-control" placeholder="Buscar por nombre..."
@@ -44,23 +48,33 @@
                     <th>Nro Familia</th>
                     <th>Nombre</th>
                     <th>Fecha Alta</th>
+					<th>Cantidad de Integrantes</th>
+					<th>Inactivos</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="familia : ${familias}">
+                <tr th:each="familia : ${familias}" th:with="integrantesActivos=${familia.integrantesFamiliaAsistida.?[deshabilitado == false]},
+					integrantesInactivos=${familia.integrantesFamiliaAsistida.?[deshabilitado == true]}">
                     <td th:text="${familia.nroFamilia}">1</td>
                     <td th:text="${familia.nombre}">Ramona Pérez</td>
                     <td th:text="${#temporals.format(familia.fechaRegistro, 'dd/MM/yyyy')}">01/01/2025</td>
+					<td th:text="${#lists.size(integrantesActivos)}">0</td>
+					<td th:text="${#lists.size(integrantesInactivos)}">0</td>
                     <td>
                         <a class="btn btn-outline-primary btn-sm" th:href="@{/familia/editar/{id}(id=${familia.nroFamilia})}">Editar</a>
-						<a class="btn btn-sm btn-outline-info" th:href="@{/familia/ver/{id}(id=${familia.nroFamilia})}">Ver Familia</a>
+						<a class="btn btn-sm btn-outline-info" th:href="@{/asistido/ver/{id}(id=${familia.nroFamilia})}">Ver Familia</a>
 						<a class="btn btn-outline-danger btn-sm" th:href="@{/familia/eliminar/{id}(id=${familia.nroFamilia})}"
-                           onclick="return confirm('¿Está segura que desea eliminar esta familia?');">Eliminar</a>
+                           onclick="return confirm('¿Si elimina la familia, se eliminaran todos sus integrantes?');">Eliminar</a>
 						
                 </tr>
             </tbody>
         </table>
-    </div>
+		
+		<div class="mt-3">
+		    <a th:href="@{/familia/nueva}" class="btn btn-success">Nueva Familia</a>
+		</div>
+		
+		</div>
 </body>
 </html>

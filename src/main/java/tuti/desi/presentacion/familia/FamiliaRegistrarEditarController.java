@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 
 import tuti.desi.entidades.Asistido;
 import tuti.desi.entidades.Familia;
+import tuti.desi.servicios.AsistidoService;
 import tuti.desi.servicios.FamiliaService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,9 @@ public class FamiliaRegistrarEditarController {
 
     @Autowired
     private FamiliaService servicioFamilia;
+    
+    @Autowired
+    private AsistidoService servicioAsistido;
 
     @GetMapping("/listar")
     public String listar(Model modelo) {
@@ -37,7 +41,7 @@ public class FamiliaRegistrarEditarController {
     }
 
     @GetMapping("/familiaNueva")
-    public String formularioFamilia(Model modelo) {
+    public String altaFamilia(Model modelo) {
         FamiliaForm form = new FamiliaForm();
         form.setFechaRegistro(LocalDate.now()); // LocalDate para compatibilidad con el input type="date"
         form.setDeshabilitado(false);           // inicializar deshabilitado
@@ -64,47 +68,41 @@ public class FamiliaRegistrarEditarController {
     }
 
     @PostMapping("/guardar")
-    public String salvarFamilia(
-        @ModelAttribute("familiaForm") @Valid FamiliaForm formFamilia,
-        BindingResult bindingResult,
-        Model modelo) {
+    public String salvarFamilia(@ModelAttribute("familiaForm") @Valid FamiliaForm formFamilia,
+                                 BindingResult bindingResult,
+                                 Model modelo) {
 
-        System.out.println("----> Entró al método salvarFamilia");
-        System.out.println("Fecha que llega del formulario: " + formFamilia.getFechaRegistro());
-
+        // Si hay errores en el formulario, volvemos a mostrarlo
         if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(error -> {
-                System.out.println("ERROR: " + error.toString());
-            });
-            return "familia/alta"; // Volver al formulario si hay error
+            return "familia/alta"; // Si hay errores, volvemos al formulario
         }
 
-        // Si viene null porque no se tildó el checkbox
-        if (formFamilia.getDeshabilitado() == null) {
-            formFamilia.setDeshabilitado(false);
-        }
-
+        // Creamos un objeto Familia
         Familia familia;
+
+        // Si la familia tiene un nroFamilia (es una edición), la buscamos
         if (formFamilia.getNroFamilia() != null) {
-            // Edición
             familia = servicioFamilia.buscarPorId(formFamilia.getNroFamilia())
-                .orElseThrow(() -> new IllegalArgumentException("ID inválido: " + formFamilia.getNroFamilia()));
+                    .orElseThrow(() -> new IllegalArgumentException("ID inválido: " + formFamilia.getNroFamilia()));
         } else {
-            // Alta
-            familia = new Familia();
+            // Si no tiene nroFamilia, es una nueva familia (sin ID aún)
+            familia = new Familia(); 
         }
 
-        // Asignar campos
+        // Asignamos los valores a la familia
         familia.setNombre(formFamilia.getNombre());
         familia.setDeshabilitado(formFamilia.getDeshabilitado());
-
-        // Convertir LocalDate a Date de forma correcta
         familia.setFechaRegistro(formFamilia.getFechaRegistro());
-        
-        //Integrantes de Familia
-        familia.getIntegrantesFamiliaAsistida().clear();
+
+        // Aquí es donde los integrantes deben ser gestionados
         for (AsistidoForm af : formFamilia.getIntegrantes()) {
-            // validación DNI duplicado…
+            Asistido asistidoExistente = servicioAsistido.findByDni(af.getDni());
+            if (asistidoExistente != null) {
+                // Si existe, mostramos un error y no lo agregamos
+                throw new IllegalArgumentException("Ya existe un integrante con el DNI " + af.getDni());
+            }
+
+            // Si no existe, agregamos el nuevo asistido
             Asistido a = new Asistido();
             a.setDni(af.getDni());
             a.setApellido(af.getApellido());
@@ -117,11 +115,12 @@ public class FamiliaRegistrarEditarController {
             a.setFamilia(familia);
             familia.getIntegrantesFamiliaAsistida().add(a);
         }
-                
-        // Guardar en base
-        servicioFamilia.salvarFamilia(familia);
 
-        return "redirect:/familia/listar";
+        // Si la familia es nueva, el campo nroFamilia es null y se asigna automáticamente al guardar
+        servicioFamilia.salvarFamilia(familia); // Guardamos la familia (esto persistirá la familia y sus integrantes)
+        System.out.println("Familia guardada con ID: " + familia.getNroFamilia());
+        
+        return "redirect:/familia/listar"; // Redirigir al listado de familias
     }
 
 
@@ -131,11 +130,5 @@ public class FamiliaRegistrarEditarController {
         return "redirect:/familia/listar";
     }
     
-    @GetMapping("/ver/{id}")
-    public String verFamilia(@PathVariable Integer id, Model model) {
-        Familia fam = servicioFamilia.buscarPorId(id)
-            .orElseThrow(() -> new IllegalArgumentException("Familia no encontrada: " + id));
-        model.addAttribute("familia", fam);
-        return "familia/ver";
-    }
+    
 }
