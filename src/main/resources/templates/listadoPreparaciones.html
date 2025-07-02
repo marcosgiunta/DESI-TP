@@ -19,22 +19,39 @@
         </div>
     </nav>
 
+        <div class="container mt-5">
+        <!-- filtro de busqueda por fecha y nombre receta -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8 mx-auto">
+                <div class="p-3 rounded shadow-sm bg-light mb-4">
+                    <form class="row g-3 justify-content-center align-items-end" method="get"
+                        th:action="@{/preparacion/Filtrar}">
+                        <div class="col-auto">
+                            <label class="form-label mb-0">Filtrar por fecha:</label>
+                            <input type="date" name="fecha" class="form-control" />
+                        </div>
+                        <div class="col-auto">
+                            <label class="form-label mb-0">Filtrar por nombre receta:</label>
+                            <input type="text" name="nombreReceta" class="form-control"
+                                placeholder="Nombre receta (Ej: Pizza especial)" />
+                        </div>
+                        <div class="col-auto">
+                            <label class="form-label mb-0 invisible">Acción</label>
+                            <div>
+                                <button type="submit" class="btn btn-outline-info btn-sm me-2">Buscar</button>
+                                <a th:href="@{/preparacion/Listado}"
+                                    class="btn btn-outline-danger btn-sm">Limpiar</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container mt-5">
         <h2 class="mb-4 text-center">Listado de Preparaciones</h2>
 
-
-		<form method="get" th:action="@{/preparacion/listado}">
-		    <label for="fecha">Filtrar por fecha:</label>
-		    <input type="date" name="fecha" id="fecha">
-
-		    <label for="receta">Filtrar por nombre de receta:</label>
-		    <input type="text" name="receta" id="receta" placeholder="Nombre de receta">
-
-		    <button type="submit">Filtrar</button>
-		</form>
-		<br/>
-
-		
         <table class="table table-bordered table-hover">
             <thead class="table-light">
                 <tr>

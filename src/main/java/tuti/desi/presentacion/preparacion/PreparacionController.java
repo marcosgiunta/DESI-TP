@@ -37,23 +37,33 @@ public class PreparacionController {
     }
 
     // GUARDAR PREPARACIÓN
-    @PostMapping("/preparacion/guardar")
-    public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion preparacion) {
-    	preparacion.setEliminado(false);
-        preparacionRepositorio.save(preparacion);
-        return "redirect:/preparacion/listado";
+@PostMapping("/preparacion/guardar")
+public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion preparacion, Model model) {
+    preparacion.setEliminado(false);
+    if (preparacion.getTotalRacionesPreparadas() != null) {
+        preparacion.setStockRacionesRestantes(preparacion.getTotalRacionesPreparadas());
+    } else {
+        preparacion.setStockRacionesRestantes(0);
     }
+    try {
+        preparacionServicio.guardar(preparacion); // <-- Usa el servicio, no el repositorio directo
+    } catch (IllegalArgumentException ex) {
+        model.addAttribute("error", ex.getMessage());
+        model.addAttribute("preparacion", preparacion);
+        model.addAttribute("recetas", recetasRepositorio.findAll());
+        return "altaPreparacion";
+    }
+    return "listadoPreparaciones";
+}
 
-    
-    @GetMapping("/preparacion/listado")
-    public String listarPreparaciones(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) java.time.LocalDate fecha,
-                                      @RequestParam(required = false) String receta,
-                                      Model model) {
-        List<Preparacion> preparaciones = preparacionServicio.filtrarPreparaciones(fecha, receta);
+
+    // LISTAR PREPARACIONES
+    @GetMapping("/preparacion/Listado")
+    public String listarPreparaciones(Model model) {
+        List<Preparacion> preparaciones = preparacionRepositorio.findByEliminadoFalse();
         model.addAttribute("preparaciones", preparaciones);
         return "listadoPreparaciones";
     }
-
 
 
     // MOSTRAR FORMULARIO DE MODIFICACIÓN
@@ -80,9 +90,9 @@ public class PreparacionController {
             preparacionRepositorio.save(existente);
         }
 
-        return "redirect:/preparacion/listado";
+        return "listadoPreparaciones";
     }
-   
+    
     @PostMapping("/preparacion/eliminar/{id}")
     public String eliminarPreparacion(@PathVariable("id") Integer id) {
         Preparacion preparacion = preparacionRepositorio.findById(id).orElse(null);
@@ -90,7 +100,19 @@ public class PreparacionController {
             preparacion.setEliminado(true);
             preparacionRepositorio.save(preparacion);
         }
-        return "redirect:/preparacion/listado";
+        return "listadoPreparaciones";
     }
-    
+
+
+    	@GetMapping("/preparacion/Filtrar")
+	public String FiltrarPreparacion(
+			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha,
+			@RequestParam(required = false) String nombreReceta,
+			Model modelo) {
+		List<Preparacion> preparaciones = preparacionServicio.buscarPorFechaYReceta(fecha, nombreReceta);   
+		modelo.addAttribute("preparaciones", preparaciones);
+		return "listadoPreparaciones";
+	}
+
+
 }

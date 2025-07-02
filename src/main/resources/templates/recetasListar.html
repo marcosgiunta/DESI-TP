@@ -17,33 +17,35 @@
             </div>
         </div>
     </nav>
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8 mx-auto">
-            <div class="p-3 rounded shadow-sm bg-light mb-4">
-                <form class="row g-3 justify-content-center align-items-end" method="get"
-                      th:action="@{/entregaAsistencia/Filtrar}">
-                    <div class="col-auto">
-                        <label class="form-label mb-0">Filtrar por nombre:</label>
-                        <input type="string" name="nombre de receta" class="form-control" placeholder="Receta (Ej: Canelones)"/>
-                    </div>
-                    <div class="col-auto">
-                        <label class="form-label mb-0">Filtrar por calorias:</label>
-                        <input type="number" name="nroFamilia" class="form-control"
-                               placeholder="Calorias (Ej: 110)" />
-                    </div>
-                    <div class="col-auto">
-                        <label class="form-label mb-0 invisible">Acción</label>
-                        <div>
-                            <button type="submit" class="btn btn-outline-info btn-sm me-2">Buscar</button>
-                            <a th:href="@{/recetas/Listar}" class="btn btn-outline-danger btn-sm">Limpiar</a>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 mx-auto">
+                <div class="p-3 rounded shadow-sm bg-light mb-4">
+                    <form class="row g-3 justify-content-center align-items-end" method="get"
+                        th:action="@{/entregaAsistencia/Filtrar}">
+                        <div class="col-auto">
+                            <label class="form-label mb-0">Filtrar por nombre:</label>
+                            <input type="string" name="nombre de receta" class="form-control"
+                                placeholder="Receta (Ej: Canelones)" />
                         </div>
-                    </div>
-                </form>
+                        <div class="col-auto">
+                            <label class="form-label mb-0">Filtrar por calorias:</label>
+                            <input type="number" name="nroFamilia" class="form-control"
+                                placeholder="Calorias (Ej: 110)" />
+                        </div>
+                        <div class="col-auto">
+                            <label class="form-label mb-0 invisible">Acción</label>
+                            <div>
+                                <button type="submit" class="btn btn-outline-info btn-sm me-2">Buscar</button>
+                                <a th:href="@{/recetas/Listar}" class="btn btn-outline-danger btn-sm">Limpiar</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
     <div class="container">
