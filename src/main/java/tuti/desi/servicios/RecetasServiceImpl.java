@@ -2,6 +2,7 @@ package tuti.desi.servicios;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,14 @@ public class RecetasServiceImpl implements RecetasService {
 	}
 
 	@Override
-	public Receta guardarReceta(Receta receta) {
-		return repositorio.save(receta);
+	public void guardarReceta(Receta receta) {
+	    Optional<Receta> existente = repositorio.findByNombre(receta.getNombre());
+
+	    if (existente.isPresent()) {
+	        throw new IllegalArgumentException("Ya existe una receta con ese nombre");
+	    }
+
+	    repositorio.save(receta);
 	}
 
 	@Override

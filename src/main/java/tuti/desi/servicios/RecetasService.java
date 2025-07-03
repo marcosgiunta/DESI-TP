@@ -7,7 +7,7 @@ public interface RecetasService {
 	
 	public List<Receta> listarRecetas();
 		
-	public Receta guardarReceta(Receta receta);
+	public void guardarReceta(Receta receta);
 
 	public Receta buscarPorId(int id);
 		

@@ -1,43 +1,38 @@
 package tuti.desi.entidades;
-	
-import jakarta.persistence.*;
 
+import jakarta.persistence.*;
 
 @Entity
 public class Ingrediente {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
-	private String nombre;
-	
-	private Integer calorias;
 
-	
-	public Integer getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    private String nombre;
+    private Float stock;
 
-	public String getNombre() {
-		return nombre;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Integer getCalorias() {
-		return calorias;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public void setCalorias(Integer calorias) {
-		this.calorias = calorias;
-	}
-	
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-}
+    public Float getStock() {
+        return stock;
+    }
+
+    public void setStock(Float stock) {
+        this.stock = stock;
+    }
+} 

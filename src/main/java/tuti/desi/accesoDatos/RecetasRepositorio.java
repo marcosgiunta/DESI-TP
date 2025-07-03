@@ -1,6 +1,7 @@
 package tuti.desi.accesoDatos;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +20,5 @@ public interface RecetasRepositorio extends JpaRepository<Receta, Integer>{
 		""")
 		List<Receta> buscarPorFiltros(String nombreReceta, Integer calorias);
 		List<Receta> findByEliminadaFalse();
+		Optional<Receta> findByNombre(String nombre);
 }

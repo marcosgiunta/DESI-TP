@@ -41,12 +41,17 @@ public class RecetasController {
 	}
 
 	@PostMapping("/recetas/Guardar")
-	public String guardarReceta(@ModelAttribute("nuevaReceta") Receta receta) {
-	    for (ItemReceta item : receta.getIngredientes()) {
-	        item.setReceta(receta);
-	    }
-	    servicio.guardarReceta(receta);
-	    return "redirect:/recetas/Listar";
+	public String guardarReceta(@ModelAttribute("nuevaReceta") Receta receta, Model model) {
+		 try {
+		        for (ItemReceta item : receta.getIngredientes()) {
+		            item.setReceta(receta);
+		        }
+		        servicio.guardarReceta(receta);
+		        return "redirect:/recetas/Listar";
+		    } catch (IllegalArgumentException e) {
+		        model.addAttribute("errorNombre", e.getMessage());
+		        return "recetasAlta";
+		    }
 	}
 	
 

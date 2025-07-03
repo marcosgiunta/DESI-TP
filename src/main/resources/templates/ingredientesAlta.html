@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Alta de Ingrediente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Alta de Ingrediente</h2>
+    <form th:action="@{/ingredientes/Guardar}" th:object="${ingrediente}" method="post">
+        <div class="mb-3">
+            <label>Nombre</label>
+            <input type="text" th:field="*{nombre}" class="form-control" required/>
+        </div>
+        <div class="mb-3">
+            <label>Stock (kg)</label>
+            <input type="number" th:field="*{stock}" class="form-control" min="0" required/>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a th:href="@{/ingredientes/Listar}" class="btn btn-secondary">Volver</a>
+    </form>
+</div>
+</body>
+</html>

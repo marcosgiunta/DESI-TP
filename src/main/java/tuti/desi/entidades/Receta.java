@@ -56,7 +56,7 @@ public class Receta {
     }
 
     public void setEliminada(boolean eliminada) {
-    this.eliminada = eliminada;
+    	this.eliminada = eliminada;
     }
     
     public List<ItemReceta> getIngredientes() {
