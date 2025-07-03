@@ -1,12 +1,10 @@
 package tuti.desi.entidades;
-
-
+	
 import jakarta.persistence.*;
 
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Ingrediente {
+public class Ingrediente {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

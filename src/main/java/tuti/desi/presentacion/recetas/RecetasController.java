@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import tuti.desi.accesoDatos.IngredientesRepositorio;
 import tuti.desi.accesoDatos.RecetasRepositorio;
+import tuti.desi.entidades.ItemReceta;
 import tuti.desi.entidades.Receta;
 
 import tuti.desi.servicios.RecetasService;
@@ -27,29 +29,26 @@ public class RecetasController {
 	@Autowired
 	private RecetasRepositorio recetasRepositorio;
 
-    // @Autowired
-    // private IngredienteService ingredienteService;
+    @Autowired
+    private IngredientesRepositorio ingredientesRepositorio;
 
 	@GetMapping("/recetas/Alta")
 	public String RegistrarReceta(Model modelo) {
 		Receta nuevaReceta = new Receta();
 		modelo.addAttribute("nuevaReceta", nuevaReceta);
-		
-        // modelo.addAttribute("ingredientes", ingredienteService.listarIngredientes());
+		modelo.addAttribute("ingredientes", ingredientesRepositorio.findAll());
 		return "recetasAlta";
 	}
 
-    // public List<Ingrediente> listarIngredientes() {
-    //     return ingredienteRepository.findAll();
-    // }
-	
-	
 	@PostMapping("/recetas/Guardar")
-	public String GuardarRecetas(@ModelAttribute("nuevaReceta") Receta receta) {
-		servicio.guardarReceta(receta);
-		
-		return "redirect:/recetas/Listar";
+	public String guardarReceta(@ModelAttribute("nuevaReceta") Receta receta) {
+	    for (ItemReceta item : receta.getIngredientes()) {
+	        item.setReceta(receta);
+	    }
+	    servicio.guardarReceta(receta);
+	    return "redirect:/recetas/Listar";
 	}
+	
 
     @GetMapping("/recetas/Listar")
 	public String ListarRecetas(Model modelo) {

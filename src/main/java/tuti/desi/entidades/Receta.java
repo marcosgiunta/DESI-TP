@@ -1,5 +1,6 @@
 package tuti.desi.entidades;
 
+import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
 
@@ -18,12 +19,12 @@ public class Receta {
 
    
     @OneToMany(mappedBy = "receta", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItemReceta> items;
+    private List<ItemReceta> ingredientes = new ArrayList<>();
     
     @Transient
     public Integer getCaloriasTotales() {
-    	if (items == null) return 0;
-    	return items.stream().mapToInt(ItemReceta::getCalorias).sum();
+    	if (ingredientes == null) return 0;
+    	return ingredientes.stream().mapToInt(ItemReceta::getCalorias).sum();
     }
 
     public Integer getId() {
@@ -56,5 +57,13 @@ public class Receta {
 
     public void setEliminada(boolean eliminada) {
     this.eliminada = eliminada;
+    }
+    
+    public List<ItemReceta> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(List<ItemReceta> ingrediente) {
+    	this.ingredientes = ingrediente;
     }
 }
