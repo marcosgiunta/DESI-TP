@@ -14,12 +14,12 @@
             <span class="navbar-brand">Preparaciones</span>
             <div class="d-flex">
                 <a class="nav-link px-3 text-dark fw-bold" th:href="@{/}">Inicio</a>
-                <a class="nav-link px-3 text-dark" th:href="@{/preparacion/alta}">Registrar nueva</a>
+                <a class="nav-link px-3 text-dark" th:href="@{/recetas/Listar}">Receta</a>
             </div>
         </div>
     </nav>
 
-        <div class="container mt-5">
+    <div class="container mt-5">
         <!-- filtro de busqueda por fecha y nombre receta -->
         <div class="row justify-content-center">
             <div class="col-lg-8 mx-auto">
@@ -39,8 +39,7 @@
                             <label class="form-label mb-0 invisible">Acción</label>
                             <div>
                                 <button type="submit" class="btn btn-outline-info btn-sm me-2">Buscar</button>
-                                <a th:href="@{/preparacion/Listado}"
-                                    class="btn btn-outline-danger btn-sm">Limpiar</a>
+                                <a th:href="@{/preparacion/Listado}" class="btn btn-outline-danger btn-sm">Limpiar</a>
                             </div>
                         </div>
                     </form>
@@ -50,8 +49,12 @@
     </div>
 
     <div class="container mt-5">
-        <h2 class="mb-4 text-center">Listado de Preparaciones</h2>
 
+        <h2 class="mb-4 text-center">Listado de Preparaciones</h2>
+        <div class="mb-3">
+            <!-- botón para registrar una nueva entrega de alimentos -->
+            <a class="btn btn-outline-success" th:href="@{/preparacion/alta}">Registrar preparacion</a>
+        </div>
         <table class="table table-bordered table-hover">
             <thead class="table-light">
                 <tr>
@@ -64,23 +67,23 @@
             </thead>
             <tbody>
                 <tr th:each="prep : ${preparaciones}">
-                <td th:text="${prep.id}"></td>
+                    <td th:text="${prep.id}"></td>
                     <td th:text="${#dates.format(prep.fechaPreparacion, 'dd/MM/yyyy')}"></td>
                     <td th:text="${prep.receta.nombre}"></td>
                     <td th:text="${prep.totalRacionesPreparadas}"></td>
                     <td class="d-flex gap-1">
                         <a class="btn btn-sm btn-outline-primary"
-                           th:href="@{/preparacion/modificar/{id}(id=${prep.id})}">
+                            th:href="@{/preparacion/modificar/{id}(id=${prep.id})}">
                             Modificar
                         </a>
-                      <form th:action="@{/preparacion/eliminar/{id}(id=${prep.id})}" method="post"
-                              onsubmit="return confirm('¿Estás seguro de que querés eliminar esta preparación?');">
+                        <form th:action="@{/preparacion/eliminar/{id}(id=${prep.id})}" method="post"
+                            onsubmit="return confirm('¿Estás seguro de que querés eliminar esta preparación?');">
                             <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
-                      </form>
-					
-                    </td> 
-											
-                </tr> 
+                        </form>
+
+                    </td>
+
+                </tr>
             </tbody>
         </table>
     </div>
