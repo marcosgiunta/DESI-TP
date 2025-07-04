@@ -151,6 +151,7 @@ public class FamiliaRegistrarEditarController {
             LocalDate ld = af.getFechaNacimiento();
             Date fechaNacimiento = Date.from(ld.atStartOfDay(ZoneId.systemDefault()).toInstant());
             a.setFechaNacimiento(fechaNacimiento);
+            a.setDomicilio(af.getDomicilio());
             a.setOcupacion(af.getOcupacion());
             a.setFechaRegistro(LocalDate.now());
             a.setFamilia(familia);
