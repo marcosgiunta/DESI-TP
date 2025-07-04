@@ -53,7 +53,8 @@ public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion prep
         model.addAttribute("recetas", recetasRepositorio.findAll());
         return "altaPreparacion";
     }
-    return "listadoPreparaciones";
+   
+    return "redirect:/preparacion/Listado";
 }
 
 
@@ -90,7 +91,7 @@ public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion prep
             preparacionRepositorio.save(existente);
         }
 
-        return "listadoPreparaciones";
+        return "redirect:/preparacion/Listado";
     }
     
     @PostMapping("/preparacion/eliminar/{id}")
@@ -100,7 +101,8 @@ public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion prep
             preparacion.setEliminado(true);
             preparacionRepositorio.save(preparacion);
         }
-        return "listadoPreparaciones";
+
+        return "redirect:/preparacion/Listado";
     }
 
 
@@ -113,6 +115,5 @@ public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion prep
 		modelo.addAttribute("preparaciones", preparaciones);
 		return "listadoPreparaciones";
 	}
-
 
 }
