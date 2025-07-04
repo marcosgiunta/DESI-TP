@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import tuti.desi.entidades.Ingrediente;
 import tuti.desi.servicios.IngredientesService;
+import tuti.desi.servicios.RecetasService;
+import tuti.desi.entidades.Receta;
 
 @Controller
 @RequestMapping("/ingredientes")
@@ -13,6 +15,9 @@ public class IngredientesController {
 
     @Autowired
     private IngredientesService servicio;
+    
+    @Autowired
+    private RecetasService servicioRecetas;
 
     @GetMapping("/Alta")
     public String mostrarFormularioAlta(Model modelo) {
@@ -27,8 +32,17 @@ public class IngredientesController {
     }
 
     @GetMapping("/Eliminar/{id}")
-    public String eliminarIngrediente(@PathVariable Integer id) {
-        servicio.eliminar(id);
-        return "redirect:/recetas/Listar";
+    public String eliminarIngrediente(
+            @PathVariable int idReceta,
+            @PathVariable int index,
+            Model model
+    ) {
+        Receta receta = servicioRecetas.buscarPorId(idReceta);
+        if (receta != null && receta.getIngredientes().size() > index) {
+            receta.getIngredientes().remove(index);
+            servicioRecetas.guardarReceta(receta); 
+        }
+        model.addAttribute("nuevaReceta", receta);
+        return "redirect:/recetas/editar/" + idReceta;
     }
 }

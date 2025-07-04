@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tuti.desi.accesoDatos.IngredientesRepositorio;
 import tuti.desi.entidades.Ingrediente;
+import tuti.desi.entidades.Receta;
 
 @Service
 public class IngredientesServiceImpl implements IngredientesService {
@@ -20,10 +21,5 @@ public class IngredientesServiceImpl implements IngredientesService {
     @Override
     public Ingrediente buscarPorId(Integer id) {
         return repo.findById(id).orElse(null);
-    }
-
-    @Override
-    public void eliminar(Integer id) {
-        repo.deleteById(id);
     }
 }

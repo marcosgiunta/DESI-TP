@@ -89,8 +89,16 @@ public class RecetasController {
 	    Receta receta = servicio.buscarPorId(id);
 	    if (receta != null) {
 	        modelo.addAttribute("nuevaReceta", receta);
+	        modelo.addAttribute("ingredientes", ingredientesRepositorio.findAll());
 	        return "recetasAlta";
 	    }
 	    return "redirect:/recetas/Alta";
 	}
+	
+	@PostMapping("/eliminarIngrediente/{idReceta}/{index}")
+	public String eliminarIngrediente(@PathVariable int idReceta, @PathVariable int index) {
+	    servicio.eliminarIngrediente(idReceta, index);
+	    return "ok"; 
+	}
+
 }

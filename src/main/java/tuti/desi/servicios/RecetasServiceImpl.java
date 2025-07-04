@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import tuti.desi.accesoDatos.RecetasRepositorio;
 import tuti.desi.entidades.Receta;
 
@@ -25,7 +26,7 @@ public class RecetasServiceImpl implements RecetasService {
 	public void guardarReceta(Receta receta) {
 	    Optional<Receta> existente = repositorio.findByNombre(receta.getNombre());
 
-	    if (existente.isPresent()) {
+	    if (existente.isPresent() && !existente.get().getId().equals(receta.getId())) {
 	        throw new IllegalArgumentException("Ya existe una receta con ese nombre");
 	    }
 
@@ -46,5 +47,17 @@ public class RecetasServiceImpl implements RecetasService {
 	public List<Receta> buscarPorFiltros(String nombreReceta, Integer caloriasReceta) {
 		return repositorio.buscarPorFiltros(nombreReceta, caloriasReceta);
 	}
+	
+	@Transactional
+    public void eliminarIngrediente(int idReceta, int index) {
+        Receta receta = repositorio.findById(idReceta).orElseThrow(() -> new RuntimeException("Receta no encontrada"));
+
+        if (index >= 0 && index < receta.getIngredientes().size()) {
+            receta.getIngredientes().remove(index);
+
+            repositorio.save(receta);
+            throw new IllegalArgumentException("Índice de ingrediente inválido");
+        }
+    }
 
 }
