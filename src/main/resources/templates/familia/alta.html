@@ -37,7 +37,10 @@
         <!-- Fecha de alta -->
         <div class="col-md-6 mb-3">
             <label class="form-label">Fecha de alta</label>
-            <input type="date" class="form-control" th:field="*{fechaRegistro}" required />
+  			<input type="date" class="form-control" th:field="*{fechaRegistro}" required />
+				<div th:if="${#fields.hasErrors('fechaRegistro')}" class="text-danger">
+			        <p th:errors="*{fechaRegistro}"></p>
+				</div>
         </div>
 
         <hr class="my-4" />
@@ -70,9 +73,11 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Fecha de nacimiento</label>
-                            <input type="date"
-                                   th:field="*{integrantes[__${stat.index}__].fechaNacimiento}"
-                                   class="form-control" required />
+                            
+							<input type="date" class="form-control" th:field="*{integrantes[__${stat.index}__].fechaNacimiento}" required />
+								<div th:if="${#fields.hasErrors('integrantes[' + stat.index + '].fechaNacimiento')}" class="text-danger">
+								    <p th:errors="*{integrantes[__${stat.index}__].fechaNacimiento}"></p>
+								</div>
                         </div>
 						
 						<div class="col-md-4">

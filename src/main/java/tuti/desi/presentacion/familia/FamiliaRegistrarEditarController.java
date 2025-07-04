@@ -106,7 +106,12 @@ public class FamiliaRegistrarEditarController {
                                  BindingResult bindingResult,
                                  Model modelo) {
 
-        // Si hay errores en el formulario, volvemos a mostrarlo
+    	//Control por si se carga una fecha futura muestre mensaje por listar.html
+    	if (formFamilia.getFechaRegistro() != null && formFamilia.getFechaRegistro().isAfter(LocalDate.now())) {
+            bindingResult.rejectValue("fechaRegistro", "error.fechaRegistro", "La fecha no puede ser posterior a la actual");
+        }
+    	
+    	// Si hay errores en el formulario, volvemos a mostrarlo
         if (bindingResult.hasErrors()) {
             return "familia/alta"; // Si hay errores, volvemos al formulario
         }
@@ -147,7 +152,7 @@ public class FamiliaRegistrarEditarController {
             Date fechaNacimiento = Date.from(ld.atStartOfDay(ZoneId.systemDefault()).toInstant());
             a.setFechaNacimiento(fechaNacimiento);
             a.setOcupacion(af.getOcupacion());
-            a.setFechaRegistro(new Date());
+            a.setFechaRegistro(LocalDate.now());
             a.setFamilia(familia);
             familia.getIntegrantesFamiliaAsistida().add(a);
         }

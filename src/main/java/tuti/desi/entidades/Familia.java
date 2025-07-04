@@ -1,6 +1,8 @@
 package tuti.desi.entidades;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,16 +16,17 @@ import java.time.LocalDate;
 @Entity
 public class Familia {
   
-  	@Id
+  	//Número de familia es el ID de la tabla
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer nroFamilia;
    
     //Nombre con que se reconoce la familia (alias)
-  	@NotNull
   	private String nombre;
     
-  	//Fecha en que se registró la familia
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+  	//Fecha en que se regista la familia
+  	@PastOrPresent(message = "La fecha no puede ser posterior a la actual")
+  	@DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaRegistro;
     
     //Se utiliza para el borrado lógico

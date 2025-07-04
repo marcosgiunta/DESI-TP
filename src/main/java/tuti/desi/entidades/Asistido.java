@@ -1,9 +1,9 @@
 package tuti.desi.entidades;
-import java.util.Date;
+import java.time.LocalDate;
 
-import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
-
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.persistence.*;  
 
 /*
@@ -14,8 +14,9 @@ import jakarta.persistence.*;
 public class Asistido  extends Persona {
 
 	//Fecha en que se registra al asistido
-	@NotNull
-    private Date fechaRegistro;
+	@PastOrPresent(message = "La fecha no puede ser posterior a la actual")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate fechaRegistro;
 
     //Nro de la Familia a la que pertenece el Asistido (ID de Familia)
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -25,11 +26,12 @@ public class Asistido  extends Persona {
     //Este campo se utiliza para el borrado lógico
 	private Boolean deshabilitado = false;
     
-	public Date getFechaRegistro() {
+	
+	public LocalDate getFechaRegistro() {
         return fechaRegistro;
     }
 
-    public void setFechaRegistro(Date fechaRegistro) {
+    public void setFechaRegistro(LocalDate fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
 

@@ -1,16 +1,18 @@
 package tuti.desi.presentacion.asistido;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
-import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 public class AsistidoForm {
 
 	@NotNull
+	@Min(value = 1000000, message = "El DNI al menos debe tener 7 cifras")
 	private Integer dni;
 	
 	@NotNull
@@ -29,6 +31,7 @@ public class AsistidoForm {
 	private String ocupacion;
 	
 	@NotNull
+	@Past(message = "La fecha no puede posterior a la actual")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaNacimiento;
 	

@@ -18,6 +18,7 @@ import tuti.desi.entidades.Familia;
 import tuti.desi.servicios.AsistidoService;
 import tuti.desi.servicios.FamiliaService;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 
 @Controller
@@ -48,7 +49,13 @@ public class AsistidoRegistrarEditarController {
 	public String salvarAsistido(@ModelAttribute("asistidoForm") @Valid AsistidoForm formAsistido,
 	                             BindingResult bindingResult,
 	                             Model modelo) {
-	    if (bindingResult.hasErrors()) {
+	    
+		//Control por si se carga una fecha futura muestre mensaje por listar.html
+    	if (formAsistido.getFechaNacimiento() != null && formAsistido.getFechaNacimiento().isAfter(LocalDate.now())) {
+            bindingResult.rejectValue("fechaNacimiento", "error.fechaNacimiento", "La fecha no puede ser posterior a la actual");
+        }
+		
+		if (bindingResult.hasErrors()) {
 	        return "asistido/alta";
 	    }
 
@@ -73,7 +80,7 @@ public class AsistidoRegistrarEditarController {
 		    asistido.setDomicilio(formAsistido.getDomicilio());
 		    asistido.setOcupacion(formAsistido.getOcupacion());
 		    asistido.setFechaNacimiento(Date.from(formAsistido.getFechaNacimiento().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-		    asistido.setFechaRegistro(new Date());
+		    asistido.setFechaRegistro(LocalDate.now());
 		    asistido.setFamilia(familia);
 		    asistido.setDeshabilitado(false);
 	
