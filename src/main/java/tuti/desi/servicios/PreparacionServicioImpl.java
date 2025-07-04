@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 import tuti.desi.accesoDatos.PreparacionRepositorio;
 import tuti.desi.entidades.Preparacion;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.time.LocalDate;
 
 @Service
 public class PreparacionServicioImpl implements PreparacionServicio {
@@ -17,7 +17,33 @@ public class PreparacionServicioImpl implements PreparacionServicio {
 
     @Override
     public Preparacion guardar(Preparacion preparacion) {
+
+        if (preparacion.getFechaPreparacion().after(new Date())) {
+            throw new IllegalArgumentException("La fecha no puede ser futura.");
+        }
+
+        List<Preparacion> existentes = preparacionRepositorio.buscarPorFiltros(
+                preparacion.getFechaPreparacion(),
+                preparacion.getReceta().getNombre());
+        for (Preparacion p : existentes) {
+            if (p.getReceta().getId().equals(preparacion.getReceta().getId())) {
+                throw new IllegalArgumentException("Ya existe una preparación de esta receta para la fecha indicada.");
+            }
+        }
+
+        // if (!hayStockSuficiente(preparacion)) {
+        // throw new IllegalArgumentException("No hay stock suficiente para preparar la
+        // cantidad de raciones indicadas.");
+        // }
+
+        // private boolean hayStockSuficiente(Preparacion preparacion) {
+        // Aquí deberías recorrer los ingredientes de la receta y chequear el stock
+        // Retornar true si hay stock suficiente, false si no
+        // return true; // Implementa la lógica real aquí
+        // }
+
         return preparacionRepositorio.save(preparacion);
+
     }
 
     @Override
@@ -37,21 +63,7 @@ public class PreparacionServicioImpl implements PreparacionServicio {
     }
 
     @Override
-    public List<Preparacion> filtrarPreparaciones(LocalDate fecha, String nombreReceta) {
-        List<Preparacion> todas = preparacionRepositorio.findByEliminadoFalse();
-
-        return todas.stream()
-            .filter(p -> {
-                if (fecha == null) return true;
-                LocalDate fechaPrep = ((java.sql.Date) p.getFechaPreparacion()).toLocalDate();
-                return fechaPrep.equals(fecha);
-            })
-            .filter(p -> {
-                if (nombreReceta == null || nombreReceta.isEmpty()) return true;
-                String nombre = p.getReceta().getNombre();
-                return nombre != null && nombre.toLowerCase().contains(nombreReceta.toLowerCase());
-            })
-            .toList();
+    public List<Preparacion> buscarPorFechaYReceta(Date fecha, String nombreReceta) {
+        return preparacionRepositorio.buscarPorFiltros(fecha, nombreReceta);
     }
 }
-
