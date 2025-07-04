@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.validation.Valid;
@@ -19,6 +20,7 @@ public class FamiliaForm {
 	@Size(min = 2, message = "El nombre debe tener al menos 2 caracteres")
 	private String nombre;
 	
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate fechaRegistro;
 

@@ -7,43 +7,62 @@
 </head>
 <body>
   
-	<nav class="navbar navbar-light" style="background-color: #98beda">
-	        <div class="container-fluid">
-	            <span class="navbar-brand">Listado de Familia e Integrantess</span>
-				<div class="d-flex">
-					<a class="nav-link px-3 text-dark fw-bold" th:href="@{/familia/listar}">Volver a Familias</a>
-				</div>
-			</div>
-	    </nav>
-	
-	<div class="container mt-4">
+  <nav class="navbar navbar-light" style="background-color: #98beda">
+    <div class="container-fluid">
+      <span class="navbar-brand">Listado de Familia e Integrantes</span>
+      <div class="d-flex">
+        <a class="nav-link px-3 text-dark fw-bold" th:href="@{/familia/listar}">Volver a Familias</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
     <h2 th:text="${familia.nombre}">Nombre Familia</h2>
-	<p>
-	  <strong>Fecha alta:</strong>
-	  <span th:text="${#temporals.format(familia.fechaRegistro,'dd/MM/yyyy')}">01/01/2025</span>
-	</p>
+    <p>
+      <strong>Fecha alta:</strong>
+      
+      <span th:text="${#temporals.format(familia.fechaRegistro,'dd/MM/yyyy')}">01/01/2025</span>
+    </p>
+    
     <h4 class="mt-4">Integrantes</h4>
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>DNI</th><th>Apellido</th><th>Nombre</th><th>Domicilio</th><th>F. Nac.</th><th>Ocupación</th><th>Acciones</th>
+          <th>DNI</th>
+          <th>Apellido</th>
+          <th>Nombre</th>
+          <th>Domicilio</th>
+          <th>F. Nac.</th>
+          <th>Ocupación</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
+        <!-- Muestra los integrantes activos -->
         <tr th:each="asist : ${familia.integrantesFamiliaAsistida}" th:if="${asist.deshabilitado == false}">
           <td th:text="${asist.dni}">12345678</td>
           <td th:text="${asist.apellido}">Pérez</td>
           <td th:text="${asist.nombre}">María</td>
-		  <td th:text="${asist.domicilio}">María</td>
+          <td th:text="${asist.domicilio}">Dirección</td>
+          
           <td th:text="${#dates.format(asist.fechaNacimiento, 'dd/MM/yyyy')}">01/01/2000</td>
           <td th:text="${asist.ocupacion}">Estudiante</td>
           <td>
-            <a th:href="@{/asistido/eliminar/{id}(id=${asist.id})}" onclick="return confirm('¿Eliminar este integrante?');" class="btn btn-sm btn-outline-danger">Eliminar</a>
+            <a th:href="@{/asistido/eliminar/{id}(id=${asist.id})}"
+               onclick="return confirm('¿Eliminar este integrante?');"
+               class="btn btn-sm btn-outline-danger">Eliminar</a>
           </td>
+        </tr>
+        <!-- Si no hay integrantes activos muestra un mensaje -->
+        <tr th:if="${#lists.isEmpty(familia.integrantesFamiliaAsistida.?[deshabilitado == false])}">
+          <td colspan="7" class="text-center">Esta familia no tiene integrantes o no estan habilitados.</td>
         </tr>
       </tbody>
     </table>
-	<a th:href="@{/asistido/nuevo/{id}(id=${familia.nroFamilia})}"class="btn btn-primary mt-3">Agregar Integrante</a>
-    </div>
+    
+    <a th:href="@{/asistido/nuevo/{id}(id=${familia.nroFamilia})}" class="btn btn-primary mt-3">
+      Agregar Integrante
+    </a>
+  </div>
 </body>
 </html>

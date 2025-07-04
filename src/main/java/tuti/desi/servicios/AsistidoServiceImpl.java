@@ -15,10 +15,11 @@ public class AsistidoServiceImpl implements AsistidoService {
     @Autowired
 	private AsistidoRepositorio asistidoRepositorio;
 
-    AsistidoServiceImpl(PersonaRepositorio personaRespositorio) {
-    }
+//    AsistidoServiceImpl(PersonaRepositorio personaRespositorio) {
+//    }
 	
-	@Override
+	//Guarda el asistido si no existe otro registro con el mismo DNI, sino informa
+    @Override
 	public String SalvarAsistido (Asistido asistido) {
 		Asistido asistidoPersona = asistidoRepositorio.findByDni(asistido.getDni());
 		    if (asistidoPersona == null) {
@@ -40,21 +41,12 @@ public class AsistidoServiceImpl implements AsistidoService {
         return asistidoRepositorio.findById(id);
     }
 	
-	//@Override
-	//public void eliminar(Integer id) {
-	//	asistidoRepositorio.findById(id).ifPresent(asistido ->{
-	//		asistido.setDeshabilitado(true);
-	//		asistidoRepositorio.save(asistido);
-			
-	//	});
-	//}
-	
 	@Override
 	public void eliminar(Integer id) {
 	    Asistido asistido = asistidoRepositorio.findById(id)
 	        .orElseThrow(() -> new IllegalArgumentException("Asistido no encontrado: " + id));
 
-	    asistido.setDeshabilitado(true); // 🔁 marcar como deshabilitado
+	    asistido.setDeshabilitado(true); // eliminado lógico
 	    asistidoRepositorio.save(asistido); // guardar cambio
 	}
 }

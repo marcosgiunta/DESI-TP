@@ -3,14 +3,19 @@ package tuti.desi.presentacion.familia;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
+import tuti.desi.accesoDatos.VistaFechasEntregasRespositorio;
 import tuti.desi.entidades.Asistido;
 import tuti.desi.entidades.Familia;
+import tuti.desi.entidades.vistaUltimaEntega;
 import tuti.desi.servicios.AsistidoService;
 import tuti.desi.servicios.FamiliaService;
 
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 
@@ -33,14 +39,46 @@ public class FamiliaRegistrarEditarController {
     
     @Autowired
     private AsistidoService servicioAsistido;
+    
+    @Autowired
+	private VistaFechasEntregasRespositorio ultimaEntegraRepo;
 
     @GetMapping("/listar")
-    public String listar(Model modelo) {
-        modelo.addAttribute("familias", servicioFamilia.listarFamilia());
+    public String listar(@RequestParam(required = false) String nombre,
+                         @RequestParam(required = false) Integer nroFamilia,
+                         Model modelo) {
+
+        List<Familia> familias;
+
+        if (nroFamilia != null) {
+            familias = servicioFamilia.buscarPorNroFamilia(nroFamilia);
+        } else if (nombre != null && !nombre.isBlank()) {
+            familias = servicioFamilia.buscarPorNombre(nombre);
+        } else {
+            familias = servicioFamilia.listarFamilia();
+        }
+
+        modelo.addAttribute("familias", familias);
+
+        List<vistaUltimaEntega> entregas = ultimaEntegraRepo.findAll();
+        System.out.println("=== ENTREGAS DESDE LA VISTA ===");
+        for (vistaUltimaEntega v : entregas) {
+            System.out.println("Familia " + v.getNroFamilia() + " → " + v.getUltimaFecha());
+        }
+        Map<String, LocalDate> ultimaFechaPorFamilia = new HashMap<>();
+
+        for (vistaUltimaEntega v : entregas) {
+            ultimaFechaPorFamilia.put(String.valueOf(v.getNroFamilia()), v.getUltimaFecha());
+        }
+
+
+        
+        modelo.addAttribute("ultimaFechaPorFamilia", ultimaFechaPorFamilia);
+
         return "familia/listar";
     }
-
-    @GetMapping("/familiaNueva")
+    
+    @GetMapping("/alta")
     public String altaFamilia(Model modelo) {
         FamiliaForm form = new FamiliaForm();
         form.setFechaRegistro(LocalDate.now()); // LocalDate para compatibilidad con el input type="date"
@@ -94,6 +132,8 @@ public class FamiliaRegistrarEditarController {
         familia.setDeshabilitado(formFamilia.getDeshabilitado());
         familia.setFechaRegistro(formFamilia.getFechaRegistro());
 
+        
+        
         // Aquí es donde los integrantes deben ser gestionados
         for (AsistidoForm af : formFamilia.getIntegrantes()) {
             Asistido asistidoExistente = servicioAsistido.findByDni(af.getDni());
@@ -118,7 +158,8 @@ public class FamiliaRegistrarEditarController {
 
         // Si la familia es nueva, el campo nroFamilia es null y se asigna automáticamente al guardar
         servicioFamilia.salvarFamilia(familia); // Guardamos la familia (esto persistirá la familia y sus integrantes)
-        System.out.println("Familia guardada con ID: " + familia.getNroFamilia());
+        
+        System.out.println("Familia guardada");
         
         return "redirect:/familia/listar"; // Redirigir al listado de familias
     }
@@ -130,5 +171,11 @@ public class FamiliaRegistrarEditarController {
         return "redirect:/familia/listar";
     }
     
-    
+    @GetMapping("/ver/{id}")
+    public String verFamilia(@PathVariable Integer id, Model modelo) {
+        Familia fam = servicioFamilia.buscarPorId(id)
+                .orElseThrow(() -> new IllegalArgumentException("Familia no encontrada: " + id));
+        modelo.addAttribute("familia", fam);
+        return "familia/ver";
+    }
 }

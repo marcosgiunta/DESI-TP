@@ -13,18 +13,22 @@ public class AsistidoForm {
 	@NotNull
 	private Integer dni;
 	
+	@NotNull
 	@Size(min=2, message = "El nombre no puede ser vacío")
 	private String nombre;
 	
+	@NotNull
 	@Size(min=2, message = "El apellido no puede ser vacío")
 	private String apellido;
 	
 	@NotNull
+	@Size(min=2, message = "El domicilio no puede estar vacío")
 	private String domicilio;
 	
 	@NotNull
 	private String ocupacion;
 	
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaNacimiento;
 	

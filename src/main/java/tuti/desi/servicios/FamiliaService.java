@@ -7,23 +7,25 @@ import tuti.desi.entidades.Familia;
 
 public interface FamiliaService {
 
-	//Lista los registros de las Familias
+		//Lista los registros de las Familias
 		List<Familia> listarFamilia();
 		
-		//Busca registros de familias
+		//Busca registros de familias por ID
 		Optional<Familia> buscarPorId(Integer id);
 		
 		
-		//Guarda el registro de familia
+		//Guarda/actualiza el registro de familia
 		void salvarFamilia(Familia familia);
 		
 		//Eliminación lógica de familia
 		void eliminar(Integer id);
 		
+		//Busca Familias por Nombre
 		List<Familia> buscarPorNombre(String nombre);
 		
+		//Busca Familias por Nro (ID)
 		List<Familia> buscarPorNroFamilia(Integer nro);
 		
-		
-		
+
+
 }

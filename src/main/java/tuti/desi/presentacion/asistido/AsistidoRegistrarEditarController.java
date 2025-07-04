@@ -18,7 +18,6 @@ import tuti.desi.entidades.Familia;
 import tuti.desi.servicios.AsistidoService;
 import tuti.desi.servicios.FamiliaService;
 
-import java.time.LocalDate;
 import java.time.ZoneId;
 
 @Controller
@@ -30,8 +29,6 @@ public class AsistidoRegistrarEditarController {
 	
 	@Autowired
 	private FamiliaService familiaServicio;
-	
-	
 	
 	@GetMapping("/nuevo/{familiaId}")
 	public String nuevoAsistido(@PathVariable Integer familiaId, Model modelo) {
@@ -55,63 +52,54 @@ public class AsistidoRegistrarEditarController {
 	        return "asistido/alta";
 	    }
 
-	    Asistido existePersona = asistidoServicio.findByDni(formAsistido.getDni());
-	    if (existePersona != null) {
-	        modelo.addAttribute("error", "Ya existe un asistido con ese DNI");
+	    try {
+	    	Asistido existePersona = asistidoServicio.findByDni(formAsistido.getDni());
+	    
+		    if (existePersona != null) {
+		        modelo.addAttribute("error", "Ya existe una persona con ese DNI");
+		        return "asistido/alta";
+		    }
+	
+		    Familia familia = familiaServicio.buscarPorId(formAsistido.getFamiliaId()).orElse(null);
+		    if (familia == null) {
+		        modelo.addAttribute("error", "La familia no existe");
+		        return "asistido/alta";
+		    }
+	
+		    Asistido asistido = new Asistido();
+		    asistido.setDni(formAsistido.getDni());
+		    asistido.setNombre(formAsistido.getNombre());
+		    asistido.setApellido(formAsistido.getApellido());
+		    asistido.setDomicilio(formAsistido.getDomicilio());
+		    asistido.setOcupacion(formAsistido.getOcupacion());
+		    asistido.setFechaNacimiento(Date.from(formAsistido.getFechaNacimiento().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		    asistido.setFechaRegistro(new Date());
+		    asistido.setFamilia(familia);
+		    asistido.setDeshabilitado(false);
+	
+		    asistidoServicio.SalvarAsistido(asistido);
+		    
+		    System.out.println("Guardando asistido DNI=" + formAsistido.getDni());
+		    
+		    return "redirect:/asistido/ver/" + familia.getNroFamilia();
+		}
+	    catch (Exception e) {
+	        e.printStackTrace(); // opcional para depurar en consola
+	        modelo.addAttribute("error", "Ocurrió un error al guardar el asistido.");
 	        return "asistido/alta";
 	    }
-
-	    Familia familia = familiaServicio.buscarPorId(formAsistido.getFamiliaId()).orElse(null);
-	    if (familia == null) {
-	        modelo.addAttribute("error", "La familia no existe");
-	        return "asistido/alta";
-	    }
-
-	    Asistido asistido = new Asistido();
-	    asistido.setDni(formAsistido.getDni());
-	    asistido.setNombre(formAsistido.getNombre());
-	    asistido.setApellido(formAsistido.getApellido());
-	    asistido.setDomicilio(formAsistido.getDomicilio());
-	    asistido.setOcupacion(formAsistido.getOcupacion());
-	    asistido.setFechaNacimiento(Date.from(formAsistido.getFechaNacimiento().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-	    asistido.setFechaRegistro(new Date());
-	    asistido.setFamilia(familia);
-	    asistido.setDeshabilitado(false);
-
-	    asistidoServicio.SalvarAsistido(asistido);
-
-	    return "redirect:/asistido/ver/" + familia.getNroFamilia();
 	}
-
-	@GetMapping("/editar/{id}")
-    public String editarAsistido(@PathVariable Integer id, Model modelo) {
-        Asistido as = asistidoServicio.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Asistido no encontrado: " + id));
-        AsistidoForm form = new AsistidoForm();
-        // precargar datos
-        form.setDni(as.getDni());
-        form.setNombre(as.getNombre());
-        form.setApellido(as.getApellido());
-        form.setDomicilio(as.getDomicilio());
-        form.setOcupacion(as.getOcupacion());
-        LocalDate ld = as.getFechaNacimiento()
-        	    .toInstant()
-        	    .atZone(ZoneId.systemDefault())
-        	    .toLocalDate();
-        	form.setFechaNacimiento(ld);
-        form.setFamiliaId(as.getFamilia().getNroFamilia());
-        modelo.addAttribute("asistidoForm", form);
-        return "asistido/formulario";
-    }
 
 	@GetMapping("/eliminar/{id}")
 	public String eliminarAsistido(@PathVariable Integer id) {
 	    Asistido as = asistidoServicio.findById(id)
 	        .orElseThrow(() -> new IllegalArgumentException("Asistido no encontrado: " + id));
 
-	    asistidoServicio.eliminar(id); // 🔁 borrado lógico
+	    asistidoServicio.eliminar(id); //  borrado lógico
 
-	    return "redirect:/asistido/ver/" + as.getFamilia().getNroFamilia(); // redirige correctamente
+	    System.out.println("Asistido Eliminado");
+	    
+	    return "redirect:/asistido/ver/" + as.getFamilia().getNroFamilia(); 
 	}
 
     @GetMapping("/ver/{id}")

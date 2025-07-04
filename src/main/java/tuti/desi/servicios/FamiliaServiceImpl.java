@@ -20,7 +20,8 @@ public class FamiliaServiceImpl implements FamiliaService{
 	
 	@Override
 	public List<Familia> listarFamilia() {
-		return familiaRepositorio.findByDeshabilitadoFalse();
+	    List<Familia> familias = familiaRepositorio.findByDeshabilitadoFalse();
+	    return familias;
 	}
 
 	@Override
@@ -46,16 +47,16 @@ public class FamiliaServiceImpl implements FamiliaService{
 	    Optional<Familia> familia = familiaRepositorio.findById(id);
 	    if (familia.isPresent()) {
 	        Familia f = familia.get();
-	        f.setDeshabilitado(true); // Deshabilitar la familia
+	        f.setDeshabilitado(true); // Borrado lógico la familia
 
-	        // Deshabilitar los integrantes de la familia
+	        // Borrado lógico de los integrantes de la familia
 	        if (f.getIntegrantesFamiliaAsistida() != null) {
 	            for (Asistido asistido : f.getIntegrantesFamiliaAsistida()) {
-	                asistido.setDeshabilitado(true); // Deshabilitar cada integrante
+	                asistido.setDeshabilitado(true); 
 	            }
 	        }
 
-	        // Guardamos los cambios de la familia y los integrantes deshabilitados
+	        // Guardamos los cambios 
 	        familiaRepositorio.save(f);
 	    }
 	}
@@ -68,6 +69,8 @@ public class FamiliaServiceImpl implements FamiliaService{
 	@Override
 	public List<Familia> buscarPorNroFamilia(Integer nro) {
 	    return familiaRepositorio.findByNroFamiliaAndDeshabilitadoFalse(nro);
-	}	
+	}
+	
+	
 	
 }

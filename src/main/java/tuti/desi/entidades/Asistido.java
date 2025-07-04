@@ -1,19 +1,31 @@
 package tuti.desi.entidades;
 import java.util.Date;
+
+import jakarta.validation.constraints.NotNull;
+
+
 import jakarta.persistence.*;  
 
-//GAcosta - Representa mi tabla Asistido en la BD
+/*
+ * Esta clase representa a un Asistido - hereda de Persona)
+ */
+
 @Entity
 public class Asistido  extends Persona {
 
-	//@Column(name = "fecha_registro")
+	//Fecha en que se registra al asistido
+	@NotNull
     private Date fechaRegistro;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    //Nro de la Familia a la que pertenece el Asistido (ID de Familia)
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "familia_id") 
     private Familia familia;
 
-    public Date getFechaRegistro() {
+    //Este campo se utiliza para el borrado lógico
+	private Boolean deshabilitado = false;
+    
+	public Date getFechaRegistro() {
         return fechaRegistro;
     }
 
@@ -21,6 +33,14 @@ public class Asistido  extends Persona {
         this.fechaRegistro = fechaRegistro;
     }
 
+    public Boolean getDeshabilitado() {
+		return deshabilitado;
+	}
+    
+	public void setDeshabilitado(Boolean deshabilitado) {
+		this.deshabilitado = deshabilitado;
+	}
+	
 	public Familia getFamilia() {
 		return familia;
 	}
@@ -29,5 +49,4 @@ public class Asistido  extends Persona {
 		this.familia = familia;
 	}
 
-	
 }

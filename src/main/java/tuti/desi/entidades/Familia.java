@@ -1,17 +1,16 @@
 package tuti.desi.entidades;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 
-//GAcosta - Representa mi tabla Familia en la BD 
+//Esta clase representa a la Familia y la lista de integrantes
 @Entity
 public class Familia {
   
@@ -19,17 +18,23 @@ public class Familia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer nroFamilia;
    
-    private String nombre;
+    //Nombre con que se reconoce la familia (alias)
+  	@NotNull
+  	private String nombre;
     
+  	//Fecha en que se registró la familia
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaRegistro;
     
+    //Se utiliza para el borrado lógico
     private Boolean deshabilitado = false;
 
+    //Lista de integrantes de la familia
    @OneToMany(mappedBy = "familia", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Asistido> integrantesFamiliaAsistida = new ArrayList<>();
+    private List<Asistido> asistidos = new ArrayList<>();
 
-	public Integer getNroFamilia() {
+      
+   	public Integer getNroFamilia() {
         return nroFamilia;
     }
     public void setNroFamilia(Integer nroFamilia) {
@@ -54,17 +59,12 @@ public class Familia {
 		deshabilitado = estaDeshabilitad;
 	}
 	
-	//public String getFechaRegistroToString() {
-		//SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		//return sdf.format(fechaRegistro);
-	//}
 	public List<Asistido> getIntegrantesFamiliaAsistida() {
-		return integrantesFamiliaAsistida;
+		return asistidos;
 	}
 	public void setIntegrantesFamiliaAsistida(List<Asistido> integrantesFamiliaAsistida) {
-		this.integrantesFamiliaAsistida = integrantesFamiliaAsistida;
+		this.asistidos = integrantesFamiliaAsistida;
 	}
-
-    
+	    
 
 }

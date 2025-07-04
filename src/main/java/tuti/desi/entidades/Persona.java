@@ -2,6 +2,10 @@ package tuti.desi.entidades;
 import jakarta.persistence.*;
 import java.util.Date;
 
+/*
+ * Esta clase representa a una persona (Asistido y voluntario heredan de Persona)
+ */
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Persona {
@@ -21,8 +25,6 @@ public abstract class Persona {
 	private Date fechaNacimiento;
     
 	private String ocupacion;
-
-	private Boolean deshabilitado = false;
 
     public Integer getId() {
         return id;
@@ -66,12 +68,6 @@ public abstract class Persona {
     public void setOcupacion(String ocupacion) {
         this.ocupacion = ocupacion;
     }
-	public Boolean getDeshabilitado() {
-		return deshabilitado;
-	}
-	public void setDeshabilitado(Boolean deshabilitado) {
-		this.deshabilitado = deshabilitado;
-	}
 
     
 }
