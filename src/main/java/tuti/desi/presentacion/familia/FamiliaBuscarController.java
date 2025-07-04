@@ -57,7 +57,7 @@ public class FamiliaBuscarController {
 	    // Verificación: impresión del contenido real del mapa
 	 //   System.out.println("MAPA DE ULTIMAS FECHAS:");
 	//    ultimaFechaPorFamilia.forEach((nro, fecha) -> {
-	////        System.out.println("Familia " + nro + " -> " + fecha);
+	//        System.out.println("Familia " + nro + " -> " + fecha);
 	 //   });
 
 	 //   modelo.addAttribute("ultimaFechaPorFamilia", ultimaFechaPorFamilia != null ? ultimaFechaPorFamilia : new HashMap<>());

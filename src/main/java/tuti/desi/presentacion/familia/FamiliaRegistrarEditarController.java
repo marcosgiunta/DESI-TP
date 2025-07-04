@@ -61,10 +61,6 @@ public class FamiliaRegistrarEditarController {
         modelo.addAttribute("familias", familias);
 
         List<vistaUltimaEntega> entregas = ultimaEntegraRepo.findAll();
-        System.out.println("=== ENTREGAS DESDE LA VISTA ===");
-        for (vistaUltimaEntega v : entregas) {
-            System.out.println("Familia " + v.getNroFamilia() + " → " + v.getUltimaFecha());
-        }
         Map<String, LocalDate> ultimaFechaPorFamilia = new HashMap<>();
 
         for (vistaUltimaEntega v : entregas) {
