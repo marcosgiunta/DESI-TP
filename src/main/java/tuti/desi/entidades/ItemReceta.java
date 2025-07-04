@@ -10,7 +10,8 @@ public class ItemReceta {
 
     private Integer cantidad;
     private Integer calorias;
-
+    private boolean eliminado = false;
+    
     @ManyToOne
     @JoinColumn(name = "ingredientes_id")
     private Ingrediente ingrediente;
@@ -53,6 +54,14 @@ public class ItemReceta {
 
     public void setReceta(Receta receta) {
         this.receta = receta;
+    }
+    
+    public boolean getEliminado() {
+        return eliminado;
+    }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
     }
 
 }

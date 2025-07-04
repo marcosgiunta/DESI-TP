@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import tuti.desi.accesoDatos.IngredientesRepositorio;
+import tuti.desi.accesoDatos.RecetasRepositorio;
+import tuti.desi.entidades.ItemReceta;
 import tuti.desi.entidades.Receta;
 
 import tuti.desi.servicios.RecetasService;
@@ -22,30 +25,35 @@ public class RecetasController {
 	
 	@Autowired
 	private RecetasService servicio;
+	
+	@Autowired
+	private RecetasRepositorio recetasRepositorio;
 
-    // @Autowired
-    // private IngredienteService ingredienteService;
+    @Autowired
+    private IngredientesRepositorio ingredientesRepositorio;
 
 	@GetMapping("/recetas/Alta")
 	public String RegistrarReceta(Model modelo) {
 		Receta nuevaReceta = new Receta();
 		modelo.addAttribute("nuevaReceta", nuevaReceta);
-		
-        // modelo.addAttribute("ingredientes", ingredienteService.listarIngredientes());
-		return "recetaAlta";
+		modelo.addAttribute("ingredientes", ingredientesRepositorio.findAll());
+		return "recetasAlta";
 	}
 
-    // public List<Ingrediente> listarIngredientes() {
-    //     return ingredienteRepository.findAll();
-    // }
-	
-	
 	@PostMapping("/recetas/Guardar")
-	public String GuardarRecetas(@ModelAttribute("nuevaReceta") Receta receta) {
-		servicio.guardarReceta(receta);
-		
-		return "redirect:/recetas/Listar";
+	public String guardarReceta(@ModelAttribute("nuevaReceta") Receta receta, Model model) {
+		 try {
+		        for (ItemReceta item : receta.getIngredientes()) {
+		            item.setReceta(receta);
+		        }
+		        servicio.guardarReceta(receta);
+		        return "redirect:/recetas/Listar";
+		    } catch (IllegalArgumentException e) {
+		        model.addAttribute("errorNombre", e.getMessage());
+		        return "recetasAlta";
+		    }
 	}
+	
 
     @GetMapping("/recetas/Listar")
 	public String ListarRecetas(Model modelo) {
@@ -56,20 +64,41 @@ public class RecetasController {
 
 	}
 
-	@GetMapping("/recetas/Eliminar/{id}")
-	public String EliminarReceta(@PathVariable int id) {
-
-		servicio.eliminarReceta(id);
-
-		return "redirect:/recetas/Listar";
-	}
+    @PostMapping("/recetas/eliminar/{id}")
+    public String eliminarReceta(@PathVariable("id") Integer id) {
+        Receta receta = recetasRepositorio.findById(id).orElse(null);
+        if (receta != null) {
+        	receta.setEliminada(true);
+            recetasRepositorio.save(receta);
+        }
+        return "redirect:/recetas/Listar";
+    }
 
 	@GetMapping("/recetas/Filtrar")
 	public String FiltrarRecetas(
 			@RequestParam(required = false) String nombreReceta,
+			@RequestParam(required = false) Integer caloriasReceta,
 			Model modelo) {
-		List<Receta> recetas = servicio.buscarPorFiltros(nombreReceta);
+		List<Receta> recetas = servicio.buscarPorFiltros(nombreReceta, caloriasReceta);
 		modelo.addAttribute("recetas", recetas);
 		return "recetasListar";
 	}
+	
+	@GetMapping("/recetas/editar/{id}")
+	public String editarReceta(@PathVariable int id, Model modelo) {
+	    Receta receta = servicio.buscarPorId(id);
+	    if (receta != null) {
+	        modelo.addAttribute("nuevaReceta", receta);
+	        modelo.addAttribute("ingredientes", ingredientesRepositorio.findAll());
+	        return "recetasAlta";
+	    }
+	    return "redirect:/recetas/Alta";
+	}
+	
+	@PostMapping("/eliminarIngrediente/{idReceta}/{index}")
+	public String eliminarIngrediente(@PathVariable int idReceta, @PathVariable int index) {
+	    servicio.eliminarIngrediente(idReceta, index);
+	    return "ok"; 
+	}
+
 }
