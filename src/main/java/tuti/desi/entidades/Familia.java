@@ -20,7 +20,7 @@ public class Familia {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer nroFamilia;
-   
+
     //Nombre con que se reconoce la familia (alias)
   	private String nombre;
     
@@ -40,6 +40,13 @@ public class Familia {
    	public Integer getNroFamilia() {
         return nroFamilia;
     }
+    //public List<Asistido> getIntegrantesFamiliaAsistida() {
+     //   return integrantesFamiliaAsistida;
+    //}
+
+    //public Integer getNroFamilia() {
+
+    
     public void setNroFamilia(Integer nroFamilia) {
         this.nroFamilia = nroFamilia;
     }
@@ -52,9 +59,10 @@ public class Familia {
     public LocalDate getFechaRegistro() {
         return fechaRegistro;
     }
-    public void setFechaRegistro(LocalDate fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
-    }
+  public void setFechaRegistro(LocalDate fechaRegistro) {
+     this.fechaRegistro = fechaRegistro;
+  }
+
 	public Boolean getDeshabilitado() {
 		return deshabilitado;
 	}
@@ -69,5 +77,6 @@ public class Familia {
 		this.asistidos = integrantesFamiliaAsistida;
 	}
 	    
+
 
 }

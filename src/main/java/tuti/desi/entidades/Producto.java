@@ -8,24 +8,24 @@ public class Producto extends Ingrediente {
 
 	
 	
-	private float stock;
+	private Float stock;
 	
-	private float precio;
+	private Float precio;
 	
 	
-	public float getStock() {
+	public Float getStock() {
 		return stock;
 	}
 
-	public void setStock(float stock) {
+	public void setStock(Float stock) {
 		this.stock = stock;
 	}
 	
-	public float getPrecio() {
+	public Float getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(float precio) {
+	public void setPrecio(Float precio) {
 		this.precio = precio;
 	}
 
