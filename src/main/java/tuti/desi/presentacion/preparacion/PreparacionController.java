@@ -28,13 +28,6 @@ public class PreparacionController {
     private PreparacionServicio preparacionServicio;
 
     // MOSTRAR FORMULARIO DE ALTA
-  /*  @GetMapping("/preparacion/alta")
-    public String mostrarFormularioAlta(Model model) {
-        List<Receta> recetas = recetasRepositorio.findAll();
-        model.addAttribute("recetas", recetas);
-        model.addAttribute("preparacion", new Preparacion());
-        return "altaPreparacion";
-    }*/
     
     @GetMapping("/preparacion/alta")
     public String mostrarFormularioAlta(Model model) {
@@ -46,25 +39,25 @@ public class PreparacionController {
     
 
     // GUARDAR PREPARACIÓN
-@PostMapping("/preparacion/guardar")
-public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion preparacion, Model model) {
-    preparacion.setEliminado(false);
-    if (preparacion.getTotalRacionesPreparadas() != null) {
-        preparacion.setStockRacionesRestantes(preparacion.getTotalRacionesPreparadas());
-    } else {
-        preparacion.setStockRacionesRestantes(0);
-    }
-    try {
-        preparacionServicio.guardar(preparacion); // <-- Usa el servicio, no el repositorio directo
-    } catch (IllegalArgumentException ex) {
-        model.addAttribute("error", ex.getMessage());
-        model.addAttribute("preparacion", preparacion);
-        model.addAttribute("recetas", recetasRepositorio.findAll());
-        return "altaPreparacion";
-    }
-   
-    return "redirect:/preparacion/Listado";
-}
+	@PostMapping("/preparacion/guardar")
+	public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion preparacion, Model model) {
+	    preparacion.setEliminado(false);
+	    if (preparacion.getTotalRacionesPreparadas() != null) {
+	        preparacion.setStockRacionesRestantes(preparacion.getTotalRacionesPreparadas());
+	    } else {
+	        preparacion.setStockRacionesRestantes(0);
+	    }
+	    try {
+	        preparacionServicio.guardar(preparacion); // <-- Usa el servicio, no el repositorio directo
+	    } catch (IllegalArgumentException ex) {
+	        model.addAttribute("error", ex.getMessage());
+	        model.addAttribute("preparacion", preparacion);
+	        model.addAttribute("recetas", recetasRepositorio.findAll());
+	        return "altaPreparacion";
+	    }
+	   
+	    return "redirect:/preparacion/Listado";
+	}
 
 
     // LISTAR PREPARACIONES
@@ -77,15 +70,7 @@ public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion prep
 
 
     // MOSTRAR FORMULARIO DE MODIFICACIÓN
-   /* @GetMapping("/preparacion/modificar/{id}")
-    public String mostrarFormularioModificacion(@PathVariable("id") Integer id, Model model) {
-        Preparacion preparacion = preparacionServicio.buscarPorId(id);
-        List<Receta> recetas = recetasRepositorio.findAll();
-        model.addAttribute("preparacion", preparacion);
-        model.addAttribute("recetas", recetas);
-        return "modificarPreparacion";
-    }*/
-    
+   
     @GetMapping("/preparacion/modificar/{id}")
     public String mostrarFormularioModificacion(@PathVariable("id") Integer id, Model model) {
         Preparacion preparacion = preparacionServicio.buscarPorId(id);
