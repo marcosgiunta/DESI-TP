@@ -28,13 +28,22 @@ public class PreparacionController {
     private PreparacionServicio preparacionServicio;
 
     // MOSTRAR FORMULARIO DE ALTA
-    @GetMapping("/preparacion/alta")
+  /*  @GetMapping("/preparacion/alta")
     public String mostrarFormularioAlta(Model model) {
         List<Receta> recetas = recetasRepositorio.findAll();
         model.addAttribute("recetas", recetas);
         model.addAttribute("preparacion", new Preparacion());
         return "altaPreparacion";
+    }*/
+    
+    @GetMapping("/preparacion/alta")
+    public String mostrarFormularioAlta(Model model) {
+        List<Receta> recetas = recetasRepositorio.findByEliminadoFalse();  
+        model.addAttribute("recetas", recetas);
+        model.addAttribute("preparacion", new Preparacion());
+        return "altaPreparacion";
     }
+    
 
     // GUARDAR PREPARACIÓN
 @PostMapping("/preparacion/guardar")
@@ -68,14 +77,24 @@ public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion prep
 
 
     // MOSTRAR FORMULARIO DE MODIFICACIÓN
-    @GetMapping("/preparacion/modificar/{id}")
+   /* @GetMapping("/preparacion/modificar/{id}")
     public String mostrarFormularioModificacion(@PathVariable("id") Integer id, Model model) {
         Preparacion preparacion = preparacionServicio.buscarPorId(id);
         List<Receta> recetas = recetasRepositorio.findAll();
         model.addAttribute("preparacion", preparacion);
         model.addAttribute("recetas", recetas);
         return "modificarPreparacion";
+    }*/
+    
+    @GetMapping("/preparacion/modificar/{id}")
+    public String mostrarFormularioModificacion(@PathVariable("id") Integer id, Model model) {
+        Preparacion preparacion = preparacionServicio.buscarPorId(id);
+        List<Receta> recetas = recetasRepositorio.findByEliminadoFalse();  
+        model.addAttribute("preparacion", preparacion);
+        model.addAttribute("recetas", recetas);
+        return "modificarPreparacion";
     }
+
     
     @PostMapping("/preparacion/actualizar")
     public String actualizarPreparacion(@ModelAttribute("preparacion") Preparacion nuevaPreparacion, Model model) {

@@ -21,4 +21,7 @@ public interface RecetasRepositorio extends JpaRepository<Receta, Integer>{
 		List<Receta> buscarPorFiltros(String nombreReceta, Integer calorias);
 		List<Receta> findByEliminadaFalse();
 		Optional<Receta> findByNombre(String nombre);
+		
+		@Query("SELECT r FROM Receta r WHERE r.eliminada = false")
+		List<Receta> findByEliminadoFalse();
 }
