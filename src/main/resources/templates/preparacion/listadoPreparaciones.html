@@ -62,6 +62,7 @@
                     <th>Fecha</th>
                     <th>Receta</th>
                     <th>Raciones</th>
+					<th>Calorías</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -71,6 +72,8 @@
                     <td th:text="${#dates.format(prep.fechaPreparacion, 'dd/MM/yyyy')}"></td>
                     <td th:text="${prep.receta.nombre}"></td>
                     <td th:text="${prep.totalRacionesPreparadas}"></td>
+					<td th:text="${prep.caloriasPorRacion}"></td>
+
                     <td class="d-flex gap-1">
                         <a class="btn btn-sm btn-outline-primary"
                             th:href="@{/preparacion/modificar/{id}(id=${prep.id})}">

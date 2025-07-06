@@ -12,6 +12,8 @@ public interface PreparacionServicio {
     List<Preparacion> listarTodas();
 
     Preparacion buscarPorId(Integer id);
+    
+    Integer obtenerCaloriasTotalesPorReceta(Integer recetaId);
 
     void eliminar(Integer id);
 

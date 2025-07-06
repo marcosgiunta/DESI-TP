@@ -11,6 +11,7 @@ public class Preparacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+   
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaPreparacion;
@@ -18,6 +19,9 @@ public class Preparacion {
     private Integer stockRacionesRestantes;
     private Integer TotalRacionesPreparadas;
     private boolean eliminado = false;
+   
+    @Transient
+    private Integer caloriasPorRacion;
 
     
     @ManyToOne
@@ -64,4 +68,13 @@ public class Preparacion {
 	public void setEliminado(boolean eliminado) {
 	    this.eliminado = eliminado;
 	}
+	
+	public Integer getCaloriasPorRacion() {
+	    return caloriasPorRacion;
+	}
+
+	public void setCaloriasPorRacion(Integer caloriasPorRacion) {
+	    this.caloriasPorRacion = caloriasPorRacion;
+	}
+
 }

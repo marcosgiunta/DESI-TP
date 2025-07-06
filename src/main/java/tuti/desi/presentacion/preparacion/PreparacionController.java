@@ -30,39 +30,48 @@ public class PreparacionController {
     // MOSTRAR FORMULARIO DE ALTA
     @GetMapping("/preparacion/alta")
     public String mostrarFormularioAlta(Model model) {
-    	List<Receta> recetas = recetasRepositorio.findByEliminadaFalse();
+        List<Receta> recetas = recetasRepositorio.findByEliminadaFalse();
         model.addAttribute("recetas", recetas);
         model.addAttribute("preparacion", new Preparacion());
-        return "altaPreparacion";
+        return "preparacion/altaPreparacion";
     }
 
     // GUARDAR PREPARACIÓN
-@PostMapping("/preparacion/guardar")
-public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion preparacion, Model model) {
-    preparacion.setEliminado(false);
-    if (preparacion.getTotalRacionesPreparadas() != null) {
-        preparacion.setStockRacionesRestantes(preparacion.getTotalRacionesPreparadas());
-    } else {
-        preparacion.setStockRacionesRestantes(0);
+    @PostMapping("/preparacion/guardar")
+    public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion preparacion, Model model) {
+        preparacion.setEliminado(false);
+        if (preparacion.getTotalRacionesPreparadas() != null) {
+            preparacion.setStockRacionesRestantes(preparacion.getTotalRacionesPreparadas());
+        } else {
+            preparacion.setStockRacionesRestantes(0);
+        }
+        try {
+            preparacionServicio.guardar(preparacion); 
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute("error", ex.getMessage());
+            model.addAttribute("preparacion", preparacion);
+            model.addAttribute("recetas", recetasRepositorio.findAll());
+            return "preparacion/altaPreparacion";
+        }
+        return "redirect:/preparacion/Listado";
     }
-    try {
-        preparacionServicio.guardar(preparacion); // <-- Usa el servicio, no el repositorio directo
-    } catch (IllegalArgumentException ex) {
-        model.addAttribute("error", ex.getMessage());
-        model.addAttribute("preparacion", preparacion);
-        model.addAttribute("recetas", recetasRepositorio.findAll());
-        return "altaPreparacion";
-    }
-    return "listadoPreparaciones";
-}
-
 
     // LISTAR PREPARACIONES
     @GetMapping("/preparacion/Listado")
     public String listarPreparaciones(Model model) {
-        List<Preparacion> preparaciones = preparacionRepositorio.findByEliminadoFalse();
+        List<Preparacion> preparaciones = preparacionServicio.listarTodas();
+
+        for (Preparacion p : preparaciones) {
+            Integer totalCalorias = preparacionServicio.obtenerCaloriasTotalesPorReceta(p.getReceta().getId());
+            Integer caloriasPorRacion = 0;
+            if (totalCalorias != null && p.getTotalRacionesPreparadas() != null && p.getTotalRacionesPreparadas() > 0) {
+                caloriasPorRacion = totalCalorias / p.getTotalRacionesPreparadas();
+            }
+            p.setCaloriasPorRacion(caloriasPorRacion);
+        }
+
         model.addAttribute("preparaciones", preparaciones);
-        return "listadoPreparaciones";
+        return "preparacion/listadoPreparaciones";
     }
 
 
@@ -73,15 +82,15 @@ public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion prep
         List<Receta> recetas = recetasRepositorio.findByEliminadaFalse(); 
         model.addAttribute("preparacion", preparacion);
         model.addAttribute("recetas", recetas);
-        return "modificarPreparacion";
+        return "preparacion/modificarPreparacion";
     }
-    
+
     @PostMapping("/preparacion/actualizar")
     public String actualizarPreparacion(@ModelAttribute("preparacion") Preparacion nuevaPreparacion, Model model) {
         if (nuevaPreparacion.getFechaPreparacion().after(new Date())) {
             model.addAttribute("error", "La fecha no puede ser futura.");
             model.addAttribute("preparacion", nuevaPreparacion);
-            return "modificarPreparacion";
+            return "preparacion/modificarPreparacion";
         }
 
         Preparacion existente = preparacionRepositorio.findById(nuevaPreparacion.getId()).orElse(null);
@@ -90,9 +99,9 @@ public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion prep
             preparacionRepositorio.save(existente);
         }
 
-        return "listadoPreparaciones";
+        return "redirect:/preparacion/Listado";
     }
-    
+
     @PostMapping("/preparacion/eliminar/{id}")
     public String eliminarPreparacion(@PathVariable("id") Integer id) {
         Preparacion preparacion = preparacionRepositorio.findById(id).orElse(null);
@@ -100,19 +109,29 @@ public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion prep
             preparacion.setEliminado(true);
             preparacionRepositorio.save(preparacion);
         }
-        return "listadoPreparaciones";
+
+        return "redirect:/preparacion/Listado";
     }
 
+    // FILTRAR PREPARACIONES
+    @GetMapping("/preparacion/Filtrar")
+    public String FiltrarPreparacion(
+        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha,
+        @RequestParam(required = false) String nombreReceta,
+        Model modelo) {
 
-    	@GetMapping("/preparacion/Filtrar")
-	public String FiltrarPreparacion(
-			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha,
-			@RequestParam(required = false) String nombreReceta,
-			Model modelo) {
-		List<Preparacion> preparaciones = preparacionServicio.buscarPorFechaYReceta(fecha, nombreReceta);   
-		modelo.addAttribute("preparaciones", preparaciones);
-		return "listadoPreparaciones";
-	}
+        List<Preparacion> preparaciones = preparacionServicio.buscarPorFechaYReceta(fecha, nombreReceta);   
 
+        for (Preparacion p : preparaciones) {
+            Integer totalCalorias = preparacionServicio.obtenerCaloriasTotalesPorReceta(p.getReceta().getId());
+            Integer caloriasPorRacion = 0;
+            if (totalCalorias != null && p.getTotalRacionesPreparadas() != null && p.getTotalRacionesPreparadas() > 0) {
+                caloriasPorRacion = totalCalorias / p.getTotalRacionesPreparadas();
+            }
+            p.setCaloriasPorRacion(caloriasPorRacion);
+        }
 
+        modelo.addAttribute("preparaciones", preparaciones);
+        return "preparacion/listadoPreparaciones";
+    }
 }

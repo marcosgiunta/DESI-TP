@@ -13,11 +13,9 @@ public interface PreparacionRepositorio extends JpaRepository<Preparacion, Integ
 
 	List<Preparacion> findByEliminadoFalse();
 
-
 	@Query("SELECT p FROM Preparacion p " +
        "WHERE (:fecha IS NULL OR p.fechaPreparacion = :fecha) " +
        "AND (:nombreReceta IS NULL OR LOWER(p.receta.nombre) LIKE LOWER(CONCAT('%', :nombreReceta, '%')))")
-List<Preparacion> buscarPorFiltros(Date fecha,String nombreReceta);
-
+	List<Preparacion> buscarPorFiltros(Date fecha,String nombreReceta);
 
 }
