@@ -37,24 +37,24 @@ public class PreparacionController {
     }
 
     // GUARDAR PREPARACIÓN
-@PostMapping("/preparacion/guardar")
-public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion preparacion, Model model) {
-    preparacion.setEliminado(false);
-    if (preparacion.getTotalRacionesPreparadas() != null) {
-        preparacion.setStockRacionesRestantes(preparacion.getTotalRacionesPreparadas());
-    } else {
-        preparacion.setStockRacionesRestantes(0);
-    }
-    try {
-        preparacionServicio.guardar(preparacion); // <-- Usa el servicio, no el repositorio directo
-    } catch (IllegalArgumentException ex) {
-        model.addAttribute("error", ex.getMessage());
-        model.addAttribute("preparacion", preparacion);
-        model.addAttribute("recetas", recetasRepositorio.findAll());
-        return "altaPreparacion";
-    }
-    return "listadoPreparaciones";
-}
+	@PostMapping("/preparacion/guardar")
+	public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion preparacion, Model model) {
+	    preparacion.setEliminado(false);
+	    if (preparacion.getTotalRacionesPreparadas() != null) {
+	        preparacion.setStockRacionesRestantes(preparacion.getTotalRacionesPreparadas());
+	    } else {
+	        preparacion.setStockRacionesRestantes(0);
+	    }
+	    try {
+	        preparacionServicio.guardar(preparacion); 
+	    } catch (IllegalArgumentException ex) {
+	        model.addAttribute("error", ex.getMessage());
+	        model.addAttribute("preparacion", preparacion);
+	        model.addAttribute("recetas", recetasRepositorio.findAll());
+	        return "altaPreparacion";
+	    }
+	    return "redirect:/preparacion/Listado";
+	}
 
 
     // LISTAR PREPARACIONES
