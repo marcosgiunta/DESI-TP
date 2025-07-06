@@ -100,7 +100,8 @@ public class PreparacionController {
             preparacion.setEliminado(true);
             preparacionRepositorio.save(preparacion);
         }
-        return "listadoPreparaciones";
+
+        return "redirect:/preparacion/Listado";
     }
 
 
