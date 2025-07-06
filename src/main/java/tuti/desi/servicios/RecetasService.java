@@ -15,5 +15,5 @@ public interface RecetasService {
 	
 	public void eliminarIngrediente(int idReceta, int index);
 
-	List<Receta> buscarPorFiltros(String nombreReceta, Integer caloriasReceta);
+	List<Receta> buscarPorFiltros(String nombreReceta, Integer caloriasMin, Integer caloriasMax);
 }

@@ -27,10 +27,17 @@
                         <label class="form-label">Filtrar por nombre:</label>
                         <input type="text" name="nombreReceta" class="form-control" placeholder="Ej: Canelones" />
                     </div>
-                    <div class="col-md-5">
-                        <label class="form-label">Filtrar por calorías:</label>
-                        <input type="number" name="caloriasReceta" class="form-control" placeholder="Ej: 110" />
-                    </div>
+					<div class="col-md-5">
+					    <label class="form-label">Filtrar por calorías:</label>
+						<div class="row">
+						    <div class="col">
+						        <input type="number" name="caloriasMin" class="form-control" placeholder="Mín." />
+						    </div>
+						    <div class="col">
+						        <input type="number" name="caloriasMax" class="form-control" placeholder="Máx." />
+						    </div>
+						</div>
+					</div>
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-outline-info w-100">Buscar</button>
                         <a th:href="@{/recetas/Listar}" class="btn btn-outline-danger w-100 mt-2">Limpiar</a>
@@ -58,14 +65,14 @@
                             <tr th:each="receta : ${recetas}">
                                 <td th:text="${receta.nombre}"></td>
                                 <td th:text="${receta.getCaloriasTotales}"></td>
-                                <td>
-                                    <a class="btn btn-outline-primary btn-sm mb-1"
-                                       th:href="@{/recetas/editar/{id}(id=${receta.id})}">Editar</a>
-                                    <form th:action="@{/recetas/eliminar/{id}(id=${receta.id})}" method="post"
-                                          th:object="${receta}" style="display:inline;">
-                                        <button type="submit" class="btn btn-outline-danger btn-sm">Eliminar</button>
-                                    </form>
-                                </td>
+								<td class="d-flex justify-content-center gap-2">
+								    <a class="btn btn-outline-primary btn-sm"
+								       th:href="@{/recetas/editar/{id}(id=${receta.id})}">Editar</a>
+								    <form th:action="@{/recetas/eliminar/{id}(id=${receta.id})}" method="post"
+								          th:object="${receta}">
+								        <button type="submit" class="btn btn-outline-danger btn-sm">Eliminar</button>
+								    </form>
+								</td>
                             </tr>
                         </tbody>
                     </table>

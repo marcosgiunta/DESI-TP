@@ -15,13 +15,14 @@ public interface RecetasRepositorio extends JpaRepository<Receta, Integer>{
 		    SELECT r FROM Receta r 
 		    WHERE r.eliminada = false
 		    AND (:nombreReceta IS NULL OR LOWER(r.nombre) LIKE LOWER(CONCAT('%', :nombreReceta, '%')))
-		    AND (:calorias IS NULL OR 
-		        (SELECT SUM(i.calorias) FROM ItemReceta i WHERE i.receta = r) >= :calorias)
+		    AND (:caloriasMin IS NULL OR 
+		         (SELECT SUM(i.calorias) FROM ItemReceta i WHERE i.receta = r AND i.eliminado = false) >= :caloriasMin)
+		    AND (:caloriasMax IS NULL OR 
+		         (SELECT SUM(i.calorias) FROM ItemReceta i WHERE i.receta = r AND i.eliminado = false) <= :caloriasMax)
 		""")
-		List<Receta> buscarPorFiltros(String nombreReceta, Integer calorias);
+		List<Receta> buscarPorFiltros(String nombreReceta, Integer caloriasMin, Integer caloriasMax);
 		List<Receta> findByEliminadaFalse();
 		Optional<Receta> findByNombre(String nombre);
-		
-		@Query("SELECT r FROM Receta r WHERE r.eliminada = false")
-		List<Receta> findByEliminadoFalse();
+
+		boolean existsByNombreAndIdNot(String nombre, Integer id);
 }

@@ -33,6 +33,7 @@ public class Preparacion {
     public void setId(Integer id) {
         this.id = id;
     }
+
     public Date getFechaPreparacion() {
         return fechaPreparacion;
     }
