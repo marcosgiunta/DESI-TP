@@ -2,6 +2,8 @@ package tuti.desi.servicios;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import tuti.desi.accesoDatos.ItemRecetaRepositorio;
 import tuti.desi.accesoDatos.PreparacionRepositorio;
 import tuti.desi.accesoDatos.ProductoRepositorio;
 import tuti.desi.entidades.ItemReceta;
@@ -20,6 +22,10 @@ public class PreparacionServicioImpl implements PreparacionServicio {
 
     @Autowired
     private ProductoRepositorio productoRepositorio;
+    
+    @Autowired
+    private ItemRecetaRepositorio itemRecetaRepositorio;
+
 
     @Override
     public Preparacion guardar(Preparacion preparacion) {
@@ -47,11 +53,22 @@ public class PreparacionServicioImpl implements PreparacionServicio {
         return preparacionRepositorio.save(preparacion);
     }
 
+
     @Override
     public List<Preparacion> listarTodas() {
-        return preparacionRepositorio.findAll();
+        List<Preparacion> lista = preparacionRepositorio.findAll();
+        for (Preparacion p : lista) {
+            Integer totalCalorias = itemRecetaRepositorio.obtenerCaloriasTotalesPorReceta(p.getReceta().getId());
+            Integer caloriasPorRacion = 0;
+            if (totalCalorias != null && p.getTotalRacionesPreparadas() != null && p.getTotalRacionesPreparadas() > 0) {
+                caloriasPorRacion = totalCalorias / p.getTotalRacionesPreparadas();
+            }
+            p.setCaloriasPorRacion(caloriasPorRacion);
+        }
+        return lista;
     }
 
+    
     @Override
     public Preparacion buscarPorId(Integer id) {
         Optional<Preparacion> resultado = preparacionRepositorio.findById(id);
@@ -83,7 +100,6 @@ public class PreparacionServicioImpl implements PreparacionServicio {
         return true;
     }
 
-
     private void DarBajaStockIngrediente(Preparacion preparacion) {
         List<ItemReceta> items = preparacion.getReceta().getIngredientes();
         int raciones = preparacion.getTotalRacionesPreparadas();
@@ -96,9 +112,9 @@ public class PreparacionServicioImpl implements PreparacionServicio {
         }
     }
     
- /*   @Override
-    public List<Preparacion> buscarPorFechaYReceta(Date fecha, String nombreReceta) {
-        return preparacionRepositorio.buscarPorFiltros(fecha, nombreReceta);
+    @Override
+    public Integer obtenerCaloriasTotalesPorReceta(Integer recetaId) {
+        return itemRecetaRepositorio.obtenerCaloriasTotalesPorReceta(recetaId);
     }    
-    */
+
 }
