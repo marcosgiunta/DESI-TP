@@ -59,10 +59,21 @@ public class PreparacionController {
     // LISTAR PREPARACIONES
     @GetMapping("/preparacion/Listado")
     public String listarPreparaciones(Model model) {
-        List<Preparacion> preparaciones = preparacionServicio.listarTodas(); 
+        List<Preparacion> preparaciones = preparacionServicio.listarTodas();
+
+        for (Preparacion p : preparaciones) {
+            Integer totalCalorias = preparacionServicio.obtenerCaloriasTotalesPorReceta(p.getReceta().getId());
+            Integer caloriasPorRacion = 0;
+            if (totalCalorias != null && p.getTotalRacionesPreparadas() != null && p.getTotalRacionesPreparadas() > 0) {
+                caloriasPorRacion = totalCalorias / p.getTotalRacionesPreparadas();
+            }
+            p.setCaloriasPorRacion(caloriasPorRacion);
+        }
+
         model.addAttribute("preparaciones", preparaciones);
         return "preparacion/listadoPreparaciones";
     }
+
 
     // MOSTRAR FORMULARIO DE MODIFICACIÓN
     @GetMapping("/preparacion/modificar/{id}")
