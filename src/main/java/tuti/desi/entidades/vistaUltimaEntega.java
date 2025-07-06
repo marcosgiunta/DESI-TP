@@ -2,6 +2,8 @@ package tuti.desi.entidades;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.Subselect;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
@@ -10,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
+@Immutable
+@Subselect("SELECT nrofamilia, ultimafecha FROM ultimafechaentregafamilia")
 @Table(name = "ultimafechaentregafamilia") 
 public class vistaUltimaEntega {
 
@@ -17,7 +21,7 @@ public class vistaUltimaEntega {
     @Column(name = "nrofamilia")
     private Integer nroFamilia;
 
-    @Column(name = "ultimaFecha")
+    @Column(name = "ultimafecha")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate ultimaFecha;
 

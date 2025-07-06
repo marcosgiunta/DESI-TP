@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -67,8 +69,7 @@ public class FamiliaRegistrarEditarController {
             ultimaFechaPorFamilia.put(String.valueOf(v.getNroFamilia()), v.getUltimaFecha());
         }
 
-
-        
+    
         modelo.addAttribute("ultimaFechaPorFamilia", ultimaFechaPorFamilia);
 
         return "familia/listar";
@@ -77,7 +78,7 @@ public class FamiliaRegistrarEditarController {
     @GetMapping("/alta")
     public String altaFamilia(Model modelo) {
         FamiliaForm form = new FamiliaForm();
-        form.setFechaRegistro(LocalDate.now()); // LocalDate para compatibilidad con el input type="date"
+        form.setFechaRegistro(LocalDate.now()); 
         form.setDeshabilitado(false);           // inicializar deshabilitado
         modelo.addAttribute("familiaForm", form);
         return "familia/alta";
@@ -106,20 +107,15 @@ public class FamiliaRegistrarEditarController {
                                  BindingResult bindingResult,
                                  Model modelo) {
 
-    	//Control por si se carga una fecha futura muestre mensaje por listar.html
-    	if (formFamilia.getFechaRegistro() != null && formFamilia.getFechaRegistro().isAfter(LocalDate.now())) {
-            bindingResult.rejectValue("fechaRegistro", "error.fechaRegistro", "La fecha no puede ser posterior a la actual");
-        }
-    	
     	// Si hay errores en el formulario, volvemos a mostrarlo
         if (bindingResult.hasErrors()) {
-            return "familia/alta"; // Si hay errores, volvemos al formulario
+            return "familia/alta"; 
         }
 
         // Creamos un objeto Familia
         Familia familia;
 
-        // Si la familia tiene un nroFamilia (es una edición), la buscamos
+        // Si la familia tiene un nroFamilia (es una edición)
         if (formFamilia.getNroFamilia() != null) {
             familia = servicioFamilia.buscarPorId(formFamilia.getNroFamilia())
                     .orElseThrow(() -> new IllegalArgumentException("ID inválido: " + formFamilia.getNroFamilia()));
@@ -133,14 +129,30 @@ public class FamiliaRegistrarEditarController {
         familia.setDeshabilitado(formFamilia.getDeshabilitado());
         familia.setFechaRegistro(formFamilia.getFechaRegistro());
 
+        //Control de DNI en tiempo de carga
+        Set<Integer> dnisUnicos = new HashSet<>();
+        List<AsistidoForm> integrantes = formFamilia.getIntegrantes();
+
+        for (int i = 0; i < integrantes.size(); i++) {
+            Integer dni = integrantes.get(i).getDni();
+
+            // Ignorar DNIs nulos
+            if (dni != null && !dnisUnicos.add(dni)) {
+                bindingResult.rejectValue("integrantes[" + i + "].dni", null, "DNI duplicado en carga");
+            }
+        }
+
+        if (bindingResult.hasErrors()) {
+            modelo.addAttribute("modoEdicion", formFamilia.getNroFamilia() != null);
+            return "familia/alta";
+        }
         
-        
-        // Aquí es donde los integrantes deben ser gestionados
+        // Control de DNI contra la base de datos
         for (AsistidoForm af : formFamilia.getIntegrantes()) {
             Asistido asistidoExistente = servicioAsistido.findByDni(af.getDni());
             if (asistidoExistente != null) {
                 // Si existe, mostramos un error y no lo agregamos
-                throw new IllegalArgumentException("Ya existe un integrante con el DNI " + af.getDni());
+                throw new IllegalArgumentException("Ya existe una persona con ese DNI " + af.getDni());
             }
 
             // Si no existe, agregamos el nuevo asistido
@@ -160,10 +172,8 @@ public class FamiliaRegistrarEditarController {
 
         // Si la familia es nueva, el campo nroFamilia es null y se asigna automáticamente al guardar
         servicioFamilia.salvarFamilia(familia); // Guardamos la familia (esto persistirá la familia y sus integrantes)
-        
-        System.out.println("Familia guardada");
-        
-        return "redirect:/familia/listar"; // Redirigir al listado de familias
+
+       return "redirect:/familia/listar"; // Redirigir al listado de familias
     }
 
 

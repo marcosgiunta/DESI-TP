@@ -20,27 +20,43 @@
         <div class="col-md-4">
             <label class="form-label">DNI</label>
             <input type="number" th:field="*{dni}" class="form-control" required />
+			<div th:if="${#fields.hasErrors('dni')}" class="text-danger">
+				<p th:each="err : ${#fields.errors('dni')}" th:text="${err}"></p>
+			</div>
         </div>
 
         <div class="col-md-4">
             <label class="form-label">Apellido</label>
             <input type="text" th:field="*{apellido}" class="form-control" required />
+			<div th:if="${#fields.hasErrors('apellido')}" class="text-danger">
+				<p th:each="err : ${#fields.errors('apellido')}" th:text="${err}"></p>
+			</div>
         </div>
 
         <div class="col-md-4">
             <label class="form-label">Nombre</label>
             <input type="text" th:field="*{nombre}" class="form-control" required />
+			<div th:if="${#fields.hasErrors('nombre')}" class="text-danger">
+				<p th:each="err : ${#fields.errors('nombre')}" th:text="${err}"></p>
+			</div>
+			
         </div>
 
         <div class="col-md-4">
             <label class="form-label">Fecha de Nacimiento</label>
             <input type="date" th:field="*{fechaNacimiento}" class="form-control" required />
+			<div th:if="${#fields.hasErrors('fechaNacimiento')}" class="text-danger">
+				<p th:each="err : ${#fields.errors('fechaNacimiento')}" th:text="${err}"></p>
+			</div>			
         </div>
 
         <div class="col-md-4">
             <label class="form-label">Domicilio</label>
             <input type="text" th:field="*{domicilio}" class="form-control" required/>
-        </div>
+			<div th:if="${#fields.hasErrors('domicilio')}" class="text-danger">
+				<p th:each="err : ${#fields.errors('domicilio')}" th:text="${err}"></p>
+			</div>
+       </div>
 
         <div class="col-md-4">
             <label class="form-label">Ocupación</label>

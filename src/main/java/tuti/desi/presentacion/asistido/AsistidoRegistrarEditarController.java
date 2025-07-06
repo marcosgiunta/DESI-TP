@@ -50,12 +50,7 @@ public class AsistidoRegistrarEditarController {
 	                             BindingResult bindingResult,
 	                             Model modelo) {
 	    
-		//Control por si se carga una fecha futura muestre mensaje por listar.html
-    	if (formAsistido.getFechaNacimiento() != null && formAsistido.getFechaNacimiento().isAfter(LocalDate.now())) {
-            bindingResult.rejectValue("fechaNacimiento", "error.fechaNacimiento", "La fecha no puede ser posterior a la actual");
-        }
-		
-		if (bindingResult.hasErrors()) {
+			if (bindingResult.hasErrors()) {
 	        return "asistido/alta";
 	    }
 
@@ -86,12 +81,10 @@ public class AsistidoRegistrarEditarController {
 	
 		    asistidoServicio.SalvarAsistido(asistido);
 		    
-		    System.out.println("Guardando asistido DNI=" + formAsistido.getDni());
-		    
 		    return "redirect:/asistido/ver/" + familia.getNroFamilia();
+		    
 		}
 	    catch (Exception e) {
-	        e.printStackTrace(); // opcional para depurar en consola
 	        modelo.addAttribute("error", "Ocurrió un error al guardar el asistido.");
 	        return "asistido/alta";
 	    }
@@ -103,8 +96,6 @@ public class AsistidoRegistrarEditarController {
 	        .orElseThrow(() -> new IllegalArgumentException("Asistido no encontrado: " + id));
 
 	    asistidoServicio.eliminar(id); //  borrado lógico
-
-	    System.out.println("Asistido Eliminado");
 	    
 	    return "redirect:/asistido/ver/" + as.getFamilia().getNroFamilia(); 
 	}

@@ -32,6 +32,9 @@
         <div class="col-md-6 mb-3">
             <label class="form-label">Nombre de la familia</label>
             <input type="text" class="form-control" th:field="*{nombre}" required />
+			<div th:if="${#fields.hasErrors('nombre')}" class="text-danger">
+				<p th:each="err : ${#fields.errors('nombre')}" th:text="${err}"></p>
+			</div>
         </div>
 
         <!-- Fecha de alta -->
@@ -54,22 +57,46 @@
                 <div th:each="asist, stat : *{integrantes}" class="border p-3 mb-3">
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <label class="form-label">DNI</label>
-                            <input type="number"
-                                   th:field="*{integrantes[__${stat.index}__].dni}"
-                                   class="form-control" required />
+							<label class="form-label">DNI</label>
+							    <input type="number"
+							           th:field="*{integrantes[__${stat.index}__].dni}"
+							           class="form-control" 
+									   th:classappend="${#fields.hasErrors('integrantes[' + stat.index + '].dni')} ? 'is-invalid' : ''"
+							           required />
+
+							    <div class="invalid-feedback"
+							         th:if="${#fields.hasErrors('integrantes[' + stat.index + '].dni')}"
+							         th:each="err : ${#fields.errors('integrantes[' + stat.index + '].dni')}"
+							         th:text="${err}">
+							    </div>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Apellido</label>
                             <input type="text"
                                    th:field="*{integrantes[__${stat.index}__].apellido}"
-                                   class="form-control" required />
+                                   class="form-control" 
+								   th:classappend="${#fields.hasErrors('integrantes[' + stat.index + '].apellido')} ? 'is-invalid' : ''" 
+								   required />
+								   
+								   <div class="invalid-feedback"
+								       th:if="${#fields.hasErrors('integrantes[' + stat.index + '].apellido')}"
+								       th:each="err : ${#fields.errors('integrantes[' + stat.index + '].apellido')}"
+								       th:text="${err}">
+								   </div>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Nombre</label>
                             <input type="text"
                                    th:field="*{integrantes[__${stat.index}__].nombre}"
-                                   class="form-control" required />
+                                   class="form-control" 
+								   th:classappend="${#fields.hasErrors('integrantes[' + stat.index + '].nombre')} ? 'is-invalid' : ''" 
+								   required />
+								   
+								   <div class="invalid-feedback"
+								        th:if="${#fields.hasErrors('integrantes[' + stat.index + '].nombre')}"
+								        th:each="err : ${#fields.errors('integrantes[' + stat.index + '].nombre')}"
+								        th:text="${err}">
+								  </div>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Fecha de nacimiento</label>
@@ -82,9 +109,17 @@
 						
 						<div class="col-md-4">
 						    <label class="form-label">Domicilio</label>
-						    <input type="texte"
+						    <input type="text"
 						           th:field="*{integrantes[__${stat.index}__].domicilio}"
-						           class="form-control" required />
+						           class="form-control" 
+								   th:classappend="${#fields.hasErrors('integrantes[' + stat.index + '].domicilio')} ? 'is-invalid' : ''"
+								   required />
+								   
+								   <div class="invalid-feedback"
+								   		th:if="${#fields.hasErrors('integrantes[' + stat.index + '].domicilio')}"
+								       	th:each="err : ${#fields.errors('integrantes[' + stat.index + '].domicilio')}"
+								   		th:text="${err}">
+								   </div>
 						</div>
 				
 						

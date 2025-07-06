@@ -16,22 +16,22 @@ public class AsistidoForm {
 	private Integer dni;
 	
 	@NotNull
-	@Size(min=2, message = "El nombre no puede ser vacío")
+	@Size(min=2, message = "El nombre debe tener al menos 2 caracteres")
 	private String nombre;
 	
 	@NotNull
-	@Size(min=2, message = "El apellido no puede ser vacío")
+	@Size(min=2, message = "El apellido debe tener al menos 2 caracteres")
 	private String apellido;
 	
 	@NotNull
-	@Size(min=2, message = "El domicilio no puede estar vacío")
+	@Size(min=2, message = "El domicilio debe tener al menos 2 caracteres")
 	private String domicilio;
 	
 	@NotNull
 	private String ocupacion;
 	
 	@NotNull
-	@Past(message = "La fecha no puede posterior a la actual")
+	@Past(message = "La fecha no ser puede posterior a la actual")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaNacimiento;
 	
