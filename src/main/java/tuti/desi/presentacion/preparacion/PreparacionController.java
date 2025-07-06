@@ -30,7 +30,7 @@ public class PreparacionController {
     // MOSTRAR FORMULARIO DE ALTA
     @GetMapping("/preparacion/alta")
     public String mostrarFormularioAlta(Model model) {
-        List<Receta> recetas = recetasRepositorio.findAll();
+    	List<Receta> recetas = recetasRepositorio.findByEliminadaFalse();
         model.addAttribute("recetas", recetas);
         model.addAttribute("preparacion", new Preparacion());
         return "altaPreparacion";
