@@ -8,7 +8,7 @@ public class ItemReceta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer cantidad;
+    private Double cantidad;
     private Integer calorias;
     private boolean eliminado = false;
     
@@ -27,10 +27,10 @@ public class ItemReceta {
         this.id = id;
     }
 
-    public Integer getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
-    public void setCantidad(Integer cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
     public Integer getCalorias() {

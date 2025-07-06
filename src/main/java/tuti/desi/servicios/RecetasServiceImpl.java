@@ -1,14 +1,12 @@
 package tuti.desi.servicios;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import jakarta.transaction.Transactional;
 import tuti.desi.accesoDatos.RecetasRepositorio;
+import jakarta.transaction.Transactional;
+import tuti.desi.entidades.ItemReceta;
 import tuti.desi.entidades.Receta;
 
 @Service
@@ -24,11 +22,9 @@ public class RecetasServiceImpl implements RecetasService {
 
 	@Override
 	public void guardarReceta(Receta receta) {
-	    Optional<Receta> existente = repositorio.findByNombre(receta.getNombre());
-
-	    if (existente.isPresent() && !existente.get().getId().equals(receta.getId())) {
-	        throw new IllegalArgumentException("Ya existe una receta con ese nombre");
-	    }
+        if (repositorio.existsByNombreAndIdNot(receta.getNombre(), receta.getId())) {
+            throw new IllegalArgumentException("Ya existe una receta con ese nombre");
+        }
 
 	    repositorio.save(receta);
 	}
@@ -44,18 +40,19 @@ public class RecetasServiceImpl implements RecetasService {
 	}
 
 	@Override
-	public List<Receta> buscarPorFiltros(String nombreReceta, Integer caloriasReceta) {
-		return repositorio.buscarPorFiltros(nombreReceta, caloriasReceta);
+	public List<Receta> buscarPorFiltros(String nombreReceta, Integer caloriasMin, Integer caloriasMax) {
+		return repositorio.buscarPorFiltros(nombreReceta, caloriasMin, caloriasMax);
 	}
 	
 	@Transactional
     public void eliminarIngrediente(int idReceta, int index) {
         Receta receta = repositorio.findById(idReceta).orElseThrow(() -> new RuntimeException("Receta no encontrada"));
 
+        List<ItemReceta> ingredientes = receta.getIngredientes();
         if (index >= 0 && index < receta.getIngredientes().size()) {
-            receta.getIngredientes().remove(index);
-
+        	ingredientes.get(index).setEliminado(true);
             repositorio.save(receta);
+        } else {
             throw new IllegalArgumentException("Índice de ingrediente inválido");
         }
     }

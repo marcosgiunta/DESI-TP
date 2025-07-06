@@ -3,21 +3,17 @@ package tuti.desi.entidades;
 
 import jakarta.persistence.*;
 @Entity
+@PrimaryKeyJoinColumn(name = "id_ingrediente")
 public class Producto extends Ingrediente {
 
-
-	
-	
-	private Float stock;
-	
+	private Double stock;
 	private Float precio;
 	
-	
-	public Float getStock() {
+	public Double getStock() {
 		return stock;
 	}
 
-	public void setStock(Float stock) {
+	public void setStock(Double stock) {
 		this.stock = stock;
 	}
 	

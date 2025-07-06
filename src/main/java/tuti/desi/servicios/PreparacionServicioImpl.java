@@ -3,7 +3,10 @@ package tuti.desi.servicios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tuti.desi.accesoDatos.PreparacionRepositorio;
+import tuti.desi.accesoDatos.ProductoRepositorio;
+import tuti.desi.entidades.ItemReceta;
 import tuti.desi.entidades.Preparacion;
+import tuti.desi.entidades.Producto;
 
 import java.util.Date;
 import java.util.List;
@@ -14,6 +17,9 @@ public class PreparacionServicioImpl implements PreparacionServicio {
 
     @Autowired
     private PreparacionRepositorio preparacionRepositorio;
+
+    @Autowired
+    private ProductoRepositorio productoRepositorio;
 
     @Override
     public Preparacion guardar(Preparacion preparacion) {
@@ -31,16 +37,12 @@ public class PreparacionServicioImpl implements PreparacionServicio {
             }
         }
 
-        // if (!hayStockSuficiente(preparacion)) {
-        // throw new IllegalArgumentException("No hay stock suficiente para preparar la
-        // cantidad de raciones indicadas.");
-        // }
+        if (!hayStockSuficiente(preparacion)) {
+            throw new IllegalArgumentException(
+                    "No hay stock suficiente para preparar la cantidad de raciones indicadas.");
+        }
 
-        // private boolean hayStockSuficiente(Preparacion preparacion) {
-        // Aquí deberías recorrer los ingredientes de la receta y chequear el stock
-        // Retornar true si hay stock suficiente, false si no
-        // return true; // Implementa la lógica real aquí
-        // }
+        DarBajaStockIngrediente(preparacion);
 
         return preparacionRepositorio.save(preparacion);
 
@@ -66,4 +68,34 @@ public class PreparacionServicioImpl implements PreparacionServicio {
     public List<Preparacion> buscarPorFechaYReceta(Date fecha, String nombreReceta) {
         return preparacionRepositorio.buscarPorFiltros(fecha, nombreReceta);
     }
+
+    private boolean hayStockSuficiente(Preparacion preparacion) {
+        List<ItemReceta> items = preparacion.getReceta().getIngredientes();
+        int raciones = preparacion.getTotalRacionesPreparadas();
+        for (ItemReceta item : items) {
+            if (item.getIngrediente() instanceof Producto producto) {
+                Double stockDisponible = producto.getStock();
+                Double cantidadNecesaria = item.getCantidad() * raciones;
+                if (stockDisponible < cantidadNecesaria) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    private void DarBajaStockIngrediente(Preparacion preparacion) {
+        List<ItemReceta> items = preparacion.getReceta().getIngredientes();
+        int raciones = preparacion.getTotalRacionesPreparadas();
+        for (ItemReceta item : items) {
+            if (item.getIngrediente() instanceof Producto producto) {
+                Double cantidadNecesaria = item.getCantidad() * raciones;
+                producto.setStock(producto.getStock() - cantidadNecesaria);
+                productoRepositorio.save(producto);
+            }
+        }
+    }
+
+
 }
