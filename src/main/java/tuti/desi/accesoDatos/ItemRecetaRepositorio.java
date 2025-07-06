@@ -7,7 +7,7 @@ import tuti.desi.entidades.ItemReceta;
 
 public interface ItemRecetaRepositorio extends CrudRepository<ItemReceta, Integer> {
 
-	@Query(value = "SELECT SUM(calorias) FROM item_receta WHERE receta_id = :recetaId AND eliminado = 0", nativeQuery = true)
+	@Query("SELECT SUM(ir.calorias) FROM ItemReceta ir WHERE ir.receta.id = :recetaId AND ir.eliminado = false")
 	Integer obtenerCaloriasTotalesPorReceta(@Param("recetaId") Integer recetaId);
 
 }

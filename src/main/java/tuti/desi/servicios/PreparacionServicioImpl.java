@@ -56,7 +56,7 @@ public class PreparacionServicioImpl implements PreparacionServicio {
 
     @Override
     public List<Preparacion> listarTodas() {
-        List<Preparacion> lista = preparacionRepositorio.findAll();
+        List<Preparacion> lista = preparacionRepositorio.findByEliminadoFalse();
         for (Preparacion p : lista) {
             Integer totalCalorias = itemRecetaRepositorio.obtenerCaloriasTotalesPorReceta(p.getReceta().getId());
             Integer caloriasPorRacion = 0;
