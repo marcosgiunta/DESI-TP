@@ -104,16 +104,13 @@ public class PreparacionController {
         return "redirect:/preparacion/Listado";
     }
 
-
-    	@GetMapping("/preparacion/Filtrar")
+    
+    @GetMapping("/preparacion/Filtrar")
 	public String FiltrarPreparacion(
-			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha,
-			@RequestParam(required = false) String nombreReceta,
-			Model modelo) {
+		@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha,
+		@RequestParam(required = false) String nombreReceta,Model modelo) {
 		List<Preparacion> preparaciones = preparacionServicio.buscarPorFechaYReceta(fecha, nombreReceta);   
 		modelo.addAttribute("preparaciones", preparaciones);
 		return "listadoPreparaciones";
 	}
-
-
 }
