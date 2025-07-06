@@ -70,7 +70,7 @@ public String guardarPreparacion(@ModelAttribute("preparacion") Preparacion prep
     @GetMapping("/preparacion/modificar/{id}")
     public String mostrarFormularioModificacion(@PathVariable("id") Integer id, Model model) {
         Preparacion preparacion = preparacionServicio.buscarPorId(id);
-        List<Receta> recetas = recetasRepositorio.findAll();
+        List<Receta> recetas = recetasRepositorio.findByEliminadaFalse(); 
         model.addAttribute("preparacion", preparacion);
         model.addAttribute("recetas", recetas);
         return "modificarPreparacion";
