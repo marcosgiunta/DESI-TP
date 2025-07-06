@@ -90,7 +90,7 @@ public class PreparacionController {
             preparacionRepositorio.save(existente);
         }
 
-        return "listadoPreparaciones";
+        return "redirect:/preparacion/Listado";
     }
     
     @PostMapping("/preparacion/eliminar/{id}")
