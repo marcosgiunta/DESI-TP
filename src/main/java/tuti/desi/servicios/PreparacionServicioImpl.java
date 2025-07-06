@@ -39,13 +39,12 @@ public class PreparacionServicioImpl implements PreparacionServicio {
 
         if (!hayStockSuficiente(preparacion)) {
             throw new IllegalArgumentException(
-                    "No hay stock suficiente para preparar la cantidad de raciones indicadas.");
+            		"No hay stock suficiente para preparar la cantidad de raciones indicadas.");
         }
 
         DarBajaStockIngrediente(preparacion);
 
         return preparacionRepositorio.save(preparacion);
-
     }
 
     @Override
@@ -96,6 +95,10 @@ public class PreparacionServicioImpl implements PreparacionServicio {
             }
         }
     }
-
-
+    
+ /*   @Override
+    public List<Preparacion> buscarPorFechaYReceta(Date fecha, String nombreReceta) {
+        return preparacionRepositorio.buscarPorFiltros(fecha, nombreReceta);
+    }    
+    */
 }
