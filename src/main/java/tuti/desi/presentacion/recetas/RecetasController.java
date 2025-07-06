@@ -38,7 +38,7 @@ public class RecetasController {
 		Receta nuevaReceta = new Receta();
 		modelo.addAttribute("nuevaReceta", nuevaReceta);
 		modelo.addAttribute("ingredientes", ingredientesRepositorio.findAll());
-		return "recetasAlta";
+		return "recetas/recetasAlta";
 	}
 
 	@PostMapping("/recetas/Guardar")
