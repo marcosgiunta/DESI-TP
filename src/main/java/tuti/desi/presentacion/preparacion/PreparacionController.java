@@ -58,12 +58,12 @@ public class PreparacionController {
 
 
     // LISTAR PREPARACIONES
-    @GetMapping("/preparacion/Listado")
-    public String listarPreparaciones(Model model) {
-        List<Preparacion> preparaciones = preparacionRepositorio.findByEliminadoFalse();
-        model.addAttribute("preparaciones", preparaciones);
-        return "listadoPreparaciones";
-    }
+	@GetMapping("/preparacion/Listado")
+	public String listarPreparaciones(Model model) {
+	    List<Preparacion> preparaciones = preparacionServicio.listarTodas(); 
+	    model.addAttribute("preparaciones", preparaciones);
+	    return "listadoPreparaciones";
+	}
 
 
     // MOSTRAR FORMULARIO DE MODIFICACIÓN
@@ -106,11 +106,23 @@ public class PreparacionController {
 
     
     @GetMapping("/preparacion/Filtrar")
-	public String FiltrarPreparacion(
-		@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha,
-		@RequestParam(required = false) String nombreReceta,Model modelo) {
-		List<Preparacion> preparaciones = preparacionServicio.buscarPorFechaYReceta(fecha, nombreReceta);   
-		modelo.addAttribute("preparaciones", preparaciones);
-		return "listadoPreparaciones";
-	}
+    public String FiltrarPreparacion(
+        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha,
+        @RequestParam(required = false) String nombreReceta,
+        Model modelo) {
+
+        List<Preparacion> preparaciones = preparacionServicio.buscarPorFechaYReceta(fecha, nombreReceta);   
+
+        for (Preparacion p : preparaciones) {
+            Integer totalCalorias = preparacionServicio.obtenerCaloriasTotalesPorReceta(p.getReceta().getId());
+            Integer caloriasPorRacion = 0;
+            if (totalCalorias != null && p.getTotalRacionesPreparadas() != null && p.getTotalRacionesPreparadas() > 0) {
+                caloriasPorRacion = totalCalorias / p.getTotalRacionesPreparadas();
+            }
+            p.setCaloriasPorRacion(caloriasPorRacion);
+        }
+
+        modelo.addAttribute("preparaciones", preparaciones);
+        return "listadoPreparaciones";
+    }
 }
