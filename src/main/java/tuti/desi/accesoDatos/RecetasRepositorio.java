@@ -24,5 +24,5 @@ public interface RecetasRepositorio extends JpaRepository<Receta, Integer>{
 		List<Receta> findByEliminadaFalse();
 		Optional<Receta> findByNombre(String nombre);
 
-		boolean existsByNombreAndIdNot(String nombre, Integer id);
+		boolean existsByNombreAndIdNotAndEliminadaFalse(String nombre, Integer id);
 }

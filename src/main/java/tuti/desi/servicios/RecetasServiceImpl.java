@@ -22,7 +22,7 @@ public class RecetasServiceImpl implements RecetasService {
 
 	@Override
 	public void guardarReceta(Receta receta) {
-        if (repositorio.existsByNombreAndIdNot(receta.getNombre(), receta.getId())) {
+        if (repositorio.existsByNombreAndIdNotAndEliminadaFalse(receta.getNombre(), receta.getId())) {
             throw new IllegalArgumentException("Ya existe una receta con ese nombre");
         }
 
