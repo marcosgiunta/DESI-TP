@@ -59,11 +59,9 @@ public class PreparacionServicioImpl implements PreparacionServicio {
         List<Preparacion> lista = preparacionRepositorio.findByEliminadoFalse();
         for (Preparacion p : lista) {
             Integer totalCalorias = itemRecetaRepositorio.obtenerCaloriasTotalesPorReceta(p.getReceta().getId());
-            Integer caloriasPorRacion = 0;
-            if (totalCalorias != null && p.getTotalRacionesPreparadas() != null && p.getTotalRacionesPreparadas() > 0) {
-                caloriasPorRacion = totalCalorias / p.getTotalRacionesPreparadas();
+            if (totalCalorias != null) {
+                p.setCaloriasPorRacion(totalCalorias); 
             }
-            p.setCaloriasPorRacion(caloriasPorRacion);
         }
         return lista;
     }
