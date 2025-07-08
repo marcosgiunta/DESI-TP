@@ -33,7 +33,7 @@ public class EntregaAsistenciaAltaController {
 		modelo.addAttribute("entregaNueva", entregaNueva);
 
 		modelo.addAttribute("nrosFamilia", familiaRepo.findAllNroFamilia());
-		modelo.addAttribute("preparaciones", preparacionRepo.findAll());
+		modelo.addAttribute("preparaciones", preparacionRepo.findByEliminadoFalse());
 
 		return "entregaAsistenciaAlta";
 
@@ -63,7 +63,7 @@ public class EntregaAsistenciaAltaController {
 			// Vuelve a carga los datos necesarios para el formulario para no tener que volver a cargarlos
 			modelo.addAttribute("entregaNueva", entrega);
 			modelo.addAttribute("nrosFamilia", familiaRepo.findAllNroFamilia());
-			modelo.addAttribute("preparaciones", preparacionRepo.findAll());
+			modelo.addAttribute("preparaciones", preparacionRepo.findByEliminadoFalse());
 			modelo.addAttribute("errorMessage", ex.getMessage());
 			return "entregaAsistenciaAlta";
 		}
