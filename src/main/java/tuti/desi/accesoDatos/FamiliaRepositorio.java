@@ -21,7 +21,7 @@ public interface FamiliaRepositorio extends JpaRepository<Familia, Integer> {
 	List<Familia> findByNroFamiliaAndDeshabilitadoFalse(Integer nroFamilia);
 
   // Método para buscar una familia por su número
-  // Devuelve una lista de números de familia 
+  // Devuelve una lista de números de familia que estan habilitadas,es decir, familias que no fueron eliminadas
   @Query("SELECT f.nroFamilia FROM Familia f where f.deshabilitado = false")
   List<Integer> findAllNroFamilia();
 
