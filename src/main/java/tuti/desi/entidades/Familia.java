@@ -1,6 +1,5 @@
 package tuti.desi.entidades;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.PastOrPresent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +21,6 @@ public class Familia {
   	private String nombre;
     
   	//Fecha en que se regista la familia
-  	@PastOrPresent(message = "La fecha no puede ser posterior a la actual")
   	@DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaRegistro;
     
@@ -37,13 +35,7 @@ public class Familia {
    	public Integer getNroFamilia() {
         return nroFamilia;
     }
-    //public List<Asistido> getIntegrantesFamiliaAsistida() {
-     //   return integrantesFamiliaAsistida;
-    //}
-
-    //public Integer getNroFamilia() {
-
-    
+        
     public void setNroFamilia(Integer nroFamilia) {
         this.nroFamilia = nroFamilia;
     }
@@ -73,7 +65,6 @@ public class Familia {
 	public void setIntegrantesFamiliaAsistida(List<Asistido> integrantesFamiliaAsistida) {
 		this.asistidos = integrantesFamiliaAsistida;
 	}
-	    
 
 
 }

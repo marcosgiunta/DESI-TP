@@ -92,6 +92,7 @@ public class FamiliaRegistrarEditarController {
         FamiliaForm form = new FamiliaForm();
         form.setNroFamilia(familia.getNroFamilia());
         form.setNombre(familia.getNombre());
+        
         if (familia.getFechaRegistro() != null) {
             form.setFechaRegistro(familia.getFechaRegistro());
         } else {
@@ -147,6 +148,7 @@ public class FamiliaRegistrarEditarController {
             return "familia/alta";
         }
         
+               
         // Control de DNI contra la base de datos
         for (AsistidoForm af : formFamilia.getIntegrantes()) {
             Asistido asistidoExistente = servicioAsistido.findByDni(af.getDni());

@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import tuti.desi.presentacion.asistido.AsistidoForm;
 
@@ -22,6 +23,7 @@ public class FamiliaForm {
 	private String nombre;
 	
 	@NotNull
+	@PastOrPresent(message = "La fecha no ser puede posterior a la actual")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate fechaRegistro;
 
