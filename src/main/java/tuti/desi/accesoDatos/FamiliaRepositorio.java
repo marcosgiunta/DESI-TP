@@ -22,10 +22,12 @@ public interface FamiliaRepositorio extends JpaRepository<Familia, Integer> {
 
   // Método para buscar una familia por su número
   // Devuelve una lista de números de familia 
-  @Query("SELECT f.nroFamilia FROM Familia f")
+  @Query("SELECT f.nroFamilia FROM Familia f where f.deshabilitado = false")
   List<Integer> findAllNroFamilia();
 
   Familia findByNroFamilia(Integer nroFamilia);
+
+	
 		
 }
 
